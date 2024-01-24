@@ -1,6 +1,7 @@
 'use client'
 import Link from "next/link";
 import { FormEvent, useState } from "react";
+import Footer from "@/app/components/footer/footer";
 import style from './signin.module.css'
 
 
@@ -59,6 +60,9 @@ const SignInPage = () => {
                         </form>
                     </div>
                 </div>
+            </div>
+            <div>
+                <Footer />
             </div>
         </div>
 
