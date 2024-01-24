@@ -12,6 +12,10 @@ const SignUpPage = () => {
         // Handle form submission here
     };
 
+    const handleGoogleSignUp = () => {
+        // Handle Google sign up here with firebase
+    }
+
     return (
         <div>
            <h1>Registro</h1>
@@ -32,7 +36,7 @@ const SignUpPage = () => {
             </label>
             <button type="submit">Registrarse</button>
             <div>
-                <button> Registrarse Con Google </button>
+                <button onClick={handleGoogleSignUp}> Registrarse Con Google </button>
             </div>
         </form> 
         </div>

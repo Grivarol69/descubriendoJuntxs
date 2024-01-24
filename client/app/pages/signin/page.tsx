@@ -11,6 +11,10 @@ const SignInPage = () => {
         // Handle form submission here
     };
 
+    const handleGoogleSignIn = () => {
+        // Handle Google sign in here with firebase
+    }
+
 
     return (
         <div>
@@ -27,7 +31,7 @@ const SignInPage = () => {
                 </label>
                 <button type="submit"> Iniciar Sesión </button>
                 <div>
-                    <button>Iniciar Sesión Con Google</button>
+                    <button onClick={handleGoogleSignIn}>Iniciar Sesión Con Google</button>
                 </div>
             </form>
         </div>
