@@ -18,7 +18,6 @@ const Footer = () => {
                     <a href="https://www.youtube.com/channel/UCryZ0iZXr3HSkKcJR14_LAg" target="_blank">
                         <FontAwesomeIcon icon={faYoutube} size='2x' />
                     </a>
-
                     <a href="https://www.linkedin.com/company/descubriendo-juntxs/" target="_blank">
                         <FontAwesomeIcon icon={faLinkedin} size='2x' />
                     </a>
