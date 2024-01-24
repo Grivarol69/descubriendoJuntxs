@@ -24,15 +24,15 @@ const SignUpPage = () => {
         <form onSubmit={handleSubmit}>
             <label >
                 Nombre Completo:
-                <input type="text" value={name} onChange={(e) => setName(e.target.value)}/>
+                <input type="text" value={name} placeholder="Juan Pérez" onChange={(e) => setName(e.target.value)}/>
             </label>
             <label>
                 Correo Electronico:
-                <input type="text" value={email} onChange={(e) => setEmail(e.target.value)}/>
+                <input type="text" value={email} placeholder="ejemplo@dominio.com" onChange={(e) => setEmail(e.target.value)}/>
             </label>
             <label>
                 Contraseña:
-                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                <input type="password" value={password} placeholder="Contraseña segura" onChange={(e) => setPassword(e.target.value)} />
             </label>
             <button type="submit">Registrarse</button>
             <div>

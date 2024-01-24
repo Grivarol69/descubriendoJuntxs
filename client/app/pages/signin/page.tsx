@@ -23,11 +23,11 @@ const SignInPage = () => {
         <form onSubmit={handleSubmit}>
                 <label>
                     Correo Electronico:
-                    <input type="text" value={email} onChange={(e) => setEmail(e.target.value)}/>
+                    <input type="text" value={email} placeholder="ejemplo@dominio.com" onChange={(e) => setEmail(e.target.value)}/>
                 </label>
                 <label>
                     Contraseña:
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                    <input type="password" value={password} placeholder="Contraseña segura" onChange={(e) => setPassword(e.target.value)} />
                 </label>
                 <button type="submit"> Iniciar Sesión </button>
                 <div>
