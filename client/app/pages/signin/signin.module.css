@@ -126,6 +126,11 @@
     background: #ffffff;
     border: 1px solid #D8D8D8;
     color: #b6b6b6;
+    transition: 100ms;
+ }
+
+ .buttonGoogle:hover{
+    background: rgb(98, 98, 98);
  }
 
 /* diseño para desktop 1440 x 860 */
