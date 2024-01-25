@@ -2,7 +2,7 @@ import Image from "next/image";
 import Arrow from "../public/assets/arrow.png";
 import Link from "next/link";
 
-export function Cta() {
+const Cta =()=> {
   return (
     <div className="w-full rounded-[16px] bg-gradient-to-br from-pink-500 via-red-500 to-yellow-500 py-[56px] px-[32px] text-center lg:my-[60px] lg:px-[324px] lg:py-[89px]">
       <h1 className="text-white text-[32px] font-medium lg:text-[56px] leading-[64px] ">
@@ -27,3 +27,5 @@ export function Cta() {
     </div>
   );
 }
+
+export default Cta;

@@ -8,7 +8,7 @@ import greenButton from "../public/assets/green-button.svg";
 import pinkButton from "../public/assets/pink-button.svg";
 import Link from "next/link";
 
-export function Features() {
+const Features = () => {
   return (
     <div className="flex flex-col gap-y-[56px] py-[56px] lg:py-[120px] lg:gap-y-[80px] ">
       <div className="flex flex-col gap-x-6 sm:flex-row-reverse">
@@ -111,7 +111,7 @@ export function Features() {
           </ul>
 
           <p className="flex items-center gap-x-2 pt-[24px] font-medium text-[#00A424] lg:text-[18px]">
-            <Link href='/donaciones'>Learn More{" "}</Link> 
+            <Link href="/donaciones">Learn More </Link>
             <span>
               <Image src={greenButton} alt="Learn more" />
             </span>
@@ -156,7 +156,7 @@ export function Features() {
           </div>
 
           <p className="flex items-center gap-x-2 pt-[24px] font-medium text-[#7286ff] lg:text-[18px]">
-            <Link href='/servicios'> Learn More{" "}</Link> 
+            <Link href="/servicios"> Learn More </Link>
             <span>
               <Image src={pinkButton} alt="Learn more" />
             </span>
@@ -165,4 +165,6 @@ export function Features() {
       </div>
     </div>
   );
-}
+};
+
+export default Features;

@@ -9,7 +9,7 @@ import Cnn from "../public/assets/CNN.svg";
 import Cluth from "../public/assets/Clutch.svg";
 import Link from "next/link";
 
-export function Hero() {
+const Hero =()=> {
   return (
     <div className="pt-4 lg:pt-10">
       <div className="px-[20px] lg:px-[280px]">
@@ -66,3 +66,5 @@ export function Hero() {
     </div>
   );
 }
+
+export default Hero;
