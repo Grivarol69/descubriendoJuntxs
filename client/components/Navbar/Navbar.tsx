@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Logo from "../../public/assets/Logo.svg";
+import Logo from "../../public/assets/Logo-Nombre.svg";
 import User from "../../public/assets/User.svg";
 import Menu from "../../public/assets/Menu.svg";
 import Link from "next/link";
