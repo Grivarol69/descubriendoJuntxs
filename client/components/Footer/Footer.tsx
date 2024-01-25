@@ -1,5 +1,5 @@
 const Footer = () => {
-    return ( <div>Footer</div> );
+    return (<div style={{ position: 'fixed', bottom: '0' }}>Footer</div>);
 }
- 
+
 export default Footer;
