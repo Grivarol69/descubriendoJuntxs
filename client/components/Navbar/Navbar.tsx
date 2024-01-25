@@ -14,11 +14,11 @@ const navLinks = [
 
 const Navbar = () => {
   return (
-    <nav className="flex w-full items-center justify-between px-[20px] py-[16px] lg:container lg:mx-auto lg:px-20">
+    <nav className="flex w-full items-center justify-between px-[20px] py-[16px] lg:container lg:mx-auto lg:px-15">
       <div className="flex items-center">
         <Image src={Logo} alt="Logo" />
 
-        <div className="hidden lg:flex pl-[74px] gap-x-[56px]">
+        <div className="hidden lg:flex pl-[74px] gap-x-[36px]">
           {navLinks.map((item, index) => (
             <Link href={item.href}><p className="text-[#36485C] font-medium" key={index}>
             {item.name}
