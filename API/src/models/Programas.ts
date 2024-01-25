@@ -43,12 +43,14 @@ export default sequelize => {
                     }
                 }
             },
-            costoReferencia:{
-                type: DataTypes.STRING,
+            costoReferencia: {
+                type: DataTypes.FLOAT,
                 validate: {
-                    isFloat: true
-                }
-            },
+                  isFloat: {
+                    msg: "Costo Referencia must be a floating-point number",
+                  },
+                },
+              },
             estado: {
                 type: DataTypes.STRING,
                 validate:{
@@ -56,7 +58,7 @@ export default sequelize => {
                 }
             },
             idCategoria:{
-                type: DataTypes.INTERGER,
+                type: DataTypes.INTEGER,
                 allowNull: false,
                 refences: {
                     model: "Categorias",
