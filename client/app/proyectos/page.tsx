@@ -1,3 +1,4 @@
+
 import CardProyect from "@/components/CardProyecto/cardProyecto";
 
 
@@ -41,3 +42,4 @@ const Proyectos: React.FC = () => {
 }
 
 export default Proyectos;
+
