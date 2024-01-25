@@ -1,3 +1,4 @@
+
 import Image from "next/image";
 import Logo from "../../public/assets/Logo.svg";
 import Facebook from "../../public/assets/Facebook.svg";
@@ -23,6 +24,8 @@ const Footer =()=> {
       </div>
     </div>
   );
+
+ 
 }
 
 export default Footer;

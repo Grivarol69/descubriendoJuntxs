@@ -1,3 +1,4 @@
+
 import Image from "next/image";
 import Cta  from "../components/Cta";
 import Faq  from "../components/Faq";
@@ -19,3 +20,6 @@ const Home: React.FC = () => {
   );
 };
 export default Home;
+
+
+
