@@ -12,7 +12,7 @@
     transition: 500ms;
 }
 
-.cardContainer:hover{
+.cardContainer:hover {
     transform: scale(1.05);
 }
 
@@ -73,7 +73,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #131142;
+    color: #7286FF;
+
     font-weight: 500;
     background: #ffffff;
     width: fit-content;
@@ -81,8 +82,10 @@
     height: 2rem;
     transition: 100ms;
 }
-.buttonText:hover{
-    color: #7286FF;
+
+.buttonText:hover {
+    color: #131142;
+
 }
 
 .buttonContainer {
@@ -110,9 +113,7 @@
     user-select: none;
 }
 
-.meta:hover {
-    color: #19235a;
-}
+
 
 
 .description {
@@ -122,15 +123,15 @@
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
-  }
+}
 
-.image{
+.image {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.containerDesc{
+.containerDesc {
     width: 100%;
     max-width: 100%;
     display: -webkit-box;
@@ -139,7 +140,7 @@
     overflow: hidden;
 }
 
-.titleAndDescription{
+.titleAndDescription {
     position: relative;
     transform: translate(0, -0.5rem);
 }
