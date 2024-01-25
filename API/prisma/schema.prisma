@@ -1,0 +1,109 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+
+}
+
+
+model User {
+  id      Int      @id @default(autoincrement())
+  email   String   @unique
+  name    String
+  surName String?
+  identification String?
+  phone String?
+  dateIn DateTime? @default(now())
+  dateOut DateTime?
+  description String?
+  linkedin String?
+  languaje String? 
+  position String? 
+  role String
+  participants Participant[]
+  payment Donation[]
+  eventCoaches EventCoaches[]
+}
+
+model Category {
+  id    Int    @id @default(autoincrement())
+  name  String
+  programs Program[] 
+}
+
+model Program {
+  id     Int    @id @default(autoincrement())
+  name    String
+  description String
+  amount Float
+  state String
+  categoryId Int
+  category Category @relation(fields: [categoryId], references: [id])
+  events Event[]
+}
+
+model Event {
+  id Int @id @default(autoincrement())
+  programId Int
+  date DateTime? @default(now())
+  hourIn DateTime?
+  duration String
+  amount Float
+  Type String
+  program Program @relation(fields: [programId], references: [id])
+  participants Participant[]
+  donation Donation[]
+  eventCoach EventCoaches[]
+}
+
+model Participant {
+  id Int @id @default(autoincrement())
+  eventId Int
+  userId Int
+  role String
+  state String
+  event Event @relation(fields: [eventId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Donation {
+  id Int @id @default(autoincrement())
+  eventId Int @unique
+  userId Int @unique
+  amount Float
+  date DateTime
+  type String
+  message String
+  state String
+  event Event @relation(fields: [eventId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+  payment Payment[] 
+}
+
+model Payment {
+  id Int @id @default(autoincrement())
+  donationId Int
+  amount Float
+  instrument String
+  transactionId String
+  state String
+  donation Donation @relation(fields: [donationId], references: [id]) 
+}
+
+model EventCoaches {
+  // id Int @id @default(autoincrement())
+  eventId Int
+  event Event @relation(fields: [eventId], references: [id])
+  userId Int
+  user User @relation(fields: [userId], references: [id])
+  state String
+
+  @@id([eventId,userId])
+}
+
