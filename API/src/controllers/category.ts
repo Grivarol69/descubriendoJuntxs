@@ -2,7 +2,8 @@ import { Request, Response } from "express"
 import { handleHttp } from "../utils/error.handler"
 
 
-const getCategory = (_req:Request, res:Response) => {
+const getCategory = async (_req:Request, res:Response) => {
+    
     try {
         
     } catch (error) {
@@ -11,9 +12,9 @@ const getCategory = (_req:Request, res:Response) => {
 
 }
 
-const getCategorys =(_req:Request, res:Response) => {
+const getCategories = async (_req:Request, res:Response) => {
     try {
-        
+
     } catch (error) {
         handleHttp(res, 'ERROR_GET_CATEGORYS')
     }
@@ -48,7 +49,7 @@ const deleteCategory = (_req:Request, res:Response) => {
 
 export{
     getCategory,
-    getCategorys,
+    getCategories,
     postCategory,
     updateCategory,
     deleteCategory
