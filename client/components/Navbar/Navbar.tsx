@@ -41,14 +41,14 @@ const Navbar = () => {
 
       <div className="flex gap-x-5">
         <p className="hidden lg:block font-medium text-[#36485C] pr-[56px]">
-          <Link href="autenticacion/registro">Ingreso</Link>
+          <Link href="/pages/signin">Ingreso</Link>
         </p>
 
         <div className="flex items-center gap-x-2">
           <Image src={User} alt="User Profile" />
           <span className="hidden font-medium text-[#36485C] lg:block">
             <Link
-              href="/autenticacion/ingreso"
+              href="/pages/signin"
               style={{ backgroundColor: "#7286ff" }}
             >
               Registro
