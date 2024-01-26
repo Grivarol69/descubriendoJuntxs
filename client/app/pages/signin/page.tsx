@@ -1,6 +1,7 @@
 'use client'
 import Link from "next/link";
 import { FormEvent, useState } from "react";
+import Footer from "@/app/components/footer/footer";
 import style from './signin.module.css'
 import Image from "next/image";
 import googleLogo from '../../../public/googleLogo.png'
@@ -11,7 +12,9 @@ const SignInPage = () => {
         password: ''
     })
 
-    const handleChange = (e: any) => {
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
         setInfoUser({
             ...infoUser,
             [e.target.name]: e.target.value
@@ -62,6 +65,9 @@ const SignInPage = () => {
                     </div>
                 </div>
             </div>
+            {/* <div>
+                <Footer />
+            </div> */}
         </div>
     );
 }
