@@ -11,7 +11,6 @@ const getPrograms = async (_req:Request, res:Response) => {
     } catch (error) {
         handleHttp(res, 'ERROR_GET_Programs')
     }
-
 }
 
 const getProgram =(req:Request, res:Response) => {
