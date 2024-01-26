@@ -58,6 +58,7 @@
     display: grid;
 }
 
+
 .closeModal{
     display: flex;
     justify-content: flex-end;
