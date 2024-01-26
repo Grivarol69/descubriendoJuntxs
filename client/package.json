@@ -9,10 +9,18 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "^14.1.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.21.3"
+
+    "@fortawesome/fontawesome-svg-core": "^6.5.1",
+    "@fortawesome/free-brands-svg-icons": "^6.5.1",
+    "@fortawesome/free-solid-svg-icons": "^6.5.1",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "install": "^0.13.0",
+    "next": "14.1.0",
+    "npm": "^10.4.0",
+    "@radix-ui/react-accordion": "^1.1.2",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-hook-form": "^7.49.3"
   },
   "devDependencies": {
     "@types/node": "^20",

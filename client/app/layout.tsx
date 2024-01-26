@@ -7,20 +7,22 @@ import Footer from "../components/Footer/Footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
+
   title: "Descubriendo Juntxs",
   description: "ONG",
 };
 
 export default function RootLayout({
-  children,
+    children,
 }: Readonly<{
-  children: React.ReactNode;
+    children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
       <body className={inter.className}>
         <Navbar />
-        {children}
+          {children}
         <Footer />
       </body>
     </html>

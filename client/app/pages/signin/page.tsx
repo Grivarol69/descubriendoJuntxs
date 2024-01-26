@@ -1,10 +1,24 @@
 'use client'
 import Link from "next/link";
 import { FormEvent, useState } from "react";
+import style from './signin.module.css'
+import Image from "next/image";
+import googleLogo from '../../../public/googleLogo.png'
 
 const SignInPage = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [infoUser, setInfoUser] = useState({
+        email: '',
+        password: ''
+    })
+
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+        setInfoUser({
+            ...infoUser,
+            [e.target.name]: e.target.value
+        })
+    }
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
@@ -17,23 +31,42 @@ const SignInPage = () => {
 
 
     return (
-        <div>
-        <h1>Inicio De Sesión</h1>
-        <p> ¿No tienes cuenta aún? <Link href="/pages/signup"> Registrarme </Link></p>
-        <form onSubmit={handleSubmit}>
-                <label>
-                    Correo Electronico:
-                    <input type="text" value={email} placeholder="ejemplo@dominio.com" onChange={(e) => setEmail(e.target.value)}/>
-                </label>
-                <label>
-                    Contraseña:
-                    <input type="password" value={password} placeholder="Contraseña segura" onChange={(e) => setPassword(e.target.value)} />
-                </label>
-                <button type="submit"> Iniciar Sesión </button>
-                <div>
-                    <button onClick={handleGoogleSignIn}>Iniciar Sesión Con Google</button>
+        <div className={style.backgroundSignin}>
+            <div className={style.cardContainer}>
+                <div className={style.formAndImage}>
+                    <div className={style.illu}>
+                    </div>
+                    <div className={style.textInfo}>
+                        <div className={style.registerAndInit}>
+                            <h1 className={style.titleCard}>Inicio De Sesión</h1>
+                            <p> ¿No tienes cuenta aún? <Link href="/pages/signup" className={style.register}> Registrarme </Link></p>
+                        </div>
+                        <form onSubmit={handleSubmit} className={style.formDesign}>
+                            <div className={style.labelAndInput}>
+                                <label>
+                                    Correo Electronico
+                                </label>
+                                <input className={style.input} type="text" value={infoUser.email} name='email' placeholder="ejemplo@dominio.com" onChange={handleChange} />
+                            </div>
+                            <div className={style.labelAndInput}>
+                                <label>
+                                    Contraseña
+                                </label>
+                                <input className={style.input} type="password" value={infoUser.password} name='password' placeholder="Contraseña segura" onChange={handleChange} />
+                            </div>
+                            <div className={style.buttons}>
+                                <button className={style.buttonFull} type="submit"> Iniciar Sesión </button>
+
+                                <button className={style.buttonGoogle} onClick={handleGoogleSignIn}>
+                                    <img src={googleLogo.src} style={{ width: '3rem' }} alt="google" /> Iniciar Sesión Con Google</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </form>
+            </div>
+            {/* <div>
+                <Footer />
+            </div> */}
         </div>
     );
 }

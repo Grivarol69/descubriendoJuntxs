@@ -1,10 +1,8 @@
 'use client'
-
-import CardProyect from "@/components/CardProyecto/cardProyecto";
-import SearchBar from "@/components/searchbar/SearchBar";
-import { useState } from "react";
-import { Proyect } from '../../components/CardProyecto/cardProyecto';
-import style from './proyectos.module.css'
+import { useState } from "react"
+import CardProyect from "@/components/CardProyecto/cardProyecto"
+import SearchBar from "@/components/searchbar/SearchBar"
+import style from './projects.module.css'
 
 
 export interface ProyectTypes {
@@ -16,13 +14,13 @@ export interface ProyectTypes {
     rating: string
 }
 
-const Proyectos: React.FC = () => {
-    
+const UserProjectsPage = () => {
+
     const proyecto = [{
-        nombre: 'Isa',
+        nombre: 'Luis',
         descripcion: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et doloredsadas magnadasdasdsadsadsadsadsadsadas',
         meta: 'Meta 200.000 - 300.000',
-        imagen: 'https://thumbs.dreamstime.com/b/el-conejo-de-conejito-pascua-lanza-para-arriba-d%C3%B3lares-celebra-persona-afortunada-rica-del-hombre-debajo-la-lluvia-cientos-147702809.jpg',
+        imagen: 'https://www.cajasietecontunegocio.com/images/recursos-humanos/rrhh-large.jpg',
         comentarios: ['Hola', 'Adios'],
         rating: '5'
     },
@@ -43,18 +41,17 @@ const Proyectos: React.FC = () => {
         rating: '5'
     }
     ]
-    
-    const [proyectosFinales, setProyectosFinales] = useState<ProyectTypes[]>([...proyecto])
-    
+
+    const [projects, setProjects] = useState<ProyectTypes[]>([...proyecto])
 
     return (
         <>
-            <div className={style.backgroundProyecto}>
+            <div className={style.container}>
                 <SearchBar
-                    seteador={setProyectosFinales}
+                    seteador={setProjects}
                     proyectos={proyecto}
                 />
-                {proyectosFinales.map((proyecto) => {
+                {projects.map((proyecto) => {
                     return (
                         <>
                             <CardProyect
@@ -68,5 +65,4 @@ const Proyectos: React.FC = () => {
     )
 }
 
-export default Proyectos;
-
+export default UserProjectsPage
