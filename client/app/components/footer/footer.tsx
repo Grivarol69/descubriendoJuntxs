@@ -21,6 +21,9 @@ const Footer = () => {
                     <a href="https://www.linkedin.com/company/descubriendo-juntxs/" target="_blank">
                         <FontAwesomeIcon icon={faLinkedin} size='2x' />
                     </a>
+                    <a href="https://www.tiktok.com/@descubriendojuntxs" target="_blank">
+                        Icono de TikTok
+                    </a>
                 </div>
             </footer>
         </div>
