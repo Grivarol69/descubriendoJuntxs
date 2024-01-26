@@ -6,13 +6,37 @@ const prisma = new PrismaClient();
 
 const getPrograms = async (_req:Request, res:Response) => {
     try {
-        const programs = await prisma.program.findMany();
+        const programs = await prisma.program.findMany({
+            where: {
+                state: "Activo"
+            }
+        });
         res.status(200).json(programs);
     } catch (error) {
         handleHttp(res, 'ERROR_GET_Programs')
     }
 
 }
+
+const getProgramsByCategory = async (req:Request, res:Response) => {
+
+    const { categoryId } = req.params;
+
+    try {
+        const programs = await prisma.program.findMany({
+            where: {
+                state: "Activo",
+                categoryId: Number(categoryId)
+            }
+        });
+        res.status(200).json(programs);
+    } catch (error) {
+        handleHttp(res, 'ERROR_GET_Programs')
+    }
+
+}
+
+
 
 const getProgram =(req:Request, res:Response) => {
     const { id } = req.params;
@@ -27,6 +51,8 @@ const getProgram =(req:Request, res:Response) => {
         handleHttp(res, 'ERROR_GET_CATEGORYS')
     }
 }
+
+
 
 const postProgram = async ({ body }:Request, res:Response) => {
     
@@ -78,28 +104,29 @@ const updateProgram = async (req:Request, res:Response) => {
 
 }
 
-const deleteProgram = async (req:Request, res:Response) => {
+// const deleteProgram = async (req:Request, res:Response) => {
     
-    const { id } = req.params;
+//     const { id } = req.params;
 
-    try {
+//     try {
 
-        const program = await prisma.program.delete({
-            where: { 
-                id: Number(id) },
-        });
-        res.status(200).json(program);
+//         const program = await prisma.program.delete({
+//             where: { 
+//                 id: Number(id) },
+//         });
+//         res.status(200).json(program);
 
-    } catch (error) {
-        handleHttp(res, 'ERROR_DELETE_CATEGORY')
-    }
+//     } catch (error) {
+//         handleHttp(res, 'ERROR_DELETE_CATEGORY')
+//     }
 
-}
+// }
 
 export{
     getPrograms,
     getProgram,
     postProgram,
     updateProgram,
-    deleteProgram
+    getProgramsByCategory
+    // deleteProgram
 }
