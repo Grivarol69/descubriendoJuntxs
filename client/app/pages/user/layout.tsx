@@ -1,4 +1,4 @@
-import UserProfile from "@/app/components/user profile/profile";
+import UserProfile from "@/components/UserProfile/profile";
 import style from './layout.module.css'
 
 export default function RootLayout({

@@ -19,9 +19,6 @@ const UserProfile = () => {
             <Link href="/pages/user/services">
                 <FontAwesomeIcon icon={faPeopleLine} className={style.icon} /> Servicios
             </Link>
-            <Link href="/pages/user/questions">
-                <FontAwesomeIcon icon={faComment} className={style.icon} /> Preguntas
-            </Link>
             <Link href="/pages/user/configuration">
                 <FontAwesomeIcon icon={faUserGear} className={style.icon} /> Configuracion
             </Link>
