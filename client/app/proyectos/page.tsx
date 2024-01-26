@@ -4,7 +4,17 @@ import CardProyect from "@/components/CardProyecto/cardProyecto";
 import SearchBar from "@/components/searchbar/SearchBar";
 import { useState } from "react";
 import { Proyect } from '../../components/CardProyecto/cardProyecto';
+import style from './proyectos.module.css'
 
+
+export interface ProyectTypes {
+    nombre: string,
+    descripcion: string,
+    meta: string,
+    comentarios: string[]
+    imagen: string,
+    rating: string
+}
 
 const Proyectos: React.FC = () => {
     
@@ -33,11 +43,12 @@ const Proyectos: React.FC = () => {
         rating: '5'
     }
     ]
-    const [proyectosFinales, setProyectosFinales] = useState<Proyect[]>([...proyecto])
+    const [proyectosFinales, setProyectosFinales] = useState<ProyectTypes[]>([...proyecto])
+    
 
     return (
         <>
-            <div className="flex flex-col gap-14 items-center justify-center mb-20">
+            <div className={style.backgroundProyecto}>
                 <SearchBar
                     seteador={setProyectosFinales}
                     proyectos={proyecto}
@@ -52,9 +63,8 @@ const Proyectos: React.FC = () => {
                     )
                 })}
             </div>
-
         </>
-    );
+    )
 }
 
 export default Proyectos;
