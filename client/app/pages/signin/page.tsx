@@ -3,7 +3,8 @@ import Link from "next/link";
 import { FormEvent, useState } from "react";
 import Footer from "@/app/components/footer/footer";
 import style from './signin.module.css'
-
+import Image from "next/image";
+import googleLogo from '../../../public/googleLogo.png'
 
 const SignInPage = () => {
     const [infoUser, setInfoUser] = useState({
@@ -13,22 +14,23 @@ const SignInPage = () => {
 
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
         setInfoUser({
             ...infoUser,
             [e.target.name]: e.target.value
         })
     }
-
+    
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         // Handle form submission here
     };
-
+    
     const handleGoogleSignIn = () => {
         // Handle Google sign in here with firebase
     }
-
-
+    
+    
     return (
         <div className={style.backgroundSignin}>
             <div className={style.cardContainer}>
@@ -55,7 +57,9 @@ const SignInPage = () => {
                             </div>
                             <div className={style.buttons}>
                                 <button className={style.buttonFull} type="submit"> Iniciar Sesión </button>
-                                <button className={style.buttonGoogle} onClick={handleGoogleSignIn}>Iniciar Sesión Con Google</button>
+            
+                                <button className={style.buttonGoogle} onClick={handleGoogleSignIn}>
+                                  <img src={googleLogo.src} style={{width: '3rem'}} alt="google" /> Iniciar Sesión Con Google</button>
                             </div>
                         </form>
                     </div>
