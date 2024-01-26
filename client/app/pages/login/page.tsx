@@ -5,7 +5,7 @@ import SignInPage from "../signin/page";
 
 const AuthPage = () => {
     const [isSignUp, setIsSignUp] = useState(false);
-    
+
     return (
         <div>
             {isSignUp ? <SignUpPage /> : <SignInPage />}
