@@ -25,3 +25,7 @@
 }
  */
 
+.navBarOrders{
+  display: flex;
+  top: 200rem;
+}

@@ -7,6 +7,7 @@ import Menu from "../../public/assets/Menu.svg";
 import Link from "next/link";
 import BlurArrow from "../../public/assets/blue-button.svg";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 const navLinks = [
   { name: "Inicio", href: "/" },
@@ -18,13 +19,16 @@ const navLinks = [
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const path = usePathname()
+  console.log(path);
+  
 
   const handlerMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
   return (
-    <nav className="flex w-full items-center justify-between px-[20px] py-[16px] lg:container lg:mx-auto lg:px-15">
+    <nav className={path.includes('/pages/user') ? 'flex w-full bg-white items-center justify-between px-[20px] py-[16px]  lg:mx-auto lg:px-15 shadow-custom fixed z-[1000]' : "flex w-full items-center justify-between px-[20px] py-[16px] lg:container lg:mx-auto lg:px-15"}>
       <div className="flex items-center">
         <Image src={Logo} alt="Logo" />
 
