@@ -1,0 +1,83 @@
+.cardContainer {
+  display: flex;
+  flex-direction: column; /* Cambia a dirección de columna para apilar las cards */
+  align-items: center; /* Centra las cards en el eje horizontal */
+  height: 100vh;
+  margin: 1rem;
+}
+
+.card {
+  display: grid;
+  grid-template-columns: 30vh 1fr;
+  background: white;
+  width: 40vw;
+  height: 30vh;
+  max-height: 30vh;
+  box-shadow: 9px 17px 81.5px 0px rgba(0, 0, 0, 0.25);
+  border-radius: 1rem;
+  overflow: hidden;
+  grid-template-rows: 30vh;
+  transition: 500ms;
+  margin-bottom: 1rem; /* Ajusta el espacio entre las cards según sea necesario */
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.infoContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 2rem;
+  height: 100%;
+  width: 100%;
+  gap: 0.5rem;
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 2;
+}
+
+.buttonFull {
+  background: #7286FF;
+  color: #ffffff;
+  min-width: 5rem;
+  width: fit-content;
+  height: 3rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border-radius: 0.5rem;
+  transition: 100ms;
+  border: 0.1rem solid #7286FF;
+}
+
+.buttonFull:hover {
+  background: white;
+  color: #7286FF;
+}
+
+.buttonText {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #7286FF;
+  font-weight: 500;
+  background: #ffffff;
+  width: fit-content;
+  min-width: 5rem;
+  height: 2rem;
+  transition: 100ms;
+}
+
+.buttonText:hover {
+  color: #131142;
+}
+
+.buttonContainer {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
