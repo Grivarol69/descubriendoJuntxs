@@ -45,7 +45,9 @@ const Navbar = () => {
         </p>
 
         <div className="flex items-center gap-x-2">
-          <Image src={User} alt="User Profile" />
+          <Link href="/pages/user">
+            <Image src={User} alt="User Profile" />
+          </Link>
           <span className="hidden font-medium text-[#36485C] lg:block">
             <Link
               href="/pages/signin"
@@ -75,7 +77,7 @@ const Navbar = () => {
                   <Image src={Logo} alt="Logo" className="" />
                 </Link>
               </div>
-              
+
               <div className=" pointer">
                 <Link
                   href=""
