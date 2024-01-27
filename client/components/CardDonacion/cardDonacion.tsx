@@ -1,23 +1,10 @@
+'use client'
+import React, { useState, useEffect } from "react"
+import style from './card.module.css'
+import ModalProject from "../modal/Modal"
 
-import React, { useEffect } from "react";
-import "./modal.css"
-import { useState } from "react"
-
-import Link from "next/link";
-import { icons } from '../Icons/Icons';
-
-interface ModalProjectProps {
-    openModal: boolean;
-    closeModal: () => void;
-    project: {
-        nombre: string,
-        descripcion: string,
-        meta: string,
-        comentarios: string[],
-        rating: string,
-        imagen: string
-    },
-    donation?: {
+export interface Donation {
+    donation: {
         tipoDeDonacion: string,
         descripcion: string,
         proyectoOInstitucion: string,
@@ -26,7 +13,7 @@ interface ModalProjectProps {
     }
 }
 
-const ModalProject: React.FC<ModalProjectProps> = ({ openModal, closeModal, project }) => {
+const ModalDonation = ({ openModal, closeModal, project }) => {
     if (!openModal) return null
     const { nombre, descripcion, meta, comentarios, rating, imagen } = project;
     const [MostrarComentario, setMostrarComentario] = useState(false)
@@ -107,5 +94,3 @@ const ModalProject: React.FC<ModalProjectProps> = ({ openModal, closeModal, proj
         </>
     )
 }
-
-export default ModalProject;
