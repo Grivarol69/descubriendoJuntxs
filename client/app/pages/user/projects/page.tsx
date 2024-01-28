@@ -47,6 +47,7 @@ const UserProjectsPage = () => {
     return (
         <>
             <div className={style.container}>
+                <h1>Proyectos Favoritos</h1>
                 <SearchBar
                     seteador={setProjects}
                     proyectos={proyecto}
