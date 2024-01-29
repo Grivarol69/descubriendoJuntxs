@@ -1,5 +1,7 @@
 import { Request, Response } from "express"
-import { handleHttp } from "../utils/error.handler"
+import { handleHttp } from "../utils/error.handler";
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 
 
 const getCategory = async (_req:Request, res:Response) => {
@@ -20,9 +22,16 @@ const getCategories = async (_req:Request, res:Response) => {
     }
 }
 
-const postCategory = ({body }:Request, res:Response) => {
+const postCategory = async ({body }:Request, res:Response) => {
+    const {name} = body;
     try {
-        res.send(body);
+        const newCategory = await prisma.category.create({
+            data:{
+                name: name,
+            }
+        });
+        res.json(newCategory)
+
     } catch (error) {
         handleHttp(res, 'ERROR_POST_CATEGORY')
     }
