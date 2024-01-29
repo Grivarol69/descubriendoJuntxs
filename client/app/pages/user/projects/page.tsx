@@ -46,20 +46,27 @@ const UserProjectsPage = () => {
 
     return (
         <>
-            <div className={style.container}>
-                <SearchBar
-                    seteador={setProjects}
-                    proyectos={proyecto}
-                />
-                {projects.map((proyecto) => {
-                    return (
-                        <>
-                            <CardProyect
-                                project={proyecto}
+            <div className={style.gridContainer}>
+                <div className={style.visionContainer}>
+                    <div className={style.container}>
+                        <div className={style.topInfoContainer}>
+                            <div className={style.titlePage}>Proyectos Favoritos</div>
+                            <SearchBar
+                                seteador={setProjects}
+                                proyectos={proyecto}
                             />
-                        </>
-                    )
-                })}
+                        </div>
+                        {projects.map((proyecto) => {
+                            return (
+                                <>
+                                    <CardProyect
+                                        project={proyecto}
+                                    />
+                                </>
+                            )
+                        })}
+                    </div>
+                </div>
             </div>
         </>
     )

@@ -1,7 +1,10 @@
+import style from './services.module.css'
+import ServicesProfile from "@/components/ServicesProfile/ServicesProfile"
+
 const UserServicesPage = () => {
     return (
-        <div>
-            <h1>Servicios de usuario</h1>
+        <div className={style.gridPadre} style={{ color: '#24275A' }}>
+            <ServicesProfile/>
         </div>
     )
 }

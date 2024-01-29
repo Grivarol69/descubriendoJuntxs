@@ -9,12 +9,15 @@ import { usePathname } from 'next/navigation'
 const UserProfile = () => {
 
     const path = usePathname()
+    if (!path.includes('/pages/user')) return null
+
 
     return (
         <div className={style.container}>
             <div className={style.Buttons}>
-                <Link href="/pages/user/myprofile">
+                <Link href="/pages/user ">
                     <div className={style.iconAndText}>
+                        <div className={style.inPage}>{path === '/pages/user' && '|'}</div>
                         <div className={style.iconsContainer}>
                             <FontAwesomeIcon icon={faUser} className={style.icon} />
                         </div>
@@ -25,8 +28,9 @@ const UserProfile = () => {
                 </Link>
                 <Link href="/pages/user/projects">
                     <div className={style.iconAndText}>
+                        <div className={style.inPage}>{path === '/pages/user/projects' && '|'}</div>
                         <div className={style.iconsContainer}>
-                            <FontAwesomeIcon icon={faWindowRestore}/>
+                            <FontAwesomeIcon icon={faWindowRestore} className={style.icon} />
                         </div>
                         <div className={style.textSideBar}>
                             Proyectos
@@ -35,6 +39,7 @@ const UserProfile = () => {
                 </Link>
                 <Link href="/pages/user/donations">
                     <div className={style.iconAndText}>
+                        <div className={style.inPage}>{path === '/pages/user/donations' && '|'}</div>
                         <div className={style.iconsContainer}>
                             <FontAwesomeIcon icon={faHandHoldingDollar} className={style.icon} />
                         </div>
@@ -45,6 +50,7 @@ const UserProfile = () => {
                 </Link>
                 <Link href="/pages/user/services">
                     <div className={style.iconAndText}>
+                        <div className={style.inPage}>{path === '/pages/user/services' && '|'}</div>
                         <div className={style.iconsContainer}>
                             <FontAwesomeIcon icon={faPeopleLine} className={style.icon} />
                         </div>
@@ -53,18 +59,9 @@ const UserProfile = () => {
                         </div>
                     </div>
                 </Link>
-                <Link href="/pages/user/questions">
-                    <div className={style.iconAndText}>
-                        <div className={style.iconsContainer}>
-                            <FontAwesomeIcon icon={faComment} className={style.icon} />
-                        </div>
-                        <div className={style.textSideBar}>
-                            Preguntas
-                        </div>
-                    </div>
-                </Link>
                 <Link href="/pages/user/configuration">
                     <div className={style.iconAndText}>
+                        <div className={style.inPage}>{path === '/pages/user/configuration' && '|'}</div>
                         <div className={style.iconsContainer}>
                             <FontAwesomeIcon icon={faUserGear} className={style.icon} />
                         </div>
