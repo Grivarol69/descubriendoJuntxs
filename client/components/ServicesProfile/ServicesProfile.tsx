@@ -3,7 +3,6 @@ import style from './Services.module.css'
 const ServicesProfile = () => {
     return (
         <>
-            <div className={style.gridPage}>
                 <div className={style.servicesContainer}>
                     <div className={style.titlePage}>
                         Participación de Servicios
@@ -67,7 +66,6 @@ const ServicesProfile = () => {
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
         </>
     )
