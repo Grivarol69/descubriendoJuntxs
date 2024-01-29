@@ -4,9 +4,21 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 
-const getCategory = async (_req:Request, res:Response) => {
+
+
+const getCategory = async (req:Request, res:Response) => {
     
     try {
+        const {id} = req.params;
+        const category = await prisma.category.findUnique({
+            where:{
+                id: Number(id)
+            },
+            include:{
+                programs: true
+            }
+        });
+        res.json(category)
         
     } catch (error) {
         handleHttp(res, 'ERROR_GET_CATEGORY')
@@ -16,6 +28,9 @@ const getCategory = async (_req:Request, res:Response) => {
 
 const getCategories = async (_req:Request, res:Response) => {
     try {
+       
+        const categories = await prisma.category.findMany();
+        res.json(categories)
 
     } catch (error) {
         handleHttp(res, 'ERROR_GET_CATEGORYS')
@@ -38,28 +53,38 @@ const postCategory = async ({body }:Request, res:Response) => {
 
 }
 
-const updateCategory = (_req:Request, res:Response) => {
+const updateCategory = async (req:Request, res:Response) => {
     try {
+        const {id} = req.params;
+        const {name} = req.body;
+        console.log(id, name)
+        const updatedCategory = await prisma.category.update({
+            where:{
+                id: Number(id)
+            },
+            data:{
+                name: name
+            }
+        });
+        res.json(updatedCategory)
         
     } catch (error) {
         handleHttp(res, 'ERROR_UPDATE_CATEGORY')
     }
-
 }
 
-const deleteCategory = (_req:Request, res:Response) => {
-    try {
-        
-    } catch (error) {
-        handleHttp(res, 'ERROR_DELETE_CATEGORY')
-    }
+    // const deleteCategory = (_req:Request, res:Response) => {
+    //     try {
+            
+    //     } catch (error) {
+    //         handleHttp(res, 'ERROR_DELETE_CATEGORY')
+    //     }
 
-}
+    // }
 
 export{
     getCategory,
-    getCategories,
+     getCategories,
     postCategory,
     updateCategory,
-    deleteCategory
 }

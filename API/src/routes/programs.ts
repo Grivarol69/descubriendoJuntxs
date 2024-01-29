@@ -9,4 +9,4 @@ router.post('/', postProgram)
 router.put('/:id', updateProgram)
 // router.delete('/:id', deleteProgram)
 
-export {router};
+export default router;
