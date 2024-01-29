@@ -10,23 +10,22 @@ interface SearchBarProps {
 
 const SearchBar: React.FC<SearchBarProps> = ({ proyectos, seteador }) => {
   const [busqueda, setBusqueda] = useState("")
-  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const query = formData.get('searchQuery') as string;
-    seteador([...proyectos].filter((proyecto) => proyecto.nombre.includes(busqueda)));
+    const query = event.target.value.toLowerCase()
+    setBusqueda(query);
+    seteador([...proyectos].filter((proyecto) => proyecto.nombre.toLowerCase().includes(query)));
   };
-  const handleChange = (event: any) => {
-    setBusqueda(event.target.value)
-  }
+  
   return (
-    <form onSubmit={handleSearch}>
-      <input onChange={handleChange}
+    <form >
+      <input onChange={handleSearch}
         value={busqueda}
         type="text"
         name="searchQuery"
         placeholder="Buscar..." />
-      <button type="submit">Buscar</button>
+      
     </form>
   );
 };

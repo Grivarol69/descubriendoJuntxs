@@ -22,8 +22,10 @@
   .text-balance {
     text-wrap: balance;
   }
+
 }
  */
+
 
 
 
@@ -56,4 +58,8 @@
 
 .grid-row-1-2{
   grid-row: 1/2;
+=======
+.navBarOrders{
+  display: flex;
+  top: 200rem;
 }

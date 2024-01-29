@@ -1,6 +1,8 @@
+
 import React, { useEffect } from "react";
 import "./modal.css"
 import { useState } from "react"
+
 import Link from "next/link";
 import { icons } from '../Icons/Icons';
 
@@ -15,7 +17,6 @@ interface ModalProjectProps {
         rating: string,
         imagen: string
     }
-
 }
 
 const ModalProject: React.FC<ModalProjectProps> = ({ openModal, closeModal, project }) => {
@@ -99,4 +100,5 @@ const ModalProject: React.FC<ModalProjectProps> = ({ openModal, closeModal, proj
         </>
     )
 }
+
 export default ModalProject;
