@@ -211,7 +211,7 @@ const Contacto: React.FC = () => {
                                     Oficinas: Av Siempreviva 241{" "}
                                   </div>
                                   <div className="font-medium text-slate-200 flex">
-                                    Piso 3
+                                    Piso 2
                                   </div>
                                 </div>
                               </a>
