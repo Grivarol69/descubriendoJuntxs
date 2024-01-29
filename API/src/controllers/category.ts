@@ -1,16 +1,30 @@
 import { Request, Response } from "express"
 import { handleHttp } from "../utils/error.handler"
+import { PrismaClient } from "@prisma/client"
+
+const prisma = new PrismaClient();
 
 
-const getCategory = async (_req:Request, res:Response) => {
-    
+const getCategory = async (req:Request, res:Response) => {
+
     try {
-        
+        const {id} = req.params;
+        const category = await prisma.category.findUnique({
+            where:{
+                id: Number(id)
+            },
+            include:{
+                programs: true
+            }
+        });
+        res.json(category)
+
     } catch (error) {
         handleHttp(res, 'ERROR_GET_CATEGORY')
     }
 
 }
+
 
 const getCategories = async (_req:Request, res:Response) => {
     try {

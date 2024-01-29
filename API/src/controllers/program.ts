@@ -68,7 +68,7 @@ const getProgram =(req:Request, res:Response) => {
 
 const postProgram = async ({ body }:Request, res:Response) => {
     
-    const { name, description, amount, state, category} = body;
+    const { name, description, amount, category} = body;
 
     try {
         const newProgram = await prisma.program.create({
@@ -76,7 +76,7 @@ const postProgram = async ({ body }:Request, res:Response) => {
                 name: name, 
                 description: description, 
                 amount: amount, 
-                state: state,
+                state: "Activo",
                 categoryId: category
             }
         });
@@ -84,7 +84,7 @@ const postProgram = async ({ body }:Request, res:Response) => {
         res.status(200).json(newProgram);
 
     } catch (error) {
-        handleHttp(res, 'ERROR_POST_CATEGORY')
+        handleHttp(res, 'ERROR_POST_PROGRAM');
     }
 
 }
