@@ -1,4 +1,4 @@
-import server from "./src/app"
+import server from "./app"
 const PORT = process.env.PORT || 3000
 
 
