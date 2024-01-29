@@ -1,5 +1,5 @@
 'use client'
-
+import Filter from "@/components/filters/Filter";
 import CardProyect from "@/components/CardProyecto/cardProyecto";
 import SearchBar from "@/components/searchbar/SearchBar";
 import { useState } from "react";
@@ -47,6 +47,10 @@ const Proyectos: React.FC = () => {
     const [proyectosFinales, setProyectosFinales] = useState<ProyectTypes[]>([...proyecto])
     
 
+    const handleFilter = (filtro: any) => {
+       
+        setProyectosFinales(proyecto.filter(proyecto => proyecto.nombre.includes(filtro)));
+    };
     return (
         <>
             <div className={style.backgroundProyecto}>
@@ -54,6 +58,7 @@ const Proyectos: React.FC = () => {
                     seteador={setProyectosFinales}
                     proyectos={proyecto}
                 />
+                <Filter onFilter={handleFilter} ></Filter>
                 {proyectosFinales.map((proyecto) => {
                     return (
                         <>
