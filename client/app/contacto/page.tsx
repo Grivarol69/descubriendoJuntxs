@@ -3,6 +3,9 @@ import Image from "next/image";
 import { useForm } from "react-hook-form";
 import Gradient from "../../public/assets/Gradient.svg";
 import HeroImage from "../../public/assets/Image.svg";
+import email from "../../public/assets/icon-mail.svg";
+import location from "../../public/assets/item-location.svg";
+import phone from "../../public/assets/item-phone.svg";
 
 const Contacto: React.FC = () => {
   const {
@@ -16,15 +19,16 @@ const Contacto: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen overflow-hidden">
-      <h1 className="text-3xl mb-8 lg:mb-20 text-center">
+    <div className="min-h-screen overflow">
+      <h1 className="text-2xl mt-6 mb-8 text-left ml-32 text-[#7286ff]">
         Envianos un Mensaje
       </h1>
-      <div className="flex justify-center relative w-full">
+      <div className="flex flex-col lg:flex-row justify-center relative w-full">
         <div className="flex justify-start relative w-5/6 ">
-          <div className="w-full lg:w-3/5 border rounded-2xl border-slate-100 lg:h-full relative">
-            <div className="w-full lg:w-4/5 p-4 lg:p-8 ">
-              <div className=" text-3xl font-semibold mb-6 lg:mb-8 text-center lg:text-left">
+          <div className="w-full lg:w-3/5 border-[6px] rounded-2xl border-[#7286ff] lg:h-full relative">
+            {/* div 1 */}
+            <div className="w-full lg:w-9/12 p-4 lg:p-8 mt-2">
+              <div className=" text-2xl font-semibold mb-6 lg:mb-8 text-center lg:text-left text-gray-600 border-b-4 w-1/6  border-[#7286ff]">
                 CONTACTANOS
               </div>
               <form
@@ -33,7 +37,7 @@ const Contacto: React.FC = () => {
                 onSubmit={handleSubmit(onSubmit)}
                 autoComplete=""
               >
-                <div className="flex flex-col-reverse ">
+                <div className="flex flex-col-reverse my-3">
                   <input
                     type="text"
                     id="name"
@@ -44,22 +48,25 @@ const Contacto: React.FC = () => {
                     })}
                     className="border rounded p-1 text-sm placeholder-zinc-300"
                   />
-                  <div>
-                    {errors.nombre?.type === "required" && (
-                      <p className="text-red-600 text-[12px]">
-                        El campo nombre es requerido
-                      </p>
-                    )}
-                    {errors.nombre?.type === "pattern" && (
-                      <p className="text-red-600 text-[12px]">
-                        Ingrese tu Nombre y Apellido
-                      </p>
-                    )}
-                  </div>
-                  <label htmlFor="name">Nombre Completo</label>
+
+                  <label htmlFor="name" className=" flex text-sm">
+                    <div className="mr-1">Nombre </div> <div> Completo</div>
+                    <span className="w-full flex justify-end items-center">
+                      {errors.nombre?.type === "required" && (
+                        <span className="text-red-600 text-[12px] ">
+                          Nombre es requerido
+                        </span>
+                      )}
+                      {errors.nombre?.type === "pattern" && (
+                        <p className="text-red-600 text-[12px]">
+                          Ingrese tu Nombre y Apellido
+                        </p>
+                      )}
+                    </span>
+                  </label>
                 </div>
 
-                <div className="flex flex-col-reverse">
+                <div className="flex flex-col-reverse my-3">
                   <input
                     type="email"
                     id="email"
@@ -70,22 +77,25 @@ const Contacto: React.FC = () => {
                     })}
                     className="border rounded p-1 text-sm placeholder-zinc-300"
                   />
-                  <div>
-                    {errors.correo?.type === "pattern" && (
-                      <p className="text-red-600 text-[12px]">
-                        El Email es incorrecto
-                      </p>
-                    )}
-                    {errors.correo?.type === "required" && (
-                      <p className="text-red-600 text-[12px]">
-                        Email es requerido{" "}
-                      </p>
-                    )}
-                  </div>
-                  <label htmlFor="email">Correo</label>
+
+                  <label htmlFor="email" className="flex text-sm">
+                    Correo{" "}
+                    <span className="w-full flex justify-end items-center">
+                      {errors.correo?.type === "pattern" && (
+                        <span className="text-red-600 text-[12px]">
+                          El Email es incorrecto
+                        </span>
+                      )}
+                      {errors.correo?.type === "required" && (
+                        <span className="text-red-600 text-[12px]">
+                          Email es requerido{" "}
+                        </span>
+                      )}
+                    </span>
+                  </label>
                 </div>
 
-                <div className="flex flex-col-reverse">
+                <div className="flex flex-col-reverse my-3">
                   <input
                     type="text"
                     id="telephone"
@@ -96,37 +106,43 @@ const Contacto: React.FC = () => {
                     })}
                     className="border rounded p-1 text-sm placeholder-zinc-300"
                   />
-                  <div>
-                    {errors.celular?.type === "required" && (
-                      <p className="text-red-600 text-[12px]">
-                        Celular es requerido{" "}
-                      </p>
-                    )}
-                  </div>
-                  <label htmlFor="telephone">Celular</label>
+
+                  <label htmlFor="telephone" className="flex text-sm">
+                    Celular{" "}
+                    <span className="w-full flex justify-end">
+                      {errors.celular?.type === "required" && (
+                        <span className="text-red-600 text-[12px]">
+                          Celular es requerido{" "}
+                        </span>
+                      )}
+                    </span>
+                  </label>
                 </div>
 
-                <div className="flex flex-col-reverse">
+                <div className="flex flex-col-reverse my-3">
                   <input
                     type="text"
                     id="asunto"
-                    placeholder="Proposito del mensaje"
+                    placeholder="Asunto del mensaje"
                     {...register("asunto", {
                       required: true,
                     })}
-                    className="border rounded p-1 text-sm placeholder-zinc-300"
+                    className="border rounded p-1 text-sm placeholder-zinc-300 "
                   />
-                  <div>
-                    {errors.asunto?.type === "required" && (
-                      <p className="text-red-600 text-[12px]">
-                        Asunto del mensaje es requerido{" "}
-                      </p>
-                    )}
-                  </div>
-                  <label htmlFor="asunto">Asunto</label>
+
+                  <label htmlFor="asunto" className="flex  text-sm">
+                    Asunto
+                    <span className="w-full flex justify-end">
+                      {errors.asunto?.type === "required" && (
+                        <span className="text-red-600 text-[12px]">
+                          Asunto es requerido{" "}
+                        </span>
+                      )}
+                    </span>
+                  </label>
                 </div>
 
-                <div className="flex flex-col-reverse">
+                <div className="flex flex-col-reverse my-3">
                   <textarea
                     id="mensaje"
                     cols={1}
@@ -137,14 +153,17 @@ const Contacto: React.FC = () => {
                     })}
                     className="border rounded p-1 text-sm placeholder-zinc-300"
                   ></textarea>
-                  <div>
-                    {errors.asunto?.type === "required" && (
-                      <p className="text-red-600 text-[12px]">
-                        El Mensaje es requerido{" "}
-                      </p>
-                    )}
-                  </div>
-                  <label htmlFor="mensaje">Mensaje</label>
+
+                  <label htmlFor="mensaje" className="flex text-sm">
+                    Mensaje{" "}
+                    <span className="w-full flex justify-end items-center">
+                      {errors.asunto?.type === "required" && (
+                        <span className="text-red-600 text-[12px]">
+                          El Mensaje es requerido{" "}
+                        </span>
+                      )}
+                    </span>
+                  </label>
                 </div>
 
                 <div>
@@ -156,16 +175,79 @@ const Contacto: React.FC = () => {
                 </div>
               </form>
             </div>
+
             {/* div 2 */}
-
-            <div className="absolute flex   justify-center z-[1] -bottom-28 -right-96">
-
+            <div className="absolute flex justify-start z-[1] bottom-4 -right-96">
+              <div className="relative animate-pulse-custom ">
                 <Image
                   src={Gradient}
                   alt="Gradient"
-                  className="min-h-[500px] w-[450px] object-cover lg:h-auto  rounded-2xl z-[2]"
+                  className="min-h-[500px] w-[450px] object-cover lg:h-auto rounded-2xl z-[2] rotate-90 "
                 />
-              <div className="z-[3] text-white text-center absolute top-1/2 right-1/2 transform translate-x-1/2 -translate-y-1/2r">frfe</div>
+                <div className="z-[3] text-white absolute -top-14  transform translate-x-1/2 -translate-y-1/2 lg:flex-col lg:items-start ">
+                {/* <div className="z-[3] text-white absolute -top-14 transform translate-x-1/2 -translate-y-1/2 flex lg:static lg:flex-col lg:items-start"> */}
+                  <div className="absolute">
+                    <div className=" h-full flex justify-center items-start mt-28 ">
+                      <div className="absolute left-1  w-[36vw] mt-10 ">
+                          <div className="text-white text-2xl font-semibold  flex border-b-4 w-1/6 ml-2 border-[#7286ff] mb-16">
+                            ENCUENTRANOS
+                          </div>
+    
+                        <div className="ml-2  text-white text-sm font-light flex flex-col gap-8 ">
+                          <div className=" flex ">
+                            <a href="" className="flex justify-start ">
+                              <div className="  rounded-full w-6 h-6 mr-4 flex justify-center items-center text-xl bg-white  ">
+                                <Image
+                                  src={location}
+                                  alt=""
+                                  className="w-4 h-4"
+                                />
+                              </div>
+                              <div className="flex flex-col justify-start ">
+                                <div className="font-medium text-xl mb-2 flex">
+                                  Descubriendo Juntxs
+                                </div>
+                                <div className="font-medium text-slate-200 flex  ">
+                                  Oficinas: Av Siempreviva 241{" "}
+                                </div>
+                                <div className="font-medium text-slate-200 flex">
+                                  Piso 3
+                                </div>
+                              </div>
+                            </a>
+                          </div>
+                          <div className="">
+                            <a
+                              href=""
+                              className="flex justify-start items-center text-slate-200"
+                            >
+                              <div className=" rounded-full w-6 h-6 mr-4 flex justify-center items-center text-xl bg-white">
+                                <Image src={phone} alt="" className="w-4 h-4" />
+                              </div>{" "}
+                              <div className="font-medium text-slate-200">
+                                Telefono: (01) 5050505
+                              </div>
+                            </a>
+                          </div>
+                          <div className="">
+                            <a
+                              href=""
+                              className="flex justify-start items-center text-slate-200"
+                            >
+                              <div className="  rounded-full w-6 h-6 mr-4 flex justify-center items-center text-xl bg-white ">
+                                <Image src={email} alt="" className="w-4 h-4" />
+                              </div>
+                              <div className="font-medium text-slate-200 ">
+                                Correo: tusventasfavoritas@gmail.com
+                              </div>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

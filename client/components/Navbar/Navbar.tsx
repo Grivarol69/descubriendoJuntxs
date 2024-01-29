@@ -24,7 +24,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="flex w-full items-center justify-between px-[20px] py-[16px] lg:container lg:mx-auto lg:px-15">
+    <nav className="flex w-full items-center justify-between px-[10px] py-[16px] lg:container lg:mx-auto lg:px-15">
       <div className="flex items-center">
         <Image src={Logo} alt="Logo" />
 
@@ -39,17 +39,16 @@ const Navbar = () => {
         </div>
       </div>
 
-      <div className="flex gap-x-5">
-        <p className="hidden lg:block font-medium text-[#36485C] pr-[56px]">
+      <div className="flex items-center gap-x-5">
+        <p className="hidden lg:block font-medium text-[#36485C] pr-[10px]">
           <Link href="autenticacion/registro">Ingreso</Link>
         </p>
 
         <div className="flex items-center gap-x-2">
-          <Image src={User} alt="User Profile" />
-          <span className="hidden font-medium text-[#36485C] lg:block">
+          <span className="hidden font-medium text-[#fff] lg:block rounded-lg py-3 px-10 text-center" style={{ backgroundColor: "#7286ff" }} >
             <Link
               href="/autenticacion/ingreso"
-              style={{ backgroundColor: "#7286ff" }}
+              
             >
               Registro
             </Link>
@@ -65,7 +64,6 @@ const Navbar = () => {
         {isMenuOpen && (
           <div className="lg:hidden fixed inset-0 bg-white z-50">
             <div className="flex flex-col items-center justify-center h-full">
-
               <div className=" pointer">
                 <Link
                   href=""
@@ -75,7 +73,7 @@ const Navbar = () => {
                   <Image src={Logo} alt="Logo" className="" />
                 </Link>
               </div>
-              
+
               <div className=" pointer">
                 <Link
                   href=""
