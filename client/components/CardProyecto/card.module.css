@@ -152,3 +152,36 @@
     z-index: 1000;
 }
 
+@media (max-width: 1440px) {
+    .cardContainer {
+        display: grid;
+        grid-template-columns: 30vh 1fr;
+        background: white;
+        width: 50vw;
+        height: 30vh;
+        max-height: 30vh;
+        box-shadow: 9px 17px 81.5px 0px rgba(0, 0, 0, 0.25);
+        border-radius: 1rem;
+        overflow: hidden;
+        grid-template-rows: 30vh;
+        transition: 500ms;
+    }
+    
+
+}
+@media (max-width: 1170px) {
+    .cardContainer {
+        display: grid;
+        grid-template-columns: 30vh 1fr;
+        background: white;
+        width: 60vw;
+        height: 30vh;
+        max-height: 30vh;
+        box-shadow: 9px 17px 81.5px 0px rgba(0, 0, 0, 0.25);
+        border-radius: 1rem;
+        overflow: hidden;
+        grid-template-rows: 30vh;
+        transition: 500ms;
+    }
+    
+}

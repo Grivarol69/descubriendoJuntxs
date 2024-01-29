@@ -1,7 +1,9 @@
+import ServicesProfile from "@/components/ServicesProfile/ServicesProfile"
+
 const UserServicesPage = () => {
     return (
         <div>
-            <h1>Servicios de usuario</h1>
+            <ServicesProfile/>
         </div>
     )
 }
