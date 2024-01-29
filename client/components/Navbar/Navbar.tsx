@@ -29,6 +29,8 @@ const Navbar = () => {
   };
 
   return (
+
+
     <nav className={path.includes('/pages/user') ? 'flex w-full bg-white items-center justify-between px-[20px] py-[16px]  lg:mx-auto lg:px-15 shadow-custom fixed z-[1000]' : "flex w-full bg-white items-center justify-between px-[20px] py-[16px] lg:mx-auto lg:px-15"} >
       <div className="flex items-center">
         <Image src={Logo} alt="Logo" />
@@ -44,6 +46,7 @@ const Navbar = () => {
         </div>
       </div>
 
+
       <div className="flex gap-x-5">
         <p className="hidden lg:block font-medium text-[#36485C] pr-[56px]">
           <Link href="/pages/signin">Ingreso</Link>
@@ -57,6 +60,7 @@ const Navbar = () => {
             <Link
               href="/pages/signin"
               style={{ backgroundColor: "#7286ff" }}
+
             >
               Registro
             </Link>
@@ -72,7 +76,6 @@ const Navbar = () => {
         {isMenuOpen && (
           <div className="lg:hidden fixed inset-0 bg-white z-50">
             <div className="flex flex-col items-center justify-center h-full">
-
               <div className=" pointer">
                 <Link
                   href=""
