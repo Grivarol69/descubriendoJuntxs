@@ -97,3 +97,16 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+
+// Feature/HU-Form
+//       <div className="flex items-center gap-x-5">
+//         <p className="hidden lg:block font-medium text-[#36485C] pr-[10px]">
+//           <Link href="autenticacion/registro">Ingreso</Link>
+//         </p>
+
+//         <div className="flex items-center gap-x-2">
+//           <span className="hidden font-medium text-[#fff] lg:block rounded-lg py-3 px-10 text-center" style={{ backgroundColor: "#7286ff" }} >
+//             <Link
+//               href="/autenticacion/ingreso"
+              
