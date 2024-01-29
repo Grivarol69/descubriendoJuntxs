@@ -1,7 +1,7 @@
 .cardContainer {
   display: flex;
-  flex-direction: column; /* Cambia a dirección de columna para apilar las cards */
-  align-items: center; /* Centra las cards en el eje horizontal */
+  flex-direction: column; 
+  align-items: center; 
   height: 100vh;
   margin: 1rem;
 }
@@ -18,7 +18,7 @@
   overflow: hidden;
   grid-template-rows: 30vh;
   transition: 500ms;
-  margin-bottom: 1rem; /* Ajusta el espacio entre las cards según sea necesario */
+  margin-bottom: 1rem; 
 }
 
 .card:hover {
@@ -51,6 +51,7 @@
   border-radius: 0.5rem;
   transition: 100ms;
   border: 0.1rem solid #7286FF;
+  cursor: pointer;
 }
 
 .buttonFull:hover {

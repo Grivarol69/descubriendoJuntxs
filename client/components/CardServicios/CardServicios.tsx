@@ -1,10 +1,14 @@
+'use client'
+
 import React from 'react';
 import style from './CardServicios.module.css';
+import Link from 'next/link';
 
 interface Servicio {
   id: number;
   nombre: string;
   descripcion: string;
+  ruta: string;
 }
 
 interface CardServiciosProps {
@@ -22,9 +26,11 @@ const CardServicios: React.FC<CardServiciosProps> = ({ servicios }) => {
             <button className={style.buttonText}>
               Realizar Donación
             </button>
-            <button className={style.buttonFull}>
-              Agendar
-            </button>
+            <Link href={servicio.ruta}>
+                <button className={style.buttonFull}>
+                  Agendar
+                </button>
+            </Link>
           </div>
         </div>
       ))}
