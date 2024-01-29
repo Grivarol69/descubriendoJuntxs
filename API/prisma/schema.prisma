@@ -25,7 +25,7 @@ model User {
   linkedin String?
   languaje String? 
   position String? 
-  role String
+  role Role @default(Usuario)
   participants Participant[]
   payment Donation[]
   eventCoaches EventCoaches[]
@@ -42,7 +42,7 @@ model Program {
   name    String
   description String
   amount Float
-  state String
+  state State @default(Activo)
   categoryId Int
   category Category @relation(fields: [categoryId], references: [id])
   events Event[]
@@ -55,7 +55,7 @@ model Event {
   hourIn DateTime?
   duration String
   amount Float
-  Type String
+  type String
   program Program @relation(fields: [programId], references: [id])
   participants Participant[]
   donation Donation[]
@@ -107,3 +107,19 @@ model EventCoaches {
   @@id([eventId,userId])
 }
 
+enum Role {
+  Admin
+  Coach
+  Usuario
+}
+
+enum State {
+  Activo
+  Inactivo
+}
+
+enum PaymentState {
+  Aceptado
+  Rechazado
+  Pendiente
+}
