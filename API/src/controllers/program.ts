@@ -17,6 +17,19 @@ const getPrograms = async (_req:Request, res:Response) => {
     }
 }
 
+const getInactivePrograms = async (_req:Request, res:Response) => {
+    try {
+        const programs = await prisma.program.findMany({
+            where: {
+                state: "Inactivo"
+            }
+        });
+        res.status(200).json(programs);
+    } catch (error) {
+        handleHttp(res, 'ERROR_GET_Programs')
+    }
+}
+
 const getProgramsByCategory = async (req:Request, res:Response) => {
 
     const { categoryId } = req.params;
@@ -30,7 +43,7 @@ const getProgramsByCategory = async (req:Request, res:Response) => {
         });
         res.status(200).json(programs);
     } catch (error) {
-        handleHttp(res, 'ERROR_GET_Programs')
+        handleHttp(res, 'ERROR_GET_ProgramsByCategory')
     }
 
 }
@@ -126,6 +139,7 @@ export{
     getProgram,
     postProgram,
     updateProgram,
-    getProgramsByCategory
+    getProgramsByCategory,
+    getInactivePrograms
     // deleteProgram
 }
