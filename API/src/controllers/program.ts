@@ -13,6 +13,7 @@ const getPrograms = async (_req:Request, res:Response) => {
         });
         res.status(200).json(programs);
     } catch (error) {
+         console.log(error)
         handleHttp(res, 'ERROR_GET_Programs')
     }
 }
@@ -30,6 +31,7 @@ const getProgramsByCategory = async (req:Request, res:Response) => {
         });
         res.status(200).json(programs);
     } catch (error) {
+         console.log(error)
         handleHttp(res, 'ERROR_GET_Programs')
     }
 
@@ -71,6 +73,7 @@ const postProgram = async ({ body }:Request, res:Response) => {
         res.status(200).json(newProgram);
 
     } catch (error) {
+       
         handleHttp(res, 'ERROR_POST_CATEGORY')
     }
 
