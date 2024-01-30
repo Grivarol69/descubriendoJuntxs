@@ -9,19 +9,19 @@ const ServiciosPage: React.FC = () => {
       id: 1,
       nombre: 'Coaching',
       descripcion: 'Servicio de coaching personalizado para alcanzar tus metas.',
-      ruta: '/servicios/coaching/page', 
+      ruta: '/servicios/coaching', 
     },
     {
       id: 2,
       nombre: 'Talleres',
       descripcion: 'Participa en nuestros talleres para adquirir nuevas habilidades.',
-      ruta: '/servicios/talleres/page', 
+      ruta: '/servicios/talleres', 
     },
     {
       id: 3,
       nombre: 'Retiros',
       descripcion: 'Experimenta la tranquilidad en nuestros retiros.',
-      ruta: '/servicios/retiros/page', 
+      ruta: '/servicios/retiros' 
     }
   ];
 

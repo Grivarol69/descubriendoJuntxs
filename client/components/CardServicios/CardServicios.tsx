@@ -21,16 +21,18 @@ const CardServicios: React.FC<CardServiciosProps> = ({ servicios }) => {
       {servicios.map((servicio) => (
         <div key={servicio.id} className={style.card}>
           <h3>{servicio.nombre}</h3>
-          <p>{servicio.descripcion}</p>
-          <div className={style.buttonContainer}>
-            <button className={style.buttonText}>
-              Realizar Donación
-            </button>
-            <Link href={servicio.ruta}>
+          <div>
+            <p>{servicio.descripcion}</p>
+            <div className={style.buttonContainer}>
+              <button className={style.buttonText}>
+                Realizar Donación
+              </button>
+              <Link href={servicio.ruta}>
                 <button className={style.buttonFull}>
                   Agendar
                 </button>
-            </Link>
+              </Link>
+            </div>
           </div>
         </div>
       ))}
