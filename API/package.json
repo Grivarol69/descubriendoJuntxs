@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev src/index.ts",
-    "start": "node build/index.js",
-    "tsc": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "dev": "ts-node-dev src/index.ts",
+  "start": "node build/index.js",
+  "tsc": "tsc",
+  "vercel-build": "prisma generate && tsc",
+  "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
