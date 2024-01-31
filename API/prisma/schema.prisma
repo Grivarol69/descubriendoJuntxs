@@ -28,7 +28,6 @@ model User {
   participants Participant[]
   payment Payment[]
   donation Donation[]
-  eventCoaches EventCoaches[]
   event Event[]
   commentary Commentary[] 
   favorite Favorite[]
@@ -37,7 +36,7 @@ model User {
 model Category {
   id    Int    @id @default(autoincrement())
   name  String
-  programs Program[] 
+  program Program[] 
 }
 
 model Program {
@@ -66,12 +65,13 @@ model Event {
   hourIn DateTime?
   duration String
   amount Float
+  objective String
+  syllabus String
   type String
   program Program @relation(fields: [programId], references: [id])
   payment Payment?
   user User @relation(fields: [userId], references: [id])
   participants Participant[]
-  eventCoach EventCoaches[]
 }
 
 model Payment {
@@ -128,16 +128,6 @@ model Favorite {
   program Program @relation(fields: [programId], references: [id])
   user User @relation(fields: [userId], references: [id])
   @@id([programId,userId])
-}
-
-model EventCoaches {
-  eventId Int
-  event Event @relation(fields: [eventId], references: [id])
-  userId Int
-  user User @relation(fields: [userId], references: [id])
-  state String
-
-  @@id([eventId,userId])
 }
 
 enum Role {
