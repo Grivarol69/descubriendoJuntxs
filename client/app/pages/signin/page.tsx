@@ -1,16 +1,18 @@
 'use client'
 import Link from "next/link";
-import { FormEvent, useState } from "react";
+import { FormEvent, FormEventHandler, useState } from "react";
 import style from './signin.module.css'
-import Image from "next/image";
 import googleLogo from '../../../public/googleLogo.png'
+import { useRouter } from 'next/navigation'
+import signIn from "@/app/firebase/auth/signIn";
+import signUpWithGoogle from "@/app/firebase/auth/signInWithGoogle";
 
 const SignInPage = () => {
     const [infoUser, setInfoUser] = useState({
         email: '',
         password: ''
     })
-
+    const router = useRouter()
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
@@ -20,14 +22,41 @@ const SignInPage = () => {
         })
     }
 
-    const handleSubmit = (e: FormEvent) => {
-        e.preventDefault();
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         // Handle form submission here
+        event.preventDefault()
+        try {
+            console.log('hola');
+
+            const { result, error } = await signIn(infoUser.email, infoUser.password)
+
+            if (error) {
+                return console.log(error);
+            }
+            console.log(result);
+            return router.push('/userIn')
+
+        } catch (error) {
+            alert(error)
+        }
     };
 
-    const handleGoogleSignIn = () => {
+    const handleGoogleSignIn = async (event: any) => {
         // Handle Google sign in here with firebase
+        event.preventDefault()
+        try {
+            console.log('hola');
+            const { result, error } = await signUpWithGoogle()
+            if (error) {
+                return console.log(error);
+            }
+            console.log(result);
+            return router.push('/pages/user')
+        } catch (error) {
+            alert(error)
+        }
     }
+
 
 
     return (
@@ -47,6 +76,7 @@ const SignInPage = () => {
                                     Correo Electronico
                                 </label>
                                 <input className={style.input} type="text" value={infoUser.email} name='email' placeholder="ejemplo@dominio.com" onChange={handleChange} />
+
                             </div>
                             <div className={style.labelAndInput}>
                                 <label>

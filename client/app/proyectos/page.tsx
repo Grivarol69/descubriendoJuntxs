@@ -17,7 +17,7 @@ export interface ProyectTypes {
 }
 
 const Proyectos: React.FC = () => {
-    
+
     const proyecto = [{
         nombre: 'Isa',
         descripcion: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et doloredsadas magnadasdasdsadsadsadsadsadsadas',
@@ -43,12 +43,12 @@ const Proyectos: React.FC = () => {
         rating: '5'
     }
     ]
-    
+
     const [proyectosFinales, setProyectosFinales] = useState<ProyectTypes[]>([...proyecto])
-    
+
 
     const handleFilter = (filtro: any) => {
-       
+
         setProyectosFinales(proyecto.filter(proyecto => proyecto.nombre.includes(filtro)));
     };
     return (
@@ -63,6 +63,7 @@ const Proyectos: React.FC = () => {
                     return (
                         <>
                             <CardProyect
+                                key={proyecto.nombre}
                                 project={proyecto}
                             />
                         </>

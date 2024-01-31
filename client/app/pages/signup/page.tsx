@@ -1,7 +1,12 @@
 'use client';
+
 import { FormEvent, useState } from "react";
-import Footer from "@/app/components/footer/footer";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import signIn from "@/app/firebase/auth/signIn";
+import Footer from "@/components/Footer/Footer";
+import signUp from "@/app/firebase/auth/signup";
+import signUpWithGoogle from "@/app/firebase/auth/signInWithGoogle";
 
 const SignUpPage = () => {
     const [infoUser, setInfoUser] = useState({
@@ -9,6 +14,7 @@ const SignUpPage = () => {
         email: '',
         password: ''
     })
+    const router = useRouter()
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInfoUser({
@@ -17,13 +23,36 @@ const SignUpPage = () => {
         })
     }
 
-    const handleSubmit = (e: FormEvent) => {
-        e.preventDefault();
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         // Handle form submission here
+        event.preventDefault()
+        try {
+            console.log('hola');
+            const { result, error } = await signUp(infoUser.email, infoUser.password)
+            if (error) {
+                return console.log(error);
+            }
+            console.log(result);
+            return router.push('/userIn')
+        } catch (error) {
+            alert(error)
+        }
     };
 
-    const handleGoogleSignUp = () => {
+    const handleGoogleSignUp = async (event: any) => {
         // Handle Google sign up here with firebase
+        event.preventDefault()
+        try {
+            console.log('hola');
+            const { result, error } = await signUpWithGoogle()
+            if (error) {
+                return console.log(error);
+            }
+            console.log(result);
+            return router.push('/userIn')
+        } catch (error) {
+            alert(error)
+        }
     }
 
     return (
