@@ -1,10 +1,9 @@
 import admin from "firebase-admin";
-import serviceAccount from './serviceAccount.json';
-
-const inicializar = admin;
+import { ServiceAccount } from "./descubriendo-juntxs";
+const inicializar = admin
 
 inicializar.initializeApp({
-    credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
+    credential: admin.credential.cert(ServiceAccount as admin.ServiceAccount),
 });
 
-export default inicializar;
+export default inicializar

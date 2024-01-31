@@ -13,4 +13,3 @@ export const ServiceAccount = {
   universe_domain: process.env.UNIVERSE_DOMAIN
 }
 
-console.log(ServiceAccount);
