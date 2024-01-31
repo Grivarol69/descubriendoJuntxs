@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import style from './profilePage.module.css'
 import { userInfo } from 'os';
+import PasswordChange from '@/components/CambiarContraseña/ChangePassword';
 
 interface useInfoType {
     useInfo: {
@@ -60,6 +61,7 @@ const ProfilePage: React.FC<useInfoType> = ({ useInfo }) => {
     }
 
     const estilo = estiloTransition()
+
 
 
     return (
@@ -212,6 +214,9 @@ const ProfilePage: React.FC<useInfoType> = ({ useInfo }) => {
                             <div className={style.infoPeople} style={{ position: 'relative', transform: 'translateY(-1rem)' }}>
                                 <div className={style.nombre}>
                                     <div className={style.titleMenu}>Contraseña
+                                        <div>
+                                            <PasswordChange />
+                                        </div>
                                         <div className={style.descriptionMenu}>info</div>
                                     </div>
                                 </div>
@@ -240,25 +245,25 @@ const ProfilePage: React.FC<useInfoType> = ({ useInfo }) => {
                                 </button>
                             </div>
                             <div className={style.infoPeople}>
-                                    <div className={style.descriptionCondiciones}>1. Aceptación de los Términos
-                                        Al acceder y utilizar este sitio web, aplicación móvil o cualquier otro servicio proporcionado por [Nombre de la Empresa], acepta los siguientes términos y condiciones. Si no está de acuerdo con alguno de estos términos, le recomendamos que no utilice nuestros servicios.
+                                <div className={style.descriptionCondiciones}>1. Aceptación de los Términos
+                                    Al acceder y utilizar este sitio web, aplicación móvil o cualquier otro servicio proporcionado por [Nombre de la Empresa], acepta los siguientes términos y condiciones. Si no está de acuerdo con alguno de estos términos, le recomendamos que no utilice nuestros servicios.
 
-                                        2. Uso del Servicio
-                                        El usuario se compromete a utilizar el servicio de manera adecuada y de acuerdo con todas las leyes y regulaciones aplicables. Queda prohibido el uso del servicio con fines ilegales o que violen los derechos de terceros.
+                                    2. Uso del Servicio
+                                    El usuario se compromete a utilizar el servicio de manera adecuada y de acuerdo con todas las leyes y regulaciones aplicables. Queda prohibido el uso del servicio con fines ilegales o que violen los derechos de terceros.
 
-                                        3. Privacidad
-                                        La información personal proporcionada por el usuario estará sujeta a nuestra política de privacidad, que puede consultarse en [enlace a la política de privacidad].
+                                    3. Privacidad
+                                    La información personal proporcionada por el usuario estará sujeta a nuestra política de privacidad, que puede consultarse en [enlace a la política de privacidad].
 
-                                        4. Propiedad Intelectual
-                                        Todo el contenido proporcionado en este servicio, incluyendo pero no limitado a textos, gráficos, logotipos, imágenes y software, está protegido por derechos de autor y otras leyes de propiedad intelectual. El usuario no tiene el derecho de copiar, modificar, distribuir o reproducir dicho contenido sin el consentimiento previo por escrito de [Nombre de la Empresa].
-                                        5. Responsabilidad
-                                        La empresa no será responsable de cualquier pérdida, daño o perjuicio derivado del uso o la imposibilidad de uso de nuestros servicios. El usuario utiliza el servicio bajo su propio riesgo.
-                                        6. Modificaciones
-                                        Nos reservamos el derecho de modificar estos términos y condiciones en cualquier momento. Las modificaciones entrarán en vigencia tan pronto como se publiquen en el servicio. Se recomienda a los usuarios revisar periódicamente los términos y condiciones para estar informados de cualquier cambio.
-                                        7. Terminación del Servicio
-                                        Nos reservamos el derecho de suspender o terminar el servicio en cualquier momento y por cualquier motivo, sin previo aviso.
-                                        8. Ley Aplicable
-                                        Estos términos y condiciones se regirán e interpretarán de acuerdo con las leyes del [país], y cualquier disputa estará sujeta a la jurisdicción exclusiva de los tribunales de [ciudad].</div>
+                                    4. Propiedad Intelectual
+                                    Todo el contenido proporcionado en este servicio, incluyendo pero no limitado a textos, gráficos, logotipos, imágenes y software, está protegido por derechos de autor y otras leyes de propiedad intelectual. El usuario no tiene el derecho de copiar, modificar, distribuir o reproducir dicho contenido sin el consentimiento previo por escrito de [Nombre de la Empresa].
+                                    5. Responsabilidad
+                                    La empresa no será responsable de cualquier pérdida, daño o perjuicio derivado del uso o la imposibilidad de uso de nuestros servicios. El usuario utiliza el servicio bajo su propio riesgo.
+                                    6. Modificaciones
+                                    Nos reservamos el derecho de modificar estos términos y condiciones en cualquier momento. Las modificaciones entrarán en vigencia tan pronto como se publiquen en el servicio. Se recomienda a los usuarios revisar periódicamente los términos y condiciones para estar informados de cualquier cambio.
+                                    7. Terminación del Servicio
+                                    Nos reservamos el derecho de suspender o terminar el servicio en cualquier momento y por cualquier motivo, sin previo aviso.
+                                    8. Ley Aplicable
+                                    Estos términos y condiciones se regirán e interpretarán de acuerdo con las leyes del [país], y cualquier disputa estará sujeta a la jurisdicción exclusiva de los tribunales de [ciudad].</div>
                             </div>
 
                         </div>

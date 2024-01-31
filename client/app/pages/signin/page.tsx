@@ -6,6 +6,7 @@ import googleLogo from '../../../public/googleLogo.png'
 import { useRouter } from 'next/navigation'
 import signIn from "@/app/firebase/auth/signIn";
 import signUpWithGoogle from "@/app/firebase/auth/signInWithGoogle";
+import ResetPassword from "@/components/ResetPassword/ResetPassword";
 
 const SignInPage = () => {
     const [infoUser, setInfoUser] = useState({
@@ -69,6 +70,9 @@ const SignInPage = () => {
                         <div className={style.registerAndInit}>
                             <h1 className={style.titleCard}>Inicio De Sesión</h1>
                             <p> ¿No tienes cuenta aún? <Link href="/pages/signup" className={style.register}> Registrarme </Link></p>
+                            <p>
+                                <ResetPassword />
+                            </p>
                         </div>
                         <form onSubmit={handleSubmit} className={style.formDesign}>
                             <div className={style.labelAndInput}>
