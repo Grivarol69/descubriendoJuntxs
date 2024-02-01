@@ -1,10 +1,12 @@
 import { Router } from "express";
-import { getProgram, getPrograms, postProgram, updateProgram } from "../controllers/program";
+import { getProgramById, paginationProgram, getPrograms, postProgram, updateProgram } from "../controllers/program";
 
 const router = Router()
 
+router.get('/', paginationProgram);
+
 router.get('/', getPrograms)
-router.get('/:id', getProgram)
+router.get('/:id', getProgramById)
 router.post('/', postProgram)
 router.put('/:id', updateProgram)
 // router.delete('/:id', deleteProgram)

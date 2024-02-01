@@ -15,7 +15,7 @@ const getCategory = async (req:Request, res:Response) => {
                 id: Number(id)
             },
             include:{
-                programs: true
+                program: true
             }
         });
         res.json(category)

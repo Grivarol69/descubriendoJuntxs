@@ -36,6 +36,7 @@ model User {
 model Category {
   id    Int    @id @default(autoincrement())
   name  String
+  type categoryType @default(Publico)
   program Program[] 
 }
 
@@ -155,6 +156,11 @@ enum EventType {
   Activo
   Inactivo
   Finalizado
+}
+
+enum categoryType {
+  Publico
+  Corporativo
 }
 
 enum PaymentState {
