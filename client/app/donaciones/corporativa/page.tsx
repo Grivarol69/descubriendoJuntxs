@@ -19,8 +19,8 @@ const DonacionesCorporativasPage: React.FC = () => {
   };
 
   return (
-    <div style={styles}>
-      <h1>Donaciones Corporativas</h1>
+    <div >
+      <h1>Donaciones      Corporativas</h1>
       <label>
         Proyecto:
         <select>
