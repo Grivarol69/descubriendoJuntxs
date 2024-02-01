@@ -7,6 +7,8 @@ import { useRouter } from 'next/navigation'
 import signIn from "@/app/firebase/auth/signIn";
 import signUpWithGoogle from "@/app/firebase/auth/signInWithGoogle";
 import ResetPassword from "@/components/ResetPassword/ResetPassword";
+import { userInfo } from 'os';
+import axios from "axios";
 
 const SignInPage = () => {
     const [infoUser, setInfoUser] = useState({
@@ -34,7 +36,7 @@ const SignInPage = () => {
             if (error) {
                 return console.log(error);
             }
-            console.log(result);
+     
             return router.push('/userIn')
 
         } catch (error) {
@@ -51,7 +53,7 @@ const SignInPage = () => {
             if (error) {
                 return console.log(error);
             }
-            console.log(result);
+            
             return router.push('/pages/user')
         } catch (error) {
             alert(error)

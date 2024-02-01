@@ -7,6 +7,7 @@ import signIn from "@/app/firebase/auth/signIn";
 import Footer from "@/components/Footer/Footer";
 import signUp from "@/app/firebase/auth/signup";
 import signUpWithGoogle from "@/app/firebase/auth/signInWithGoogle";
+import axios from "axios";
 
 const SignUpPage = () => {
     const [infoUser, setInfoUser] = useState({
@@ -32,8 +33,19 @@ const SignUpPage = () => {
             if (error) {
                 return console.log(error);
             }
-            console.log(result);
-            return router.push('/userIn')
+            else {
+                const token = result?.user.accessToken
+                console.log(token);
+
+                const userInfoCreate = (await axios.post('http://localhost:3002/auth', { token, name: infoUser.name })).data
+                if (userInfoCreate.status) {
+                    alert('Todo bien')
+                    return router.push('/userIn')
+                }
+                return console.log(
+                    'error al logearse'
+                );
+            }
         } catch (error) {
             alert(error)
         }
@@ -48,8 +60,19 @@ const SignUpPage = () => {
             if (error) {
                 return console.log(error);
             }
-            console.log(result);
-            return router.push('/userIn')
+
+            else {
+                const token = result?.user.accessToken
+                const name = result?.user.displayName
+                const userInfoCreate = (await axios.post('http://localhost:3002/auth', { token, name })).data
+                if (userInfoCreate.status) {
+               
+                    return router.push('/userIn')
+                }
+                return console.log(
+                    'error amigo'
+                );
+            }
         } catch (error) {
             alert(error)
         }
