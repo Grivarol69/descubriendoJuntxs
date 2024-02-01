@@ -11,7 +11,6 @@ const getEvents = async (_req:Request, res:Response) => {
     } catch (error) {
         handleHttp(res, 'ERROR_GET_Events')
     }
-
 }
 
 const getEventsByProgram = async (req:Request, res:Response) => {
