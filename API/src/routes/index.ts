@@ -4,10 +4,11 @@ import MessageResponse from "../interfaces/MessageResponse";
 import categories from "./categories";
 import programsRouter from "./programs";
 import users from "./users";
+import services from "./services";
 
-import payments from "./payments";
 
 import { createUser } from "../controllers/firebase";
+
 
 // import path from "path";
 
@@ -41,6 +42,7 @@ router.get<{}, MessageResponse>('/', (_req, res) => {
 
 router.use('/categories', categories);
 router.use('/programs', programsRouter);
+router.use('/services', services);
 router.use('/users', users);
 
 router.use('/payments', payments)
