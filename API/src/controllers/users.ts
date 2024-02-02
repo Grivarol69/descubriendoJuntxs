@@ -4,8 +4,8 @@ import { PrismaClient } from "@prisma/client"
 
 const prisma = new PrismaClient();
 
-const postUser = async ({ body }:Request, res:Response)=>{
-    const { email, name, surName, identification, phone, dateIn, dateOut, description, linkedin, languaje, position, role} = body;
+const postUser = async ({ body }: Request, res: Response) => {
+    const { email, name, surName, identification, phone, dateIn, dateOut, description, linkedin, languaje, position, role } = body;
 
     if (!email || !name) {
         handleHttp(res, 'EMAIL_AND_NAME_REQUIRED');
@@ -14,7 +14,7 @@ const postUser = async ({ body }:Request, res:Response)=>{
 
     try {
         const newUser = await prisma.user.create({
-            data:{
+            data: {
                 email: email,
                 name: name,
                 surName: surName,
@@ -61,7 +61,7 @@ const getUsersByRole = async (req: Request, res: Response) => {
             where: {
                 role: role === 'Coach' ? 'Coach' : 'Usuario', // Filtrar por el rol especificado
                 AND: {
-                    state : 'Activo' // Filtrar por el estado "Activo"
+                    state: 'Activo' // Filtrar por el estado "Activo"
                 }
             }
         });
@@ -73,7 +73,7 @@ const getUsersByRole = async (req: Request, res: Response) => {
     }
 }
 
-const getAllUsers = async (req: Request, res: Response) => {
+const getAllUsers = async (_req: Request, res: Response) => {
     try {
         // Obtener todos los usuarios
         const users = await prisma.user.findMany();

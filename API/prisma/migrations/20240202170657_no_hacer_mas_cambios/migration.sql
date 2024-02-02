@@ -1,11 +1,13 @@
 /*
   Warnings:
 
-  - The values [Admin] on the enum `Role` will be removed. If these variants are still used in the database, this will fail.
   - You are about to drop the column `eventId` on the `Donation` table. All the data in the column will be lost.
   - The `type` column on the `Donation` table would be dropped and recreated. This will lead to data loss if there is data in the column.
   - The `state` column on the `Donation` table would be dropped and recreated. This will lead to data loss if there is data in the column.
+  - You are about to drop the column `Type` on the `Event` table. All the data in the column will be lost.
   - You are about to drop the column `donationId` on the `Payment` table. All the data in the column will be lost.
+  - The `state` column on the `Program` table would be dropped and recreated. This will lead to data loss if there is data in the column.
+  - The `role` column on the `User` table would be dropped and recreated. This will lead to data loss if there is data in the column.
   - You are about to drop the `EventCoaches` table. If the table is not empty, all the data it contains will be lost.
   - A unique constraint covering the columns `[programId]` on the table `Donation` will be added. If there are existing duplicate values, this will fail.
   - A unique constraint covering the columns `[eventId]` on the table `Payment` will be added. If there are existing duplicate values, this will fail.
@@ -15,6 +17,7 @@
   - Added the required column `programId` to the `Donation` table without a default value. This is not possible if the table is not empty.
   - Added the required column `objective` to the `Event` table without a default value. This is not possible if the table is not empty.
   - Added the required column `syllabus` to the `Event` table without a default value. This is not possible if the table is not empty.
+  - Added the required column `type` to the `Event` table without a default value. This is not possible if the table is not empty.
   - Added the required column `userId` to the `Event` table without a default value. This is not possible if the table is not empty.
   - Added the required column `eventId` to the `Payment` table without a default value. This is not possible if the table is not empty.
   - Added the required column `userId` to the `Payment` table without a default value. This is not possible if the table is not empty.
@@ -22,6 +25,12 @@
   - Added the required column `syllabus` to the `Program` table without a default value. This is not possible if the table is not empty.
 
 */
+-- CreateEnum
+CREATE TYPE "Role" AS ENUM ('Coach', 'Usuario');
+
+-- CreateEnum
+CREATE TYPE "State" AS ENUM ('Activo', 'Inactivo');
+
 -- CreateEnum
 CREATE TYPE "ProgramType" AS ENUM ('Proyecto', 'Servicio');
 
@@ -32,18 +41,13 @@ CREATE TYPE "DonationType" AS ENUM ('Recurrente', 'Especies', 'Corporativo');
 CREATE TYPE "EventType" AS ENUM ('Activo', 'Inactivo', 'Finalizado');
 
 -- CreateEnum
-CREATE TYPE "Frequency" AS ENUM ('Unico', 'Mensual', 'Trimestral', 'Anual');
+CREATE TYPE "categoryType" AS ENUM ('Publico', 'Corporativo');
 
--- AlterEnum
-BEGIN;
-CREATE TYPE "Role_new" AS ENUM ('Coach', 'Usuario');
-ALTER TABLE "User" ALTER COLUMN "role" DROP DEFAULT;
-ALTER TABLE "User" ALTER COLUMN "role" TYPE "Role_new" USING ("role"::text::"Role_new");
-ALTER TYPE "Role" RENAME TO "Role_old";
-ALTER TYPE "Role_new" RENAME TO "Role";
-DROP TYPE "Role_old";
-ALTER TABLE "User" ALTER COLUMN "role" SET DEFAULT 'Usuario';
-COMMIT;
+-- CreateEnum
+CREATE TYPE "PaymentState" AS ENUM ('Aceptado', 'Rechazado', 'Pendiente');
+
+-- CreateEnum
+CREATE TYPE "Frequency" AS ENUM ('Unico', 'Mensual', 'Trimestral', 'Anual');
 
 -- DropForeignKey
 ALTER TABLE "Donation" DROP CONSTRAINT "Donation_eventId_fkey";
@@ -61,6 +65,9 @@ ALTER TABLE "Payment" DROP CONSTRAINT "Payment_donationId_fkey";
 DROP INDEX "Donation_eventId_key";
 
 -- AlterTable
+ALTER TABLE "Category" ADD COLUMN     "type" "categoryType" NOT NULL DEFAULT 'Publico';
+
+-- AlterTable
 ALTER TABLE "Donation" DROP COLUMN "eventId",
 ADD COLUMN     "contact_email" TEXT NOT NULL,
 ADD COLUMN     "contact_phone" TEXT NOT NULL,
@@ -72,8 +79,10 @@ DROP COLUMN "state",
 ADD COLUMN     "state" "PaymentState" NOT NULL DEFAULT 'Aceptado';
 
 -- AlterTable
-ALTER TABLE "Event" ADD COLUMN     "objective" TEXT NOT NULL,
+ALTER TABLE "Event" DROP COLUMN "Type",
+ADD COLUMN     "objective" TEXT NOT NULL,
 ADD COLUMN     "syllabus" TEXT NOT NULL,
+ADD COLUMN     "type" TEXT NOT NULL,
 ADD COLUMN     "userId" INTEGER NOT NULL;
 
 -- AlterTable
@@ -84,7 +93,14 @@ ADD COLUMN     "userId" INTEGER NOT NULL;
 -- AlterTable
 ALTER TABLE "Program" ADD COLUMN     "objective" TEXT NOT NULL,
 ADD COLUMN     "syllabus" TEXT NOT NULL,
-ADD COLUMN     "type" "ProgramType" NOT NULL DEFAULT 'Proyecto';
+ADD COLUMN     "type" "ProgramType" NOT NULL DEFAULT 'Proyecto',
+DROP COLUMN "state",
+ADD COLUMN     "state" "State" NOT NULL DEFAULT 'Activo';
+
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN     "state" "State" NOT NULL DEFAULT 'Activo',
+DROP COLUMN "role",
+ADD COLUMN     "role" "Role" NOT NULL DEFAULT 'Usuario';
 
 -- DropTable
 DROP TABLE "EventCoaches";
