@@ -4,6 +4,7 @@ import { PrismaClient, ProgramType, State } from "@prisma/client"
 
 const prisma = new PrismaClient();
 
+
 const getPrograms = async (req: Request, res: Response) => {
     const { name } = req.query;
 
@@ -49,7 +50,9 @@ const getProgramsByCategory = async (req: Request, res: Response) => {
 
 
 
+
 const getProgramById = async (req: Request, res: Response) => {
+
     const { id } = req.params;
     
     try {
@@ -85,11 +88,14 @@ const getProgramByType = async (req: Request, res: Response) => {
 
 const postProgram = async ({ body }: Request, res: Response) => {
 
+
     const { name, description, amount, objective, syllabus, state, type, categoryId } = body;
+
 
     try {
         const newProgram = await prisma.program.create({
             data: {
+
                 name: name && name as string,
                 description: description && description as string,
                 amount: amount && amount as number,
@@ -98,6 +104,7 @@ const postProgram = async ({ body }: Request, res: Response) => {
                 state: state && state as State,
                 type: type && type as ProgramType,
                 categoryId: categoryId && categoryId
+
             }
         });
 
@@ -113,9 +120,11 @@ const postProgram = async ({ body }: Request, res: Response) => {
 const updateProgram = async (req: Request, res: Response) => {
 
     const { id } = req.params;
+
     
 
     const { name, description, amount, objective, syllabus, state, type, categoryId } = req.body;
+
 
     try {
 
@@ -123,6 +132,7 @@ const updateProgram = async (req: Request, res: Response) => {
             where: { id: Number(id) },
 
             data: {
+
                 name: name && name as string,
                 description: description && description as string,
                 amount: amount && amount as number,
@@ -131,6 +141,7 @@ const updateProgram = async (req: Request, res: Response) => {
                 state: state && state as State,
                 type: type && type as ProgramType,
                 categoryId: categoryId && categoryId
+
             }
             
         });
