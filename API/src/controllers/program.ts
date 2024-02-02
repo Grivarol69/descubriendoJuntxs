@@ -4,7 +4,7 @@ import { PrismaClient } from "@prisma/client"
 
 const prisma = new PrismaClient();
 
-const getPrograms = async (_req:Request, res:Response) => {
+const getPrograms = async (_req: Request, res: Response) => {
     try {
         const programs = await prisma.program.findMany({
             where: {
@@ -13,12 +13,12 @@ const getPrograms = async (_req:Request, res:Response) => {
         });
         res.status(200).json(programs);
     } catch (error) {
-         console.log(error)
+        console.log(error)
         handleHttp(res, 'ERROR_GET_Programs')
     }
 }
 
-const getProgramsByCategory = async (req:Request, res:Response) => {
+const getProgramsByCategory = async (req: Request, res: Response) => {
 
     const { categoryId } = req.params;
 
@@ -31,7 +31,7 @@ const getProgramsByCategory = async (req:Request, res:Response) => {
         });
         res.status(200).json(programs);
     } catch (error) {
-         console.log(error)
+        console.log(error)
         handleHttp(res, 'ERROR_GET_Programs')
     }
 
@@ -39,7 +39,7 @@ const getProgramsByCategory = async (req:Request, res:Response) => {
 
 
 
-const getProgram =(req:Request, res:Response) => {
+const getProgram = (req: Request, res: Response) => {
     const { id } = req.params;
     try {
         const program = prisma.program.findUnique({
@@ -55,51 +55,55 @@ const getProgram =(req:Request, res:Response) => {
 
 
 
-const postProgram = async ({ body }:Request, res:Response) => {
-    
-    const { name, description, amount, state, category} = body;
+const postProgram = async ({ body }: Request, res: Response) => {
+
+    const { name, description, amount, state, category, objective, syllabus, } = body;
 
     try {
         const newProgram = await prisma.program.create({
-            data: { 
-                name: name, 
-                description: description, 
-                amount: amount, 
+            data: {
+                name: name,
+                description: description,
+                amount: amount,
                 state: state,
-                categoryId: category
+                categoryId: category,
+                category: category,
+                objective: objective,
+                syllabus: syllabus
+
             }
         });
 
         res.status(200).json(newProgram);
 
     } catch (error) {
-       
+
         handleHttp(res, 'ERROR_POST_CATEGORY')
     }
 
 }
 
-const updateProgram = async (req:Request, res:Response) => {
+const updateProgram = async (req: Request, res: Response) => {
 
     const { id } = req.params;
-    const { name, description, amount, state, category} = req.body;
+    const { name, description, amount, state, category } = req.body;
 
     try {
 
         const updatedProgram = await prisma.program.update({
             where: { id: Number(id) },
 
-            data: { 
-                name: name && name, 
-                description: description && description, 
-                amount: amount && amount, 
+            data: {
+                name: name && name,
+                description: description && description,
+                amount: amount && amount,
                 state: state && state,
                 categoryId: category && category
             }
         });
 
         res.status(200).json(updatedProgram);
-        
+
     } catch (error) {
         handleHttp(res, 'ERROR_UPDATE_CATEGORY')
     }
@@ -107,7 +111,7 @@ const updateProgram = async (req:Request, res:Response) => {
 }
 
 // const deleteProgram = async (req:Request, res:Response) => {
-    
+
 //     const { id } = req.params;
 
 //     try {
@@ -124,7 +128,7 @@ const updateProgram = async (req:Request, res:Response) => {
 
 // }
 
-export{
+export {
     getPrograms,
     getProgram,
     postProgram,

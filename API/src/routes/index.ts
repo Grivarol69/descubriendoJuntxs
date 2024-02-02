@@ -4,6 +4,7 @@ import MessageResponse from "../interfaces/MessageResponse";
 import categories from "./categories";
 import programs from "./programs";
 import users from "./users";
+import payments from "./payments";
 // import path from "path";
 
 // const PATH_ROUTER = path.resolve('./src/routes') 
@@ -37,6 +38,10 @@ router.get<{}, MessageResponse>('/', (_req, res) => {
 router.use('/categories', categories);
 router.use('/programs', programs);
 router.use('/users', users);
+router.use('/payments', payments)
+
+
+
 
 
 
