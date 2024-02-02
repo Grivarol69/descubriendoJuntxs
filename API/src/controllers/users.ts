@@ -5,14 +5,15 @@ import { PrismaClient } from "@prisma/client"
 const prisma = new PrismaClient();
 
 const postUser = async ({ body }:Request, res:Response)=>{
-    const { email, name, surName, identification, phone, dateIn, dateOut, description, linkedin, languaje, position, role} = body;
-
-    if (!email || !name) {
-        handleHttp(res, 'EMAIL_AND_NAME_REQUIRED');
-        return;
-    }
-
     try {
+        const { email, name, surName, identification, phone, dateIn, dateOut, description, linkedin, languaje, position, role} = body;
+
+        console.log(email);
+        
+        if (!email || !name) {
+            handleHttp(res, 'EMAIL_AND_NAME_REQUIRED');
+            return;
+        }
         const newUser = await prisma.user.create({
             data:{
                 email: email,
@@ -30,9 +31,10 @@ const postUser = async ({ body }:Request, res:Response)=>{
             }
         })
         res.status(200).json(newUser);
-    } catch (error) {
-        console.error('Error creating user:', error);
-        handleHttp(res, 'ERROR_POST_USER')
+    } catch (error:any) {
+        //console.error('Error creating user:', error);
+        //handleHttp(res, 'ERROR_POST_USER')
+        res.status(500).json(error.message);
     }
 }
 
@@ -73,15 +75,17 @@ const getUsersByRole = async (req: Request, res: Response) => {
     }
 }
 
-const getAllUsers = async (req: Request, res: Response) => {
+const getAllUsers = async ( req: Request, res: Response) => {
     try {
         // Obtener todos los usuarios
-        const users = await prisma.user.findMany();
-
-        res.status(200).json(users); // Devolver la lista de usuarios
+        const {usersReq} = req.body
+        if (usersReq) {
+            const users = await prisma.user.findMany();
+            return res.status(200).json(users); // Devolver la lista de usuarios
+        } return res.status(400)
     } catch (error) {
         console.error('Error al obtener todos los usuarios:', error);
-        handleHttp(res, 'ERROR_GET_ALL_USERS');
+        return handleHttp(res, 'ERROR_GET_ALL_USERS');
     }
 }
 
