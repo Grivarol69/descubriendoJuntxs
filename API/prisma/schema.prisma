@@ -24,6 +24,7 @@ model User {
   linkedin String?
   languaje String? 
   position String? 
+  state State @default(Activo)
   role Role @default(Usuario)
   participants Participant[]
   payment Payment[]
