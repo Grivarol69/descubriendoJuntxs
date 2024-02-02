@@ -33,7 +33,7 @@ const createUser = async (req: Request, res: Response) => {
         } else {
             return res.status(400).json({
                 status: false,
-                messagE: 'No se pudo decodificar el email'
+                messagE: 'No se pudo decodificar el  token'
             })
         }
     } catch (error: any) {
