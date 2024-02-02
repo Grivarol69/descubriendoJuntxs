@@ -6,12 +6,13 @@ import User from "../../public/assets/User.svg";
 import Menu from "../../public/assets/Menu.svg";
 import Link from "next/link";
 import BlurArrow from "../../public/assets/blue-button.svg";
-import { useState } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import style from './navbar.module.css'
 import { logout } from "@/app/firebase/auth/signOut";
 import { useAuthContext } from "@/app/contexto/AuthContext";
 import { useRouter } from "next/navigation";
+import PerfilTogle from '../PerfilToggle/PerfilTogle';
 
 const navLinks = [
   { name: "Inicio", href: "/" },
@@ -21,13 +22,28 @@ const navLinks = [
   { name: "Contacto", href: "/contacto" },
 ];
 
-
 const Navbar = () => {
   const { user }: any = useAuthContext()
-
+  const [toggle, setToggle] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const path = usePathname()
   console.log(path);
+  const componentRef = useRef(null)
+
+  const handleClickOutside = (event: any) => {
+    if (componentRef.current && !componentRef.current.contains(event.target)) {
+      setToggle(false)
+    }
+  }
+
+
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutside)
+
+    return document.removeEventListener('click', handleClickOutside);
+
+  }, [])
+
 
 
   const handlerMenu = () => {
@@ -54,24 +70,46 @@ const Navbar = () => {
       </div>
 
 
-      <div className="flex items-center gap-x-5">
-        <p className="hidden lg:block font-medium text-[#36485C] pr-[10px]">
-          <Link href="/pages/signin">Ingreso</Link>
-        </p>
+      <div className="flex items-center gap-x-5 justify-center">
+        {!user && <div className="flex items-center gap-x-5">
+          <p className="hidden lg:block font-medium text-[#36485C] pr-[10px]">
+            <Link href="/pages/signin">Ingreso</Link>
+          </p>
 
-        <div className="flex items-center gap-x-2">
-          <span className="hidden font-medium text-[#fff] lg:block rounded-lg py-3 px-10 text-center" style={{ backgroundColor: "#7286ff" }} >
-            <Link href='/pages/user'>
-              Registro
-            </Link>
-          </span>
-        </div>
-       { <div style={{ cursor: 'pointer' }} onClick={async () => {
-          await logout()
-          return router.push('/userIn')
-        }}>
-          log out
+          <div className="flex items-center gap-x-2 justify-center">
+            <span className="hidden font-medium text-[#fff] lg:block rounded-lg py-3 px-10 text-center" style={{ backgroundColor: "#7286ff" }} >
+              <Link href='/pages/user'>
+                Registro
+              </Link>
+            </span>
+          </div>
         </div>}
+        {user &&
+          <div className="flex items-center gap-x-2 justify-center">
+                {/* <div>{user.displayname}</div> */}
+              <div className="flex max-h-4 w-10 h-10 max-w-10 justify-center items-center">
+                <div
+                  ref={componentRef}
+                  onClick={() => !toggle ? setToggle(true) : setToggle(false)}
+                  className="flex w-8 h-8 bg-slate-600 rounded-[100%] cursor-pointer">
+                </div>
+              </div>
+            <div
+              ref={componentRef}
+              className="w-fit h-fit">
+              <PerfilTogle
+                toggle={toggle}
+                logOut={() => logout()}
+              />
+            </div>
+            {/* <div className="text-[#FF72D7]" style={{ cursor: 'pointer' }} onClick={async () => {
+              await logout()
+              return router.push('/userIn')
+            }}>
+              log out
+            </div> */}
+          </div>
+        }
 
         <div className="lg:hidden cursor-pointer" onClick={handlerMenu}>
           <Image

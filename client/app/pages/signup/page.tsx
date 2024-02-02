@@ -123,8 +123,8 @@ const SignUpPage = () => {
                     'error amigo'
                 );
             }
-        } catch (error) {
-            alert(error)
+        } catch (error: any) {
+            alert(error.message)
         }
     }
     return (
@@ -142,12 +142,14 @@ const SignUpPage = () => {
                                     Nombre Completo
                                 </label>
                                 <input className={style.input} type="text" name="name" value={infoUser.name} placeholder="Escribe un nombre" onChange={handleChange} />
+                                {errors.name && <p>{errors.name}</p>}
                             </div>
                             <div className={style.labelAndInput}>
                                 <label>
                                     Correo Electronico
                                 </label>
                                 <input className={style.input} type="text" name="email" value={infoUser.email} placeholder="ejemplo@dominio.com" onChange={handleChange} />
+                                {errors.email && <p>{errors.email}</p>}
                             </div>
                             <div className={style.labelAndInput}>
 
@@ -155,12 +157,20 @@ const SignUpPage = () => {
                                     Contraseña
                                 </label>
                                 <input className={style.input} type="password" name="password" value={infoUser.password} placeholder="Contraseña segura" onChange={handleChange} />
+                                {errors.password && <p>{errors.password}</p>}
                             </div>
+                            {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
                             <div className={style.buttons}>
-                                <button type="submit" className={style.buttonFull}>Registrarse</button>
+                                <button
+                                disabled={Object.values(errors).some(error => error !== '') || !infoUser.name || !infoUser.email || !infoUser.password}
+                                type="submit" className={style.buttonFull}>Registrarse</button>
+
+
                                 <button  className={style.buttonGoogle} 
                                  onClick={handleGoogleSignUp}>
                                     <img src={googleLogo.src} style={{ width: '3rem' }} alt="google" /> Registrarse Con Google </button>
+                                    
+                               
                             </div>
                         </form>
                     </div>
