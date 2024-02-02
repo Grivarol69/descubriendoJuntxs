@@ -3,11 +3,11 @@
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import signIn from "@/app/firebase/auth/signIn";
-import Footer from "@/components/Footer/Footer";
 import signUp from "@/app/firebase/auth/signup";
 import signUpWithGoogle from "@/app/firebase/auth/signInWithGoogle";
 import axios from "axios";
+import { ValidateForm } from "@/app/firebase/validation";
+
 import style from './signup.module.css'
 import googleLogo from '../../../public/googleLogo.png'
 
@@ -18,17 +18,55 @@ const SignUpPage = () => {
         email: '',
         password: ''
     })
+
+    const [errors, setErrors] = useState({
+        name: '',
+        email: '',
+        password: ''
+    });
+
+    const [errorMessage, setErrorMessage] = useState('');
+
     const router = useRouter()
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setInfoUser({
-            ...infoUser,
-            [e.target.name]: e.target.value
-        })
-    }
+        const { name, value } = e.target;
+
+        setInfoUser(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+
+        let error = '';
+
+        switch (name) {
+            case 'name':
+                error = !value ? 'El nombre es obligatorio' : '';
+                break;
+            case 'email':
+                if (!value) {
+                    error = 'El correo electrónico es obligatorio';
+                } else if (!/\S+@\S+\.\S+/.test(value)) {
+                    error = 'El correo electrónico no es válido';
+                }
+                break;
+            case 'password':
+                if (!value) {
+                    error = 'La contraseña es obligatoria';
+                } else if (value.length < 7 || !/[A-Za-z]/.test(value) || !/\d/.test(value)) {
+                    error = 'La contraseña debe tener al menos 7 caracteres, un numero y una letra';
+                }
+                break;
+        }
+
+        setErrors(prevState => ({
+            ...prevState,
+            [name]: error
+        }));
+    };
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-        // Handle form submission here
+
         event.preventDefault()
         try {
             if(!infoUser.name) {
@@ -43,6 +81,7 @@ const SignUpPage = () => {
             console.log('hola');
             const { result, error } = await signUp(infoUser.email, infoUser.password)
             if (error) {
+                setErrorMessage('Error al registrarse');
                 return console.log(error);
             }
             else {
@@ -64,12 +103,12 @@ const SignUpPage = () => {
     };
 
     const handleGoogleSignUp = async (event: any) => {
-        // Handle Google sign up here with firebase
         event.preventDefault()
         try {
             console.log('hola');
             const { result, error } = await signUpWithGoogle()
             if (error) {
+                setErrorMessage('Error al registrarse con Google');
                 return console.log(error);
             }
 
