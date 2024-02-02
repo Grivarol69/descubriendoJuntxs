@@ -12,17 +12,20 @@ const createUser = async (req: Request, res: Response) => {
         const decodedToken = await admin.auth().verifyIdToken(token);
 
         if (decodedToken) {
-            const email = decodedToken.email || 'null'
-            const createUser = await prisma.user.create({
+            console.log(decodedToken);
+
+            
+            const email = decodedToken.email || 'null@gmail.com'
+            const createUserFinal = await prisma.user.create({
                 data: {
                     email: email,
-                    name: name
+                    name: name,
                 }
             })
-            if (createUser) {
+            if (createUserFinal) {
                 return res.status(200).json({
                     status: true,
-                    createUser
+                    createUserFinal
                 })
             } else {
                 return res.status(400).json({
