@@ -66,7 +66,9 @@ const postProgram = async ({ body }:Request, res:Response) => {
                 description: description, 
                 amount: amount, 
                 state: state,
-                categoryId: category
+                categoryId: category,
+                objective: 'valor_objetivo',
+                syllabus: 'contenido_syllabus',
             }
         });
 
