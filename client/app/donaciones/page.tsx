@@ -54,6 +54,7 @@ const DonacionesPage: React.FC = () => {
                   </div>
                 </div>
               </div>
+              
               <div className=" w-1/3 h-full overflow-hidden flex justify-center items-center ">
                 <div className="flex justify-center items-center">
                   <div className="flex justify-center items-center object-contain h-full w-full">

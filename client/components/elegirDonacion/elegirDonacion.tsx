@@ -28,9 +28,9 @@ const RedirectPage: React.FC = () => {
   const linkPage = () => {
     if (selectedDonationType === "corporativa")
       return "/donaciones/corporativa";
-    if (selectedDonationType === "especie") return "/donaciones/especie";
+    if (selectedDonationType === "en_especie") return "/donaciones/especie";
     if (selectedDonationType === "recurrente") return "/donaciones/recurrente";
-    return "/donaciones/";
+    return "/donaciones/recurrente";
   };
 
   const finalUrl = linkPage();
@@ -119,18 +119,19 @@ const RedirectPage: React.FC = () => {
                 de eventos.
               </p>
             </div>
+            <Link href={finalUrl} >
               <button
                 type="button"
                 disabled={nextButtonDisabled}
                 style={buttonStyle}
                 className={buttonClasses}
               >
-            <Link href={finalUrl} >
+            
                 {nextButtonDisabled
                   ? "Seleccione al menos una opción"
                   : "Siguiente"}
-            </Link>
               </button>
+            </Link>
           </form>
         </div>
       </div>
