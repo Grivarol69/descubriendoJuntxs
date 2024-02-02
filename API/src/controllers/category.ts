@@ -1,6 +1,9 @@
 import { Request, Response } from "express"
 import { handleHttp } from "../utils/error.handler";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client';
+
+
+
 const prisma = new PrismaClient();
 
 
@@ -16,6 +19,8 @@ const getCategory = async (req: Request, res: Response) => {
             },
 
             include:{
+
+
 
                 program: true
             }

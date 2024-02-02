@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import { handleHttp } from "../utils/error.handler"
-import { PrismaClient } from "@prisma/client"
+import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -56,9 +56,11 @@ const postEvent = async ({ body }: Request, res: Response) => {
                 amount: amount,
                 state: state,
                 categoryId: category,
+
                 objective: objective,
                 syllabus: syllabus,
                 category: category
+
             }
         });
 
