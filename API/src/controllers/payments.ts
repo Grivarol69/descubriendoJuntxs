@@ -56,7 +56,7 @@ const postCreatePayment = async (req: Request, res: Response) => {
                 ],
                 purpose: "wallet_purchase",
                 back_urls: {
-                    success: "http://localhost:3000/feedback",
+                    success: "http://localhost:3000",
                     failure: "http://localhost:3000/feedback",
                     pending: "http://localhost:3000/feedback",
                 },
@@ -74,6 +74,8 @@ const postCreatePayment = async (req: Request, res: Response) => {
             },
         });
         res.send(response);
+        console.log(response);
+
     } catch (error) {
         console.log(error);
     }
