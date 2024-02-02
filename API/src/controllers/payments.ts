@@ -82,63 +82,67 @@ const postCreatePayment = async (req: Request, res: Response) => {
 }
 
 const reciveWebhook = async (req: Request, res: Response) => {
-    console.log(req.query);
-    const id = req.query.id || "xxxx";
+    const paymentId = req.query.id as string;
+    const type = req.query.type;
 
-    if (typeof id === 'string') {
+    if (type === 'payment') {
         try {
-            const paymentInfo = await payment.get({ id: id });
+            const paymentInfo = await (payment as any).get({ id: paymentId });
             console.log('meta', paymentInfo);
+
+            await prisma.donation.create({
+                data: {
+                    programId: paymentInfo.metadata.program_id,
+                    userId: paymentInfo.metadata.user_id,
+                    amount: paymentInfo.transaction_amount,
+                    date: paymentInfo.date_created,
+                    message: paymentInfo.metadata.message,
+
+                    contact_email: paymentInfo.metadata.contact_email,
+                    contact_phone: paymentInfo.metadata.contact_phone
+                }
+            })
+
+
             res.send('ok');
         } catch (error) {
             console.log('Error al obtener el pago:', error);
             res.status(500).send('Error al obtener el pago');
         }
     } else {
-        console.log('ID no es una cadena');
-        res.status(400).send('ID no es una cadena');
+        console.log('Type no es payment');
+        res.status(400).send('Type no es payment');
     }
 }
 
-const getPaymentDetails = async (req: Request, res: Response) => {
-    const paymentId = req.params.paymentId;
+// const getPaymentDetails = async (paymentId: string, res: Response) => {
 
-    if (typeof paymentId === 'string') {
-        try {
-            const paymentInfo = await (payment as any).get({ id: paymentId });
-            console.log('meta', paymentInfo);
 
-            const createPayment = await prisma.donation.create({
-                data: {
-                    programId: paymentInfo.metadata.programId,
-                    userId: paymentInfo.metadata.userId,
-                    amount: paymentInfo.transaction_amount,
-                    date: paymentInfo.date_created,
-                    type: paymentInfo.metadata.type,
-                    message: paymentInfo.metadata.message,
-                    state: paymentInfo.metadata.state,
-                    contact_email: paymentInfo.metadata.contact_email,
-                    contact_phone: paymentInfo.metadata.contact_phone
+//     if (typeof paymentId === 'string') {
+//         try {
 
-                }
-            });
+//             console.log('meta', paymentInfo);
 
-            res.status(200).json(createPayment);
+//             const createPayment = await prisma.donation.create({
+
+//             });
+
+//             res.status(200).json(createPayment);
 
 
 
-        } catch (error) {
-            console.log(error)
-            res.status(500).send('Error al obtener el pago');
-        }
-    } else {
-        res.status(400).send('ID no es una cadena');
-    }
+//         } catch (error) {
+//             console.log(error)
+//             res.status(500).send('Error al obtener el pago');
+//         }
+//     } else {
+//         res.status(400).send('ID no es una cadena');
+//     }
 
-}
+// }
 
 export {
     postCreatePayment,
     reciveWebhook,
-    getPaymentDetails
+    // getPaymentDetails
 }

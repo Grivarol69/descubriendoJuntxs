@@ -54,14 +54,14 @@ const getProgramsByCategory = async (req: Request, res: Response) => {
 const getProgramById = async (req: Request, res: Response) => {
 
     const { id } = req.params;
-    
+
     try {
         const program = await prisma.program.findUnique({
             where: {
                 id: Number(id)
             }
         });
-        
+
         res.status(200).json(program);
     } catch (error) {
         handleHttp(res, 'ERROR_GET_CATEGORYS')
@@ -113,6 +113,7 @@ const postProgram = async ({ body }: Request, res: Response) => {
         res.status(200).json(newProgram);
 
     } catch (error) {
+        console.log(error);
 
         handleHttp(res, 'ERROR_POST_CATEGORY')
     }
@@ -123,7 +124,7 @@ const updateProgram = async (req: Request, res: Response) => {
 
     const { id } = req.params;
 
-    
+
 
     const { name, description, amount, objective, syllabus, state, type, categoryId } = req.body;
 
@@ -145,7 +146,7 @@ const updateProgram = async (req: Request, res: Response) => {
                 categoryId: categoryId && categoryId
 
             }
-            
+
         });
 
         res.status(200).json(updatedProgram);
@@ -156,14 +157,14 @@ const updateProgram = async (req: Request, res: Response) => {
 }
 
 const paginationProgram = async (req: Request, res: Response) => {
-    
+
     try {
         const page = Number(req.query.page) || 1; //*Número de página
         const pageSize = Number(req.query.pageSize) || 10; //* Tamaño de la página
-    
+
         console.log('page: ' + page);
         console.log('pageSize: ' + pageSize);
-    
+
         //* calcular el indice de inicio y limitar la consulta a la página
         const startIndex = (page - 1) * pageSize;
 
@@ -175,8 +176,8 @@ const paginationProgram = async (req: Request, res: Response) => {
         res.status(200).json(programs);
 
     } catch (error) {
-        console.log('Error al obtener programas ',error);
-        res.status(500).json({ error: 'error interno del servidor'});
+        console.log('Error al obtener programas ', error);
+        res.status(500).json({ error: 'error interno del servidor' });
     }
 }
 
