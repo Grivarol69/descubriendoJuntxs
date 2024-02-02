@@ -248,9 +248,13 @@
          transition: 100ms;
      }
 
-     .buttonFull:hover {
-         background: #5063ce;
-     }
+     .buttonFull:hover:not(:disabled) {
+        background: #5063ce;
+    }
+    
+    .buttonFull:disabled {
+        background: #7286FF;
+    }
 
      .buttonGoogle {
          display: flex;
