@@ -111,7 +111,6 @@ model Donation {
   state PaymentState @default(Aceptado)
   program Program @relation(fields: [programId], references: [id])
   user User @relation(fields: [userId], references: [id])
-  
 }
 
 model Commentary {
