@@ -1,73 +1,80 @@
-'use client'
+"use client";
 
+import Donaciones from "../../public/assets/donaciones-icon.svg";
 import React, { useState, useEffect } from "react";
 import RedirectPage from "@/components/elegirDonacion/elegirDonacion";
-
+import Image from "next/image";
+import Link from "next/link";
 
 const DonacionesPage: React.FC = () => {
-    const [donationStarted, setDonationStarted] = useState(false);
+  const [donationStarted, setDonationStarted] = useState(false);
 
-    const handleStartDonation = () => {
-        setDonationStarted(true);
-    };
+  const handleStartDonation = () => {
+    setDonationStarted(true);
+  };
 
-    useEffect(() => {
-        if (window) {
-            console.log("Running on the client side");
-        }
-    }, []); 
+  useEffect(() => {
+    if (window) {
+      console.log("Running on the client side");
+    }
+  }, []);
 
-    return (
-        <div
-            style={{
-                position: "fixed",
-                left: "50%",
-                top: "50%",
-                transform: "translate(-50%, -50%)",
-                borderRadius: "16px",
-                border: "2px solid #a9a9a9",
-                overflow: "hidden",
-                background: "#FFFFFF",
-                zIndex: 1000,
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "flex-start",
-                padding: "24px",
-            }}
-        >
-            {!donationStarted ? (
-                <div>
-                    <h1>Donaciones</h1>
-                    <p>
-                        Gracias por decidir dar tu granito de arena, podrás hacerlo de forma
-                        anónima, o si prefieres puedes hacerlo registrándote primero, así
-                        podrás tener un historial de tus aportes. Tendrás 3 opciones para
-                        donar: recurrente, en especie y corporativo, elige con el que desees
-                        colaborar.
-                    </p>
+  return (
+    <div>
+      <div>
+        <div className="w-screen h-[66.6vh] border-2  flex justify-center items-center">
+          {!donationStarted ? (
+            <div className="w-11/12 h-5/6 border-2 border-blue-400 rounded-2xl shadow-2xl flex">
+              <div className="w-2/3 h-full flex justify-center">
+                <div className=" w-3/4 h-full  flex flex-col justify-center gap-14">
+                  <div className="text-4xl ">Donaciones</div>
+                  <div className="text-lg">
+                    Gracias por decidir dar tu granito de arena, podrás hacerlo
+                    de forma anónima, así podrás tener un historial de tus
+                    aportes, o si prefieres puedes{" "}
+                    <Link href="/pages/user" className="text-[#7286FF]">
+                      registrarte
+                    </Link>{" "}
+                    o{" "}
+                    <Link href="/pages/signin" className="text-[#7286FF]">
+                      ingresar
+                    </Link>{" "}
+                    primero. Tendrás 3 opciones para donar: recurrente, en
+                    especie y corporativo, elige con el que desees colaborar
+                  </div>
+                  <div>
                     <button
-                        type="button"
-                        onClick={handleStartDonation}
-                        style={{
-                            background: "#7286FF",
-                            color: "#FFFFFF",
-                            padding: "12px 24px",
-                            borderRadius: "8px",
-                            cursor: "pointer",
-                            marginTop: "16px",
-                        }}
+                      type="button"
+                      onClick={handleStartDonation}
+                      className="bg-[#7286FF] w-full text-white px-12 rounded-lg cursor-pointer animate-pulse-custom"
+                      style={{ padding: "12px 24px" }}
                     >
-                        Comenzar
+                      Comenzar
                     </button>
+                  </div>
                 </div>
-            ) : (
-                <RedirectPage />
-            )}
+              </div>
+              
+              <div className=" w-1/3 h-full overflow-hidden flex justify-center items-center ">
+                <div className="flex justify-center items-center">
+                  <div className="flex justify-center items-center object-contain h-full w-full">
+                    <Image
+                      src={Donaciones}
+                      alt=""
+                      className="h-full"
+                      objectFit="contain"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <RedirectPage />
+          )}
         </div>
-    );
+      </div>
+    </div>
+  );
 };
-
-
 
 export default DonacionesPage;

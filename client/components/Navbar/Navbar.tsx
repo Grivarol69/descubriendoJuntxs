@@ -54,16 +54,19 @@ const Navbar = () => {
         </p>
 
         <div className="flex items-center gap-x-2">
-          <span className="hidden font-medium text-[#fff] lg:block rounded-lg py-3 px-10 text-center" style={{ backgroundColor: "#7286ff" }} >
-            <Link href='/pages/user'>
-              Registro
-            </Link>
+
+          <Link href='/pages/user'>
+        <span className="hidden font-medium text-[#fff] lg:block rounded-lg py-3 px-10 text-center" style={{ backgroundColor: "#7286ff" }} >
+            Registro
           </span>
+          </Link>
+
         </div>
             <div style={{cursor: 'pointer'}} onClick={async () => {
               await logout()
             }}>
               log out
+
             </div>
             
         <div className="lg:hidden cursor-pointer" onClick={handlerMenu}>
