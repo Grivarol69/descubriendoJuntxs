@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import signUp from "@/app/firebase/auth/signup";
 import signUpWithGoogle from "@/app/firebase/auth/signInWithGoogle";
-import { ValidateForm } from "@/app/firebase/validation";
 
 
 const SignUpPage = () => {
