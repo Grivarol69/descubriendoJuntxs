@@ -5,6 +5,8 @@ import categories from "./categories";
 import programsRouter from "./programs";
 import users from "./users";
 import payments from "./payments";
+import donations from "./donationsRoute";
+
 // import path from "path";
 
 // const PATH_ROUTER = path.resolve('./src/routes') 
@@ -38,7 +40,8 @@ router.get<{}, MessageResponse>('/', (_req, res) => {
 router.use('/categories', categories);
 router.use('/programs', programsRouter);
 router.use('/users', users);
-router.use('/payments', payments)
+router.use('/payments', payments);
+router.use('/donations',donations )
 
 
 

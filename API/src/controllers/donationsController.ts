@@ -13,21 +13,33 @@ const getDonations = async (_req:Request, res:Response) => {
     }
 }
 
-const getDonationsByProgram = async (req:Request, res:Response) => {
-    const { programId } = req.query;
-
+const getDonationsByProgram = async (req: Request, res: Response) => {
     try {
-        const donation = await prisma.donation.findMany({
-            where: { 
-                programId: Number(programId)
+        // Obtener programId del query string y convertirlo a número
+        const programId = req.query.programId;
+        if (!programId || typeof programId !== 'string') {
+            throw new Error('programId is missing or invalid');
+        }
+        const programIdNumber = Number(programId);
+        if (isNaN(programIdNumber)) {
+            throw new Error('programId is not a valid number');
+        }
+
+        // Buscar donaciones por programId
+        const donations = await prisma.donation.findMany({
+            where: {
+                programId: programIdNumber
             }
         });
 
-        res.status(200).json(donation);
-    } catch (error) {
-        handleHttp(res, 'ERROR_GET_DonationsByProgram')
+        // Enviar respuesta con las donaciones encontradas
+        res.status(200).json(donations);
+    } catch (error:any) {
+        // Manejar errores
+        res.status(500).json({ error: error.message });
     }
 }
+
 
 const getDonationsByUser = async (req:Request, res:Response) => {
     const { userId } = req.query;
@@ -83,8 +95,8 @@ const postDonation = async (req: Request, res: Response) => {
 
         res.status(200).json(newDonation);
 
-    } catch (error) {
-        handleHttp(res, 'ERROR_POST_DONATION')
+    } catch (error:any) {
+        res.status(500).json({ error: error.message });
     }
 }
 
