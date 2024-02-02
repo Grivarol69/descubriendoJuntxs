@@ -54,11 +54,13 @@ const DonacionesRecurrentesPage: React.FC = () => {
     e.preventDefault();
     console.log(formData);
     try {
-      const response = await axios.post<{ mensaje: string }>(
+      const response = await axios.post<{ mensaje: string, init_point: string }>(
         "http://localhost:3000/payments",
         formData
       );
-      console.log("Respuesta del servidor:", response.data);
+        const data =  response.data
+        window.location.href = data.init_point
+
     } catch (error: any) {
       console.error("Error al enviar datos al servidor:", error.message);
     }

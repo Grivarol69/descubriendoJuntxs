@@ -1,9 +1,9 @@
-
 "use client";
 import Image from "next/image";
 import React, { useState, FormEvent, ChangeEvent } from "react";
 import Donaciones from "../../../public/assets/donaciones-icon.svg";
 import axios from "axios";
+import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 
 interface FormData {
   programId: number;
@@ -62,6 +62,8 @@ const DonacionesEspeciePage: React.FC = () => {
       console.error("Error al enviar datos al servidor:", error.message);
     }
   };
+
+  initMercadoPago("APP_USR-91c35bb4-a98b-4c8a-b4a7-acf55e1bb8e3");
 
   return (
     <div className="w-screen h-[80vh]  flex justify-center items-center">
@@ -145,6 +147,7 @@ const DonacionesEspeciePage: React.FC = () => {
                         {" "}
                         Donar con Paypal
                       </button>
+                      <Wallet initialization={{ preferenceId: '<PREFERENCE_ID>' }} customization={{ texts:{ valueProp: 'smart_option'}}} />
                     </div>
                   </div>
                 </div>
