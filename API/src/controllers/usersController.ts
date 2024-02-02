@@ -55,14 +55,13 @@ const updateUserById = async (req: Request, res: Response) => {
 
 const getUsersByRole = async (req: Request, res: Response) => {
     const role = req.params.role; // Obtener el rol de la solicitud
-
     try {
         // Obtener la lista de usuarios filtrados por rol y estado "Activo"
         const users = await prisma.user.findMany({
             where: {
                 role: role === 'Coach' ? 'Coach' : 'Usuario', // Filtrar por el rol especificado
                 AND: {
-                    status: 'Activo' // Filtrar por el estado "Activo"
+                    state : 'Activo' // Filtrar por el estado "Activo"
                 }
             }
         });
