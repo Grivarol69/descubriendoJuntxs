@@ -7,8 +7,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
-
+  url = env("DATABASE_URL")
 }
 
 model User {
@@ -24,6 +23,7 @@ model User {
   linkedin String?
   languaje String? 
   position String? 
+  state State @default(Activo)
   role Role @default(Usuario)
   participants Participant[]
   payment Payment[]
@@ -36,6 +36,7 @@ model User {
 model Category {
   id    Int    @id @default(autoincrement())
   name  String
+  type categoryType @default(Publico)
   program Program[] 
 }
 
@@ -155,6 +156,11 @@ enum EventType {
   Activo
   Inactivo
   Finalizado
+}
+
+enum categoryType {
+  Publico
+  Corporativo
 }
 
 enum PaymentState {
