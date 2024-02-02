@@ -15,7 +15,7 @@ const navLinks = [
   { name: "Proyectos", href: "/proyectos" },
   { name: "Donaciones", href: "/donaciones" },
   { name: "Servicios", href: "/servicios" },
-  { name: "Contacto", href: "contacto" },
+  { name: "Contacto", href: "/contacto" },
 ];
 
 const Navbar = () => {
