@@ -1,110 +1,141 @@
+import Image from "next/image";
 import Link from "next/link";
+import Donaciones from "../../public/assets/donaciones-icon.svg";
 import { useEffect, useState } from "react";
 
-
-
-
 const RedirectPage: React.FC = () => {
-    const [selectedDonationType, setSelectedDonationType] = useState<string | null>(null);
-    const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
+  const [selectedDonationType, setSelectedDonationType] = useState<
+    string | null
+  >(null);
+  const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
 
-    const handleDonationTypeToggle = (donationType: string) => {
-        if (selectedDonationType === donationType) {
-            setSelectedDonationType(null);
-        } else {
-            setSelectedDonationType(donationType);
-        }
-    };
+  const handleDonationTypeToggle = (donationType: string) => {
+    if (selectedDonationType === donationType) {
+      setSelectedDonationType(null);
+    } else {
+      setSelectedDonationType(donationType);
+    }
+  };
 
-    useEffect(() => {
-        setNextButtonDisabled(
-            selectedDonationType !== "recurrente" &&
-            selectedDonationType !== "en_especie" &&
-            selectedDonationType !== "corporativa"
-        );
-    }, [selectedDonationType]);
-
-   const linkPage = () => {
-    if(selectedDonationType === "corporativa") return "/donaciones/corporativa"
-    if(selectedDonationType ===  "especie") return "/donaciones/especie"
-    if(selectedDonationType === "recurrente") return "/donaciones/recurrente"
-    return "/donaciones/recurrente"
-   };
-
-   const finalUrl = linkPage()
-
-    const buttonStyle = {
-        backgroundColor: nextButtonDisabled ? "#888" : "#7286FF",
-        color: "#fff",
-        cursor: nextButtonDisabled ? "not-allowed" : "pointer",
-        padding: "12px 24px",
-        borderRadius: "8px",
-        marginTop: "16px",
-    };
-
-    return (
-        <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
-            <div style={{ textAlign: "left", margin: "0 20px" }}>
-                <img src="tu-imagen.jpg" alt="Imagen" style={{ width: "100%", maxWidth: "200px" }} />
-            </div>
-            <div style={{ textAlign: "right", maxWidth: "400px" }}>
-                <h1>Tipo de Donacion</h1>
-                <form>
-                    <div>
-                        <label>
-                            <strong>Recurrente</strong>
-                            <input
-                                type="checkbox"
-                                value="recurrente"
-                                checked={selectedDonationType === "recurrente"}
-                                onChange={() => handleDonationTypeToggle("recurrente")}
-                            />
-                        </label>
-                        <p style={{ fontSize: "14px", color: "#555", textAlign: "left" }}>
-                            Podrás pagar como si fuera una suscripción, eligiendo la frecuencia mensual.
-                        </p>
-                    </div>
-                    <div>
-                        <label>
-                            <strong>En Especie</strong>
-                            <input
-                                type="checkbox"
-                                value="especie"
-                                checked={selectedDonationType === "en_especie"}
-                                onChange={() => handleDonationTypeToggle("en_especie")}
-                            />
-                        </label>
-                        <p style={{ fontSize: "14px", color: "#555", textAlign: "left" }}>
-                            Puedes donar con bienes físicos o servicios en lugar de dinero.
-                        </p>
-                    </div>
-                    <div>
-                        <label>
-                            <strong>Corporativa</strong>
-                            <input
-                                type="checkbox"
-                                value="corporativa"
-                                checked={selectedDonationType === "corporativa"}
-                                onChange={() => handleDonationTypeToggle("corporativa")}
-                            />
-                        </label>
-                        <p style={{ fontSize: "14px", color: "#555", textAlign: "left" }}>
-                            Podrás contribuir como empresa, como por ejemplo el patrocinio de eventos.
-                        </p>
-                    </div>
-                    <Link href={finalUrl}>
-                    <button
-                        type="button"
-                        disabled={nextButtonDisabled}
-                        style={buttonStyle}
-                    >
-                        {nextButtonDisabled ? "Seleccione al menos una opción" : "Siguiente"}
-                    </button>
-                    </Link>
-                </form>
-            </div>
-        </div>
+  useEffect(() => {
+    setNextButtonDisabled(
+      selectedDonationType !== "recurrente" &&
+        selectedDonationType !== "en_especie" &&
+        selectedDonationType !== "corporativa"
     );
-}
+  }, [selectedDonationType]);
 
-export default RedirectPage
+  const linkPage = () => {
+    if (selectedDonationType === "corporativa")
+      return "/donaciones/corporativa";
+    if (selectedDonationType === "especie") return "/donaciones/especie";
+    if (selectedDonationType === "recurrente") return "/donaciones/recurrente";
+    return "/donaciones/";
+  };
+
+  const finalUrl = linkPage();
+
+  const buttonStyle = {
+    backgroundColor: nextButtonDisabled ? "#888" : "#7286FF",
+    color: "#fff",
+    cursor: nextButtonDisabled ? "not-allowed" : "pointer",
+    padding: "12px 24px",
+    borderRadius: "8px",
+    marginTop: "30px",
+  };
+
+  const buttonClasses = `${nextButtonDisabled ? 'buttonDisabled' : 'buttonEnabled'} buttonStyle`;
+
+
+  return (
+    <div className="w-11/12 h-5/6 border-2 border-blue-400 rounded-2xl shadow-2xl flex">
+      <div className=" w-1/3 h-full overflow-hidden flex justify-center items-center ">
+        <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center object-contain h-full w-full">
+            <Image
+              src={Donaciones}
+              alt=""
+              className="h-full"
+              objectFit="contain"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="w-2/3 h-full flex justify-center">
+        <div className=" w-3/4 h-full  flex flex-col justify-center gap-10">
+          <h1 className="text-3xl">Tipo de Donaciones</h1>
+          <form className=" flex flex-col gap-2">
+            <div>
+              <label>
+                <strong className="text-lg">Recurrente</strong>
+                <input
+                  type="checkbox"
+                  value="recurrente"
+                  checked={selectedDonationType === "recurrente"}
+                  onChange={() => handleDonationTypeToggle("recurrente")}
+                />
+              </label>
+              <p
+                style={{ color: "#555", textAlign: "left" }}
+                className="text-lg"
+              >
+                Podrás pagar como si fuera una suscripción, eligiendo la
+                frecuencia mensual.
+              </p>
+            </div>
+            <div>
+              <label>
+                <strong className="text-lg">En Especie</strong>
+                <input
+                  type="checkbox"
+                  value="especie"
+                  checked={selectedDonationType === "en_especie"}
+                  onChange={() => handleDonationTypeToggle("en_especie")}
+                />
+              </label>
+              <p
+                style={{ color: "#555", textAlign: "left" }}
+                className="text-lg"
+              >
+                Puedes donar con bienes físicos o servicios en lugar de dinero.
+              </p>
+            </div>
+            <div>
+              <label>
+                <strong className="text-lg">Corporativa</strong>
+                <input
+                  type="checkbox"
+                  value="corporativa"
+                  checked={selectedDonationType === "corporativa"}
+                  onChange={() => handleDonationTypeToggle("corporativa")}
+                />
+              </label>
+              <p
+                style={{ color: "#555", textAlign: "left" }}
+                className="text-lg"
+              >
+                Podrás contribuir como empresa, como por ejemplo el patrocinio
+                de eventos.
+              </p>
+            </div>
+              <button
+                type="button"
+                disabled={nextButtonDisabled}
+                style={buttonStyle}
+                className={buttonClasses}
+              >
+            <Link href={finalUrl} >
+                {nextButtonDisabled
+                  ? "Seleccione al menos una opción"
+                  : "Siguiente"}
+            </Link>
+              </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default RedirectPage;

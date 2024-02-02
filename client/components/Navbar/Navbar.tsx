@@ -53,11 +53,11 @@ const Navbar = () => {
         </p>
 
         <div className="flex items-center gap-x-2">
-        <span className="hidden font-medium text-[#fff] lg:block rounded-lg py-3 px-10 text-center" style={{ backgroundColor: "#7286ff" }} >
           <Link href='/pages/user'>
+        <span className="hidden font-medium text-[#fff] lg:block rounded-lg py-3 px-10 text-center" style={{ backgroundColor: "#7286ff" }} >
             Registro
-          </Link>
           </span>
+          </Link>
             </div>
 
 
