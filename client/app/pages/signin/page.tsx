@@ -5,7 +5,7 @@ import style from './signin.module.css'
 import googleLogo from '../../../public/googleLogo.png'
 import { useRouter } from 'next/navigation'
 import signIn from "@/app/firebase/auth/signIn";
-import signUpWithGoogle from "@/app/firebase/auth/signInWithGoogle";
+import signInWithGoogle from "@/app/firebase/auth/signInWithGoogle";
 import ResetPassword from "@/components/ResetPassword/ResetPassword";
 import { userInfo } from 'os';
 import axios from "axios";
@@ -16,6 +16,8 @@ const SignInPage = () => {
         password: ''
     })
     const router = useRouter()
+
+    const [heOlvidado, setHeOlvidado] = useState(false)
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
@@ -36,7 +38,7 @@ const SignInPage = () => {
             if (error) {
                 return console.log(error);
             }
-     
+
             return router.push('/userIn')
 
         } catch (error) {
@@ -49,18 +51,16 @@ const SignInPage = () => {
         event.preventDefault()
         try {
             console.log('hola');
-            const { result, error } = await signUpWithGoogle()
+            const { result, error } = await signInWithGoogle()
             if (error) {
                 return console.log(error);
             }
-            
+
             return router.push('/pages/user')
         } catch (error) {
             alert(error)
         }
     }
-
-
 
     return (
         <div className={style.backgroundSignin}>
@@ -68,35 +68,41 @@ const SignInPage = () => {
                 <div className={style.formAndImage}>
                     <div className={style.illu}>
                     </div>
-                    <div className={style.textInfo}>
+                    <div className={heOlvidado ?  style.textInfoHeOlvidado :style.textInfo}>
                         <div className={style.registerAndInit}>
-                            <h1 className={style.titleCard}>Inicio De Sesión</h1>
+                            <h1 className={style.titleCard}>{heOlvidado ? 'Recuperar Contraseña' : 'Inicio de Sesión'}</h1>
                             <p> ¿No tienes cuenta aún? <Link href="/pages/signup" className={style.register}> Registrarme </Link></p>
-                            <p>
-                                <ResetPassword />
-                            </p>
+                            <p onClick={() => setHeOlvidado(true)} className={style.heOlvidado}> {!heOlvidado && 'He olvidado mi contraseña'}</p>
+                            {heOlvidado &&
+                                    <ResetPassword
+                                        closeHeOlvidado={() => setHeOlvidado(false)}
+                                    />
+                                }
                         </div>
-                        <form onSubmit={handleSubmit} className={style.formDesign}>
-                            <div className={style.labelAndInput}>
-                                <label>
-                                    Correo Electronico
-                                </label>
-                                <input className={style.input} type="text" value={infoUser.email} name='email' placeholder="ejemplo@dominio.com" onChange={handleChange} />
+                        {!heOlvidado &&
 
-                            </div>
-                            <div className={style.labelAndInput}>
-                                <label>
-                                    Contraseña
-                                </label>
-                                <input className={style.input} type="password" value={infoUser.password} name='password' placeholder="Contraseña segura" onChange={handleChange} />
-                            </div>
-                            <div className={style.buttons}>
-                                <button className={style.buttonFull} type="submit"> Iniciar Sesión </button>
+                            <form onSubmit={handleSubmit} className={style.formDesign}>
+                                <div className={style.labelAndInput}>
+                                    <label>
+                                        Correo Electronico
+                                    </label>
+                                    <input className={style.input} type="text" value={infoUser.email} name='email' placeholder="ejemplo@dominio.com" onChange={handleChange} />
 
-                                <button className={style.buttonGoogle} onClick={handleGoogleSignIn}>
-                                    <img src={googleLogo.src} style={{ width: '3rem' }} alt="google" /> Iniciar Sesión Con Google</button>
-                            </div>
-                        </form>
+                                </div>
+                                <div className={style.labelAndInput}>
+                                    <label>
+                                        Contraseña
+                                    </label>
+                                    <input className={style.input} type="password" value={infoUser.password} name='password' placeholder="Contraseña segura" onChange={handleChange} />
+                                </div>
+                                <div className={style.buttons}>
+                                    <button className={style.buttonFull} type="submit"> Iniciar Sesión </button>
+
+                                    <button className={style.buttonGoogle} onClick={handleGoogleSignIn}>
+                                        <img src={googleLogo.src} style={{ width: '3rem' }} alt="google" /> Iniciar Sesión Con Google</button>
+                                </div>
+                            </form>
+                        }
                     </div>
                 </div>
             </div>

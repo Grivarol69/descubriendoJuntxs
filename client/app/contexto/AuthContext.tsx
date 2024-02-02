@@ -1,6 +1,6 @@
 'use client'
 
-import { onAuthStateChanged, getAuth, User } from 'firebase/auth';
+import { onAuthStateChanged, getAuth, User, sendEmailVerification } from 'firebase/auth';
 import firebase_app from '../firebase/firebase-config';
 import { useContext, useEffect, useState } from 'react';
 import { createContext, ReactNode } from 'react';  // Importa ReactNode
@@ -20,7 +20,7 @@ export const useAuthContext = () => {
 };
 
 interface AuthContextProviderProps {
-  children: ReactNode;
+  children: ReactNode; 
 }
 
 export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
@@ -32,10 +32,12 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (authUser) => {
       setUser(authUser);
+      if (!authUser?.emailVerified) {
+        sendEmailVerification(authUser)
+      }
       setLoading(false);
     });
-
-    return () => unsubscribe();
+     return () => unsubscribe();
   }, [auth]);
 
   return (

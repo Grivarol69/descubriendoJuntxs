@@ -10,6 +10,8 @@ import { useState } from "react";
 import { usePathname } from "next/navigation";
 import style from './navbar.module.css'
 import { logout } from "@/app/firebase/auth/signOut";
+import { useAuthContext } from "@/app/contexto/AuthContext";
+import { useRouter } from "next/navigation";
 
 const navLinks = [
   { name: "Inicio", href: "/" },
@@ -19,7 +21,10 @@ const navLinks = [
   { name: "Contacto", href: "/contacto" },
 ];
 
+
 const Navbar = () => {
+  const { user }: any = useAuthContext()
+
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const path = usePathname()
   console.log(path);
@@ -28,6 +33,7 @@ const Navbar = () => {
   const handlerMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+  const router = useRouter()
 
   return (
 
@@ -60,12 +66,13 @@ const Navbar = () => {
             </Link>
           </span>
         </div>
-            <div style={{cursor: 'pointer'}} onClick={async () => {
-              await logout()
-            }}>
-              log out
-            </div>
-            
+       { <div style={{ cursor: 'pointer' }} onClick={async () => {
+          await logout()
+          return router.push('/userIn')
+        }}>
+          log out
+        </div>}
+
         <div className="lg:hidden cursor-pointer" onClick={handlerMenu}>
           <Image
             src={Menu}
