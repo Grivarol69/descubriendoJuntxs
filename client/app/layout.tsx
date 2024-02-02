@@ -4,7 +4,7 @@ import "./globals.css";
 import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
 import UserProfile from "@/components/UserProfile/profile";
-
+import { AuthContextProvider } from "./contexto/AuthContext";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -12,6 +12,7 @@ export const metadata: Metadata = {
   title: "Descubriendo Juntxs",
   description: "ONG",
 };
+
 
 export default function RootLayout({
   children,
@@ -21,12 +22,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div>
+        <AuthContextProvider >
+          <div>
             <Navbar />
             <UserProfile />
-          {children}
-          <Footer />
-        </div>
+            {children}
+            <Footer />
+          </div>
+        </AuthContextProvider>
       </body>
     </html>
   );
