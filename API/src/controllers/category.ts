@@ -15,7 +15,7 @@ const getCategory = async (req: Request, res: Response) => {
                 id: Number(id)
             },
 
-            include:{
+            include: {
 
                 program: true
             }
@@ -55,7 +55,7 @@ const postCategory = async ({ body }: Request, res: Response) => {
         res.json(newCategory)
     } catch (error) {
         const message = (error as Error).message;
-        console.log(message);
+        console.log(error);
         res.status(500).json({ error: message });
     }
 }
