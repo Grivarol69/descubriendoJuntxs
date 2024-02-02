@@ -14,7 +14,9 @@ const getCategory = async (req: Request, res: Response) => {
             where: {
                 id: Number(id)
             },
-            include: {
+
+            include:{
+
                 program: true
             }
         });
