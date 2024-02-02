@@ -10,7 +10,6 @@ datasource db {
   url = env("DATABASE_URL")
 }
 
-
 model User {
   id      Int      @id @default(autoincrement())
   email   String   @unique
@@ -24,6 +23,7 @@ model User {
   linkedin String?
   languaje String? 
   position String? 
+  state State @default(Activo)
   role Role @default(Usuario)
   participants Participant[]
   payment Payment[]
@@ -36,6 +36,7 @@ model User {
 model Category {
   id    Int    @id @default(autoincrement())
   name  String
+  type categoryType @default(Publico)
   program Program[] 
 }
 
@@ -110,7 +111,6 @@ model Donation {
   state PaymentState @default(Aceptado)
   program Program @relation(fields: [programId], references: [id])
   user User @relation(fields: [userId], references: [id])
-  
 }
 
 model Commentary {
@@ -155,6 +155,11 @@ enum EventType {
   Activo
   Inactivo
   Finalizado
+}
+
+enum categoryType {
+  Publico
+  Corporativo
 }
 
 enum PaymentState {

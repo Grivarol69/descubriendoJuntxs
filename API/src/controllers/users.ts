@@ -4,31 +4,13 @@ import { PrismaClient } from "@prisma/client"
 
 const prisma = new PrismaClient();
 
-const getUsers = async (_req:Request, res:Response) => {
-    try {
-        const users = await prisma.user.findMany();
-        res.status(200).json(users);
-    } catch (error) {
-        handleHttp(res, 'ERROR_GET_USERS')
-    }
-}
-
-const getUser = (req:Request, res:Response) => {
-    const {id} = req.params;
-    try {
-        const user = prisma.user.findUnique({
-            where:{
-                id: Number(id)
-            }
-        });
-        res.status(200).json(user)
-    } catch (error) {
-        handleHttp(res, 'ERROR_GET_USER')
-    }
-}
-
-const postUser = async ({ body}:Request, res:Response)=>{
+const postUser = async ({ body }:Request, res:Response)=>{
     const { email, name, surName, identification, phone, dateIn, dateOut, description, linkedin, languaje, position, role} = body;
+
+    if (!email || !name) {
+        handleHttp(res, 'EMAIL_AND_NAME_REQUIRED');
+        return;
+    }
 
     try {
         const newUser = await prisma.user.create({
@@ -49,59 +31,63 @@ const postUser = async ({ body}:Request, res:Response)=>{
         })
         res.status(200).json(newUser);
     } catch (error) {
+        console.error('Error creating user:', error);
         handleHttp(res, 'ERROR_POST_USER')
     }
 }
 
-const updateUser =async (req:Request, res:Response) => {
-    const { id } = req.params;
-    const { email, name, surName, identification, phone, dateIn, dateOut, description, linkedin, languaje, position, role} = req.body;
+const updateUserById = async (req: Request, res: Response) => {
+    const userId = parseInt(req.params.userId); // Obtener el ID de la solicitud
+    const userData = req.body; // Datos actualizados del usuario
 
     try {
         const updatedUser = await prisma.user.update({
-            where: {id: Number(id)},
-
-            data: {
-                email: email && email,
-                name: name && name,
-                surName: surName && surName,
-                identification: identification && identification,
-                phone: phone && phone,
-                dateIn: dateIn && dateIn,
-                dateOut: dateOut && dateOut,
-                description: description && description,
-                linkedin: linkedin && linkedin,
-                languaje: languaje && languaje,
-                position: position && position,
-                role: role && role
-            }
-        })
-        res.status(200).json(updatedUser);
+            where: { id: userId }, // Filtrar por ID
+            data: userData // Datos actualizados
+        });
+        res.status(200).json(updatedUser); // Devolver el usuario modificado
     } catch (error) {
-        handleHttp(res, 'ERROR_UPDATE_USER')
+        console.error('Error updating user by ID:', error);
+        handleHttp(res, 'ERROR_UPDATE_USER');
     }
 }
 
-const deleteUser = async (req:Request, res:Response) => {
-    const {id} = req.params;
 
+const getUsersByRole = async (req: Request, res: Response) => {
+    const role = req.params.role; // Obtener el rol de la solicitud
     try {
-        
-        const user = await prisma.user.delete({
-            where:{
-                id: Number(id)
+        // Obtener la lista de usuarios filtrados por rol y estado "Activo"
+        const users = await prisma.user.findMany({
+            where: {
+                role: role === 'Coach' ? 'Coach' : 'Usuario', // Filtrar por el rol especificado
+                AND: {
+                    state : 'Activo' // Filtrar por el estado "Activo"
+                }
             }
-        })
-        res.status(200).json(user)
+        });
+
+        res.status(200).json(users); // Devolver la lista de usuarios
     } catch (error) {
-        handleHttp(res, 'ERROR_DELETE_USER')
+        console.error('Error fetching users by role and status:', error);
+        handleHttp(res, 'ERROR_FETCH_USERS_BY_ROLE_AND_STATUS');
+    }
+}
+
+const getAllUsers = async (req: Request, res: Response) => {
+    try {
+        // Obtener todos los usuarios
+        const users = await prisma.user.findMany();
+
+        res.status(200).json(users); // Devolver la lista de usuarios
+    } catch (error) {
+        console.error('Error al obtener todos los usuarios:', error);
+        handleHttp(res, 'ERROR_GET_ALL_USERS');
     }
 }
 
 export {
-    getUsers,
-    getUser,
     postUser,
-    updateUser,
-    deleteUser
+    updateUserById,
+    getUsersByRole,
+    getAllUsers
 }

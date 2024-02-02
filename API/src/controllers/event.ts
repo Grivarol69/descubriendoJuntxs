@@ -4,22 +4,21 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-const getEvents = async (_req:Request, res:Response) => {
+const getEvents = async (_req: Request, res: Response) => {
     try {
         const events = await prisma.event.findMany();
         res.status(200).json(events);
     } catch (error) {
         handleHttp(res, 'ERROR_GET_Events')
     }
-
 }
 
-const getEventsByProgram = async (req:Request, res:Response) => {
+const getEventsByProgram = async (req: Request, res: Response) => {
     const { program } = req.query;
 
     try {
         const events = await prisma.event.findMany({
-            where: { 
+            where: {
                 programId: Number(program)
             }
         });
@@ -31,7 +30,7 @@ const getEventsByProgram = async (req:Request, res:Response) => {
 
 }
 
-const getEvent =(req:Request, res:Response) => {
+const getEvent = (req: Request, res: Response) => {
     const { id } = req.params;
     try {
         const event = prisma.event.findUnique({
@@ -45,20 +44,23 @@ const getEvent =(req:Request, res:Response) => {
     }
 }
 
-const postEvent = async ({ body }:Request, res:Response) => {
-    
-    const { name, description, amount, state, category} = body;
+const postEvent = async ({ body }: Request, res: Response) => {
+
+    const { name, description, amount, state, category, objective, syllabus } = body;
 
     try {
         const newProgram = await prisma.program.create({
-            data: { 
-                name: name, 
-                description: description, 
-                amount: amount, 
+            data: {
+                name: name,
+                description: description,
+                amount: amount,
                 state: state,
                 categoryId: category,
-                objective: 'valor_objetivo',
-                syllabus: 'contenido_syllabus',
+
+                objective: objective,
+                syllabus: syllabus,
+                category: category
+
             }
         });
 
@@ -70,42 +72,43 @@ const postEvent = async ({ body }:Request, res:Response) => {
 
 }
 
-const updateEvent = async (req:Request, res:Response) => {
+const updateEvent = async (req: Request, res: Response) => {
 
     const { id } = req.params;
-    const { name, description, amount, state, category} = req.body;
+    const { name, description, amount, state, category } = req.body;
 
     try {
 
         const updatedProgram = await prisma.program.update({
             where: { id: Number(id) },
 
-            data: { 
-                name: name && name, 
-                description: description && description, 
-                amount: amount && amount, 
+            data: {
+                name: name && name,
+                description: description && description,
+                amount: amount && amount,
                 state: state && state,
                 categoryId: category && category
             }
         });
 
         res.status(200).json(updatedProgram);
-        
+
     } catch (error) {
         handleHttp(res, 'ERROR_UPDATE_CATEGORY')
     }
 
 }
 
-const deleteEvent = async (req:Request, res:Response) => {
-    
+const deleteEvent = async (req: Request, res: Response) => {
+
     const { id } = req.params;
 
     try {
 
         const program = await prisma.program.delete({
-            where: { 
-                id: Number(id) },
+            where: {
+                id: Number(id)
+            },
         });
         res.status(200).json(program);
 
@@ -115,7 +118,7 @@ const deleteEvent = async (req:Request, res:Response) => {
 
 }
 
-export{
+export {
     getEvents,
     getEvent,
     postEvent,
