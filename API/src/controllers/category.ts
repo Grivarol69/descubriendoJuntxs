@@ -15,7 +15,7 @@ const getCategory = async (req:Request, res:Response) => {
                 id: Number(id)
             },
             include:{
-                programs: true
+                program: true
             }
         });
         res.json(category)
@@ -33,12 +33,17 @@ const getCategories = async (_req:Request, res:Response) => {
         res.json(categories)
 
     } catch (error) {
-        handleHttp(res, 'ERROR_GET_CATEGORYS')
+       console.log(error)
     }
 }
 
 const postCategory = async ({body }:Request, res:Response) => {
     const {name} = body;
+    console.log(body)
+    if (!name) {
+        res.status(400).json({ error: "El nombre de la categoría es requerido" });
+        return;
+    }
     try {
         const newCategory = await prisma.category.create({
             data:{
@@ -46,11 +51,11 @@ const postCategory = async ({body }:Request, res:Response) => {
             }
         });
         res.json(newCategory)
-
     } catch (error) {
-        handleHttp(res, 'ERROR_POST_CATEGORY')
+        const message = (error as Error).message;
+        console.log(message);
+        res.status(500).json({ error: message });
     }
-
 }
 
 const updateCategory = async (req:Request, res:Response) => {

@@ -7,10 +7,8 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
-
+  url = env("DATABASE_URL")
 }
-
 
 model User {
   id      Int      @id @default(autoincrement())
@@ -25,16 +23,21 @@ model User {
   linkedin String?
   languaje String? 
   position String? 
+  state State @default(Activo)
   role Role @default(Usuario)
   participants Participant[]
-  payment Donation[]
-  eventCoaches EventCoaches[]
+  payment Payment[]
+  donation Donation[]
+  event Event[]
+  commentary Commentary[] 
+  favorite Favorite[]
 }
 
 model Category {
   id    Int    @id @default(autoincrement())
   name  String
-  programs Program[] 
+  type categoryType @default(Publico)
+  program Program[] 
 }
 
 model Program {
@@ -42,24 +45,46 @@ model Program {
   name    String
   description String
   amount Float
+  objective String
+  syllabus String
   state State @default(Activo)
+  type ProgramType @default(Proyecto)
   categoryId Int
   category Category @relation(fields: [categoryId], references: [id])
   events Event[]
+  donation Donation[]
+  commentary Commentary[]
+  favorite Favorite[]
 }
+
 
 model Event {
   id Int @id @default(autoincrement())
   programId Int
+  userId Int
   date DateTime? @default(now())
   hourIn DateTime?
   duration String
   amount Float
+  objective String
+  syllabus String
   type String
   program Program @relation(fields: [programId], references: [id])
+  payment Payment?
+  user User @relation(fields: [userId], references: [id])
   participants Participant[]
-  donation Donation[]
-  eventCoach EventCoaches[]
+}
+
+model Payment {
+  id Int @id @default(autoincrement())
+  eventId Int @unique
+  userId Int @unique
+  amount Float
+  instrument String
+  transactionId String
+  state String
+  event Event @relation(fields: [eventId], references: [id])
+  user User @relation(fields: [userId], references: [id])
 }
 
 model Participant {
@@ -74,41 +99,39 @@ model Participant {
 
 model Donation {
   id Int @id @default(autoincrement())
-  eventId Int @unique
+  programId Int @unique
   userId Int @unique
   amount Float
   date DateTime
-  type String
+  type DonationType @default(Recurrente)
+  frequency Frequency @default(Unico)
   message String
-  state String
-  event Event @relation(fields: [eventId], references: [id])
+  contact_phone String
+  contact_email String
+  state PaymentState @default(Aceptado)
+  program Program @relation(fields: [programId], references: [id])
   user User @relation(fields: [userId], references: [id])
-  payment Payment[] 
+  
 }
 
-model Payment {
-  id Int @id @default(autoincrement())
-  donationId Int
-  amount Float
-  instrument String
-  transactionId String
-  state String
-  donation Donation @relation(fields: [donationId], references: [id]) 
-}
-
-model EventCoaches {
-  // id Int @id @default(autoincrement())
-  eventId Int
-  event Event @relation(fields: [eventId], references: [id])
+model Commentary {
+  programId Int 
   userId Int
-  user User @relation(fields: [userId], references: [id])
   state String
+  program Program @relation(fields: [programId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+  @@id([programId,userId])
+}
 
-  @@id([eventId,userId])
+model Favorite {
+  programId Int 
+  userId Int
+  program Program @relation(fields: [programId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+  @@id([programId,userId])
 }
 
 enum Role {
-  Admin
   Coach
   Usuario
 }
@@ -118,8 +141,37 @@ enum State {
   Inactivo
 }
 
+enum ProgramType {
+  Proyecto
+  Servicio
+}
+
+enum DonationType {
+  Recurrente
+  Especies
+  Corporativo
+}
+
+enum EventType {
+  Activo
+  Inactivo
+  Finalizado
+}
+
+enum categoryType {
+  Publico
+  Corporativo
+}
+
 enum PaymentState {
   Aceptado
   Rechazado
   Pendiente
+}
+
+enum Frequency {
+  Unico
+  Mensual
+  Trimestral
+  Anual
 }

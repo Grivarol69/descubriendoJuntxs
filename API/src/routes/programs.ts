@@ -1,12 +1,21 @@
 import { Router } from "express";
-import { getProgram, getPrograms, postProgram, updateProgram } from "../controllers/program";
+import {
+  getProgramById,
+  paginationProgram,
+  getPrograms,
+  getProgramByType,
+  postProgram,
+  updateProgram,
+} from "../controllers/program";
 
-const router = Router()
+const router = Router();
 
-router.get('/', getPrograms)
-router.get('/:id', getProgram)
-router.post('/', postProgram)
-router.put('/:id', updateProgram)
-// router.delete('/:id', deleteProgram)
+router.get("/pagination", paginationProgram);
+
+router.get("/", getPrograms);
+router.get("/type/:type", getProgramByType);
+router.get("/:id", getProgramById);
+router.post("/", postProgram);
+router.put("/:id", updateProgram);
 
 export default router;

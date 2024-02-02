@@ -35,7 +35,7 @@ router.get<{}, MessageResponse>('/', (_req, res) => {
 });
 
 router.use('/categories', categories);
-router.use('/programs', programs);
+router.use('/programs', programsRouter);
 router.use('/users', users);
 
 

@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev src/index.ts",
-    "start": "node build/index.js",
-    "tsc": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "dev": "ts-node-dev src/index.ts",
+  "start": "node build/index.js",
+  "tsc": "tsc",
+  "vercel-build": "prisma generate && tsc",
+  "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +19,7 @@
     "@types/cors": "^2.8.17",
     "@types/express-validator": "^3.0.0",
     "@types/morgan": "^1.9.9",
+    "@vercel/postgres": "^0.7.2",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
     "dotenv": "^16.4.0",
