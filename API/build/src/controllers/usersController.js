@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserById = exports.getAllUsers = exports.getUsersByRole = exports.updateUserById = exports.postUser = void 0;
+exports.getAllUsers = exports.getUsersByRole = exports.updateUserById = exports.postUser = void 0;
 const error_handler_1 = require("../utils/error.handler");
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
@@ -60,20 +60,6 @@ const updateUserById = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.updateUserById = updateUserById;
-const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const userId = parseInt(req.params.userId); // Obtener el ID de la solicitud
-    try {
-        const user = yield prisma.user.findUnique({
-            where: { id: userId } // Filtrar por ID
-        });
-        res.status(200).json(user); // Devolver el usuario
-    }
-    catch (error) {
-        console.error('Error fetching user by ID:', error);
-        (0, error_handler_1.handleHttp)(res, 'ERROR_FETCH_USER_BY_ID');
-    }
-});
-exports.getUserById = getUserById;
 const getUsersByRole = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const role = req.params.role; // Obtener el rol de la solicitud
     try {
@@ -94,8 +80,7 @@ const getUsersByRole = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.getUsersByRole = getUsersByRole;
-// @ts-ignore
-const getAllUsers = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Obtener todos los usuarios
         const users = yield prisma.user.findMany();

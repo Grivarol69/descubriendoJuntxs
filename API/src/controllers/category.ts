@@ -10,27 +10,20 @@ const prisma = new PrismaClient();
 
 
 const getCategory = async (req: Request, res: Response) => {
-
     try {
         const { id } = req.params;
         const category = await prisma.category.findUnique({
             where: {
                 id: Number(id)
             },
-
             include: {
-
-
-
-                program: true
+                project: true
             }
         });
         res.json(category)
-
     } catch (error) {
         handleHttp(res, 'ERROR_GET_CATEGORY')
     }
-
 }
 
 const getCategories = async (_req: Request, res: Response) => {

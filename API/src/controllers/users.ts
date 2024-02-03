@@ -52,6 +52,20 @@ const updateUserById = async (req: Request, res: Response) => {
     }
 }
 
+const getUserById = async (req: Request, res: Response) => {
+    const userId = parseInt(req.params.userId); // Obtener el ID de la solicitud
+    try {
+        const user = await prisma.user.findUnique({
+            where: { id: userId } // Filtrar por ID
+        });
+        res.status(200).json(user); // Devolver el usuario
+    } catch (error) {
+        console.error('Error fetching user by ID:', error);
+        handleHttp(res, 'ERROR_FETCH_USER_BY_ID');
+    }
+
+}
+
 
 const getUsersByRole = async (req: Request, res: Response) => {
     const role = req.params.role; // Obtener el rol de la solicitud
@@ -73,6 +87,7 @@ const getUsersByRole = async (req: Request, res: Response) => {
     }
 }
 
+// @ts-ignore
 const getAllUsers = async (_req: Request, res: Response) => {
     try {
         // Obtener todos los usuarios
@@ -89,5 +104,6 @@ export {
     postUser,
     updateUserById,
     getUsersByRole,
-    getAllUsers
+    getAllUsers,
+    getUserById
 }

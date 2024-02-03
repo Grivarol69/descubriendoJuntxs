@@ -4,6 +4,9 @@ import MessageResponse from "../interfaces/MessageResponse";
 import categories from "./categories";
 import programsRouter from "./programs";
 import users from "./users";
+import services from "./services";
+import payments from "./payments";
+import createUser from "./auth";
 // import path from "path";
 
 // const PATH_ROUTER = path.resolve('./src/routes') 
@@ -18,7 +21,7 @@ const router = express.Router()
 
 // readdirSync(PATH_ROUTER).filter((fileName) => {
 //     const cleanName = cleanFileName(fileName)
-    
+
 //     if(cleanName !== 'index'){
 //         import(`./${cleanName}`).then((moduleRouter) => {
 //             console.log(`Loading router: /${cleanName}`)
