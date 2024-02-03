@@ -57,8 +57,10 @@ const postCreatePayment = async (req: Request, res: Response) => {
                 purpose: "wallet_purchase",
                 back_urls: {
                     success: "http://localhost:3000",
+
                     failure: "http://localhost:3000",
                     pending: "http://localhost:3000",
+
                 },
                 auto_return: "approved",
                 notification_url: "https://85c7-181-167-76-221.ngrok-free.app/payments/webhook",
@@ -74,6 +76,8 @@ const postCreatePayment = async (req: Request, res: Response) => {
             },
         });
         res.send(response);
+        console.log(response);
+
     } catch (error) {
         console.log(error);
     }
@@ -83,10 +87,12 @@ const reciveWebhook = async (req: Request, res: Response) => {
 
 
 
+
     try {
         if (req.query.topic === 'payment') {
             const paymentId = req.query.id as string;
             console.log('paymentId', req.query);
+
             const paymentInfo = await (payment as any).get({ id: paymentId });
             console.log('meta', paymentInfo);
 
@@ -103,6 +109,7 @@ const reciveWebhook = async (req: Request, res: Response) => {
                 }
             })
 
+
             res.status(200).send('ok');
         }
 
@@ -112,12 +119,15 @@ const reciveWebhook = async (req: Request, res: Response) => {
     } catch (error) {
         console.log('Error al obtener el pago:', error);
         res.status(500).send('Error al obtener el pago');
-    }
 
+    }
 }
+
 
 
 export {
     postCreatePayment,
     reciveWebhook,
+
+
 }
