@@ -4,18 +4,26 @@ import { ServiceType, PrismaClient, ServiceState } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const getServices = async (_req: Request, res: Response) => {
-      
+const getServices = async (req: Request, res: Response) => {
+  const { name } = req.query;
+
     try {
-      const service = await prisma.service.findMany({
+      const services = await prisma.service.findMany({
         where: {
           state: "Activo",
         },
       });
+
+      const names = name
+            ? services.filter((service) => {
+                return service.name.toLowerCase().includes(name.toString().toLowerCase());
+            })
+            : services
   
-      res.status(200).json(service);
+      res.status(200).json(names);
+
     } catch (error) {
-      handleHttp(res, "ERROR_GET_SERVICE_BY_ID");
+      handleHttp(res, "ERROR_GET_SERVICES");
     }
   };
 
@@ -35,7 +43,7 @@ const getServiceById = async (req: Request, res: Response) => {
   }
 };
 
-const getServiceByType = async (req: Request, res: Response) => {
+const getServicesByType = async (req: Request, res: Response) => {
   const { type } = req.params;
   
   try {
@@ -51,6 +59,21 @@ const getServiceByType = async (req: Request, res: Response) => {
   }
 };
 
+const getServicesByUser = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+  
+  try {
+    const event = await prisma.service.findMany({
+      where: {
+        userId: userId as unknown as number,
+        state: "Activo",
+      },
+    });
+    res.status(200).json(event);
+  } catch (error) {
+    handleHttp(res, "ERROR_GET_SERVICES_BY_TYPE");
+  }
+};
 
 const postService = async (req: Request, res: Response) => {
   const {
@@ -149,7 +172,8 @@ const paginationService = async (req: Request, res: Response) => {
 export {
     getServices,
     getServiceById,
-    getServiceByType,
+    getServicesByType,
+    getServicesByUser,
     postService,
     updateService,
     paginationService,
