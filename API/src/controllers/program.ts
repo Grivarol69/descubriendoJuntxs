@@ -94,6 +94,7 @@ const postProgram = async ({ body }: Request, res: Response) => {
 
     try {
         const newProgram = await prisma.program.create({
+
             data: {
 
                 name: name && name as string,
@@ -104,6 +105,7 @@ const postProgram = async ({ body }: Request, res: Response) => {
                 state: state && state as State,
                 type: type && type as ProgramType,
                 categoryId: categoryId && categoryId
+
 
             }
         });
