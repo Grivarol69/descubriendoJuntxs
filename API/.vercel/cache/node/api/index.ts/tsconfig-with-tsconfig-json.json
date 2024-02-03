@@ -1,6 +1,6 @@
 {
-	"extends": "../../../../../tsconfig.json",
+	"extends": "..\\..\\..\\..\\..\\tsconfig.json",
 	"include": [
-		"../../../../../api/index.ts"
+		"..\\..\\..\\..\\..\\api\\index.ts"
 	]
 }
