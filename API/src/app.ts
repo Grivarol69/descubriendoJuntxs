@@ -13,9 +13,7 @@ const server =  express()
 
 
 
-
-
-
+server.set('port', 3001) // configuracion del puerto
 
 
 // middlewares prade
