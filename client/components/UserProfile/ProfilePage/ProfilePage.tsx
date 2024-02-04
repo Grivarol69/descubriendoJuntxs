@@ -19,15 +19,19 @@ interface useInfoType {
     }
 }
 const ProfilePage: React.FC<useInfoType> = ({ useInfo }) => {
-    const {infoUser} : any = useAuthContext()
     const [vistaDeComponente, setVistaDeComponente] = useState('')
     const vistaComponente = (name: string) => {
         if (name === 'datos') return setVistaDeComponente('datos')
         if (name === 'seguridad') return setVistaDeComponente('seguridad')
         if (name === 'condiciones') return setVistaDeComponente('condiciones')
     }
-    const { infoUserGlobal, setInfoUserGlobal } = useAuthContext()
-    const userName = infoUserGlobal.name.split(' ')
+    const { infoUserGlobal } = useAuthContext()
+    const infoUserGlobalParse = infoUserGlobal && JSON.parse(infoUserGlobal)
+
+    console.log('me gusta comer' + infoUserGlobalParse);
+    
+    console.log(infoUserGlobalParse);
+
     const estiloTransition = () => {
         const datos = {
             width: '55vw',
@@ -53,7 +57,9 @@ const ProfilePage: React.FC<useInfoType> = ({ useInfo }) => {
         return normal
     }
     const estilo = estiloTransition()
-    console.log(infoUserGlobal);
+    const userName = infoUserGlobalParse.name.split(' ')
+    console.log();
+    
     return (
         <>
             <div className={style.userProfile} style={estilo}>
@@ -63,7 +69,7 @@ const ProfilePage: React.FC<useInfoType> = ({ useInfo }) => {
                         <div className={style.portadaImage}></div>
                         <div className={style.bodyInfo}>
                             <div className={style.nombreYData}>
-                                <div className={style.nombreCompleto}>{infoUserGlobal.name}</div>
+                                <div className={style.nombreCompleto}>{userName[0] + ' ' + userName[1]}</div>
                                 <div className={style.optionsContainerOfAll}>
                                     <div className={style.contanerOptions}>
                                         <div className={style.menuDescriptionTitle}>
@@ -133,42 +139,42 @@ const ProfilePage: React.FC<useInfoType> = ({ useInfo }) => {
                                 <div className={style.identificacion}>
                                     <div className={style.titleMenu}>
                                         Identificación
-                                        <div className={style.descriptionMenu}>{infoUserGlobal.identificacion ? infoUserGlobal.identificacion : 'Insert id'}</div>
+                                        <div className={style.descriptionMenu}>{infoUserGlobalParse.identificacion ? infoUserGlobalParse.identificacion : 'Insert id'}</div>
                                     </div>
                                 </div>
                                 <div className={style.fechaNaci}>
 
                                     <div className={style.titleMenu}>
                                         Fecha de Nacimiento
-                                        <div className={style.descriptionMenu}>{infoUserGlobal.dateIn ? infoUserGlobal.dateIn : 'Insert date'}</div>
+                                        <div className={style.descriptionMenu}>{infoUserGlobalParse.dateIn ? infoUserGlobalParse.dateIn : 'Insert date'}</div>
                                     </div>
                                 </div>
                                 <div className={style.idiomas}>
 
                                     <div className={style.titleMenu}>
                                         Idiomas
-                                        <div className={style.descriptionMenu}>{infoUserGlobal.languaje ? infoUserGlobal.languaje : 'Insert languages'}</div>
+                                        <div className={style.descriptionMenu}>{infoUserGlobalParse.languaje ? infoUserGlobalParse.languaje : 'Insert languages'}</div>
                                     </div>
                                 </div>
                                 <div className={style.telefono}>
 
                                     <div className={style.titleMenu}>
                                         Teléfono
-                                        <div className={style.descriptionMenu}>{infoUserGlobal.phone ? infoUserGlobal.phone : 'Insert phone'}</div>
+                                        <div className={style.descriptionMenu}>{infoUserGlobalParse.phone ? infoUserGlobalParse.phone : 'Insert phone'}</div>
                                     </div>
                                 </div>
                                 <div className={style.email}>
 
                                     <div className={style.titleMenu}>
                                         Email
-                                        <div className={style.descriptionMenu}>{infoUserGlobal.email ? infoUserGlobal.email : 'Insert mail'}</div>
+                                        <div className={style.descriptionMenu}>{infoUserGlobalParse.email ? infoUserGlobalParse.email : 'Insert mail'}</div>
                                     </div>
                                 </div>
                                 <div className={style.linkedin}>
 
                                     <div className={style.titleMenu}>
                                         Linkedin
-                                        <div className={style.descriptionMenu}>{infoUserGlobal.linkedin ? infoUserGlobal.linkedin : 'insert linkedin'}</div>
+                                        <div className={style.descriptionMenu}>{infoUserGlobalParse.linkedin ? infoUserGlobalParse.linkedin : 'insert linkedin'}</div>
                                     </div>
                                 </div>
                             </div>
