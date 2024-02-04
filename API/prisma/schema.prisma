@@ -99,7 +99,7 @@ model Participant {
 
 model Donation {
   id Int @id @default(autoincrement())
-  transactionId Int @unique
+  transactionId BigInt @unique
   programId Int 
   userId Int 
   amount Float

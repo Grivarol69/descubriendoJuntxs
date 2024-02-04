@@ -64,6 +64,7 @@ const postCreatePayment = async (req: Request, res: Response) => {
                 },
                 auto_return: "approved",
                 notification_url: "https://juntxs.vercel.app//payments/webhook",
+
                 metadata: {
                     programId: programId,
                     userId: infoUser.userId,
