@@ -2,6 +2,7 @@ import { userInfo } from 'os'
 import style from './myProfile.module.css'
 import { icons } from '@/components/Icons/Icons'
 import ProfilePage from '@/components/UserProfile/ProfilePage/ProfilePage'
+import React from 'react'
 
 const Profile = () => {
 
@@ -20,7 +21,7 @@ const Profile = () => {
     return (
         <div className={style.gridColumns} style={{ color: '#24275A' }}>
             <ProfilePage
-            useInfo={useInfo}
+                useInfo={useInfo}
             />
         </div>
     )
