@@ -10,6 +10,7 @@ import ResetPassword from "@/components/ResetPassword/ResetPassword";
 import { userInfo } from 'os';
 import axios from "axios";
 import { useAuthContext } from "@/app/contexto/AuthContext";
+import { urlGlobal } from "../signup/page";
 
 const SignInPage = () => {
     const [infoUser, setInfoUser] = useState({
@@ -22,7 +23,7 @@ const SignInPage = () => {
         email: '',
         password: ''
     });
-    const { infoUserGlobal, setInfoUserGlobal } = useAuthContext()
+    const { persistirSesion } = useAuthContext()
 
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -59,6 +60,7 @@ const SignInPage = () => {
             [name]: error
         }));
     }
+
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         try {
@@ -71,11 +73,10 @@ const SignInPage = () => {
                 return console.log(error);
             }
             const token = result?.user.accessToken
-            const name = result?.user.displayName
-            const userInfoCreate = (await axios.post('https://juntxs.vercel.app/auth', { token, name })).data
+            const userInfoCreate = (await axios.post(`${urlGlobal}users/authToken`, { token })).data
             if (userInfoCreate.status) {
                 console.log(userInfoCreate);
-                setInfoUserGlobal(userInfoCreate.createUser)
+                persistirSesion(userInfoCreate.user)
                 return router.push('/userIn')
             }
             return console.log(
@@ -96,11 +97,10 @@ const SignInPage = () => {
                 return console.log(error);
             }
             const token = result?.user.accessToken
-            const name = result?.user.displayName
-            const userInfoCreate = (await axios.post('https://juntxs.vercel.app/auth', { token, name })).data
+            const userInfoCreate = (await axios.post(`${urlGlobal}users/authToken`, { token })).data
             if (userInfoCreate.status) {
                 console.log(userInfoCreate);
-                setInfoUserGlobal(userInfoCreate.createUser)
+                persistirSesion(userInfoCreate.user)
                 return router.push('/userIn')
             }
             return console.log(
@@ -110,6 +110,7 @@ const SignInPage = () => {
             alert(error)
         }
     }
+
 
     return (
         <div className={style.backgroundSignin}>
@@ -129,7 +130,6 @@ const SignInPage = () => {
                             }
                         </div>
                         {!heOlvidado &&
-
                             <form onSubmit={handleSubmit} className={style.formDesign}>
                                 <div className={style.labelAndInput}>
                                     <label>

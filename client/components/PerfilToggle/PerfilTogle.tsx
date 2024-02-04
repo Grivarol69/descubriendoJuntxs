@@ -39,6 +39,7 @@ const PerfilTogle: React.FC<ToggleTyps> = ({ toggle, logOut, closeToggle }) => {
             <div className={style.containerToggle} style={styles}>
                 <div
                 onClick={() => {
+                    closeToggle()
                     return router.push('/pages/user')
                 }}
                 className={style.myProfile}> Mi Perfil </div>

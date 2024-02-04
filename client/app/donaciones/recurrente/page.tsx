@@ -55,7 +55,7 @@ const DonacionesRecurrentesPage: React.FC = () => {
     console.log(formData);
     try {
       const response = await axios.post<{ mensaje: string, init_point: string }>(
-        "http://localhost:3001/payments",
+        "https://juntxs.vercel.app/payments",
         formData
       );
         const data =  response.data

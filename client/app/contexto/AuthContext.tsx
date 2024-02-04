@@ -7,8 +7,11 @@ import { createContext, ReactNode } from 'react';  // Importa ReactNode
 
 interface AuthContextProps {
   user: User | null;
-  setInfoUserGlobal: React.Dispatch<SetStateAction<object>>;
-  infoUserGlobal: object;
+  infoUserGlobal: string | null;
+  setInfoUserGlobal: React.Dispatch<SetStateAction<string | null>>
+  persistirSesion: (user: any) => void;
+  logged: any;
+  logoutReal: any
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -22,15 +25,36 @@ export const useAuthContext = () => {
 };
 
 interface AuthContextProviderProps {
-  children: ReactNode; 
+  children: ReactNode;
 }
 
 export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [infoUserGlobal, setInfoUserGlobal] = useState({})
+  const [infoUserGlobal, setInfoUserGlobal] = useState(window.localStorage.getItem('user'))
+  const [logged, setLogged] = useState(useState(window.localStorage.getItem('userLogged')))
 
   const auth = getAuth(firebase_app);
+
+  const persistirSesion = (user: any) => {
+    try {
+      const trueWord: any = ['true']
+      setInfoUserGlobal(JSON.stringify(user))
+      setLogged(trueWord)
+      window.localStorage.setItem('user', JSON.stringify(user))
+      window.localStorage.setItem('userLogged', 'true')
+      console.log(logged);
+      
+    } catch (error) {
+      alert(error);
+    }
+  }
+
+  const logoutReal = () => {
+    const falseWord: any = ['false']
+    setLogged(falseWord)
+    window.localStorage.setItem('userLogged', 'false')
+  }
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (authUser) => {
@@ -40,11 +64,12 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       }
       setLoading(false);
     });
-     return () => unsubscribe();
-  }, [auth, infoUserGlobal]);
+    return () => unsubscribe();
+  }, [auth]);
+
 
   return (
-    <AuthContext.Provider value={{ user, setInfoUserGlobal, infoUserGlobal }}>
+    <AuthContext.Provider value={{ user, infoUserGlobal, persistirSesion, setInfoUserGlobal, logged, logoutReal }}>
       {loading ? <div>Loading...</div> : children}
     </AuthContext.Provider>
   );
