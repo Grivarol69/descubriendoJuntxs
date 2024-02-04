@@ -1,19 +1,25 @@
+'use client'
 import React, { useState } from "react"
 import style from './card.module.css'
 import ModalProject from "../modal/Modal"
 
 export interface Proyect {
-    nombre: string,
-    descripcion: string,
-    meta: string,
-    comentarios: string[]
-    imagen: string,
-    rating: string
+    project: {
+        nombre: string,
+        descripcion: string,
+        meta: string,
+        comentarios: string[]
+        imagen: string,
+        rating: string
+    }
 }
-const CardProyect: React.FC<{ project: Proyect }> = ({ project }) => {
+
+
+const CardProyect: React.FC<Proyect> = ({ project }) => {
 
     const { nombre, descripcion, meta, imagen } = project
     const [modal, setModal] = useState(false)
+
 
     return (
         <>
@@ -34,7 +40,9 @@ const CardProyect: React.FC<{ project: Proyect }> = ({ project }) => {
                         </div>
                     </div>
                     <div className={style.buttonContainer}>
-                        <button onClick={() => setModal(true)} className={style.buttonText}>
+                        <button onClick={() =>
+                            setModal(true)
+                        } className={style.buttonText}>
                             Ver Proyecto
                         </button>
                         <button className={style.buttonFull}>
