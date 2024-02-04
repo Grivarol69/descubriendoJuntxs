@@ -9,7 +9,6 @@ function Page() {
 
     React.useEffect(() => {
         if (user == null) router.push("/")
-        console.log(auth);
         
     }, [user])
 
