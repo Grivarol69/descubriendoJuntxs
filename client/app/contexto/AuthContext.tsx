@@ -1,12 +1,14 @@
 'use client'
 
-import { onAuthStateChanged, getAuth, User } from 'firebase/auth';
+import { onAuthStateChanged, getAuth, User, sendEmailVerification } from 'firebase/auth';
 import firebase_app from '../firebase/firebase-config';
-import { useContext, useEffect, useState } from 'react';
+import { SetStateAction, useContext, useEffect, useState } from 'react';
 import { createContext, ReactNode } from 'react';  // Importa ReactNode
 
 interface AuthContextProps {
   user: User | null;
+  setInfoUserGlobal: React.Dispatch<SetStateAction<object>>;
+  infoUserGlobal: object;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -20,26 +22,29 @@ export const useAuthContext = () => {
 };
 
 interface AuthContextProviderProps {
-  children: ReactNode;
+  children: ReactNode; 
 }
 
 export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [infoUserGlobal, setInfoUserGlobal] = useState({})
 
   const auth = getAuth(firebase_app);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (authUser) => {
       setUser(authUser);
+      if (!authUser?.emailVerified && authUser) {
+        sendEmailVerification(authUser)
+      }
       setLoading(false);
     });
-
-    return () => unsubscribe();
-  }, [auth]);
+     return () => unsubscribe();
+  }, [auth, infoUserGlobal]);
 
   return (
-    <AuthContext.Provider value={{ user }}>
+    <AuthContext.Provider value={{ user, setInfoUserGlobal, infoUserGlobal }}>
       {loading ? <div>Loading...</div> : children}
     </AuthContext.Provider>
   );
