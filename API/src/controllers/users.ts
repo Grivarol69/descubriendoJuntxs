@@ -1,17 +1,16 @@
 import { Request, Response } from "express"
 import { handleHttp } from "../utils/error.handler"
 import { PrismaClient } from "@prisma/client"
+import admin from "../../firebase/firebase-config"
 
 const prisma = new PrismaClient();
 
 const postUser = async ({ body }: Request, res: Response) => {
     const { email, name, surName, identification, phone, dateIn, dateOut, description, linkedin, languaje, position, role } = body;
-
     if (!email || !name) {
         handleHttp(res, 'EMAIL_AND_NAME_REQUIRED');
         return;
     }
-
     try {
         const newUser = await prisma.user.create({
             data: {
@@ -51,22 +50,24 @@ const updateUserById = async (req: Request, res: Response) => {
         handleHttp(res, 'ERROR_UPDATE_USER');
     }
 }
-
-const getUserById = async (req: Request, res: Response) => {
-    const userId = parseInt(req.params.userId); // Obtener el ID de la solicitud
+const getUserByEmail = async (req: Request, res: Response) => {
     try {
-        const user = await prisma.user.findUnique({
-            where: { id: userId } // Filtrar por ID
-        });
-        res.status(200).json(user); // Devolver el usuario
+        const { token } = req.body
+        const decodedToken = await admin.auth().verifyIdToken(token);
+        if (decodedToken) {
+            const email = decodedToken.email
+            const user = await prisma.user.findUnique({
+                where: { email: email } // Filtrar por ID
+            });
+            res.status(200).json({
+                status: true,
+                user}); // Devolver el usuario
+        }
     } catch (error) {
         console.error('Error fetching user by ID:', error);
         handleHttp(res, 'ERROR_FETCH_USER_BY_ID');
     }
-
 }
-
-
 const getUsersByRole = async (req: Request, res: Response) => {
     const role = req.params.role; // Obtener el rol de la solicitud
     try {
@@ -79,31 +80,25 @@ const getUsersByRole = async (req: Request, res: Response) => {
                 }
             }
         });
-
         res.status(200).json(users); // Devolver la lista de usuarios
     } catch (error) {
         console.error('Error fetching users by role and status:', error);
         handleHttp(res, 'ERROR_FETCH_USERS_BY_ROLE_AND_STATUS');
     }
 }
-
-// @ts-ignore
 const getAllUsers = async (_req: Request, res: Response) => {
     try {
-        // Obtener todos los usuarios
         const users = await prisma.user.findMany();
-
-        res.status(200).json(users); // Devolver la lista de usuarios
+        res.status(200).json(users);
     } catch (error) {
         console.error('Error al obtener todos los usuarios:', error);
         handleHttp(res, 'ERROR_GET_ALL_USERS');
     }
 }
-
 export {
     postUser,
     updateUserById,
     getUsersByRole,
     getAllUsers,
-    getUserById
+    getUserByEmail
 }
