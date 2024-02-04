@@ -63,7 +63,7 @@ const postCreatePayment = (req, res) => __awaiter(void 0, void 0, void 0, functi
                     pending: "http://localhost:3000",
                 },
                 auto_return: "approved",
-                notification_url: "https://00ad-181-167-76-221.ngrok-free.app/payments/webhook",
+                notification_url: "https://793e-181-167-76-221.ngrok-free.app/payments/webhook",
                 metadata: {
                     programId: programId,
                     userId: infoUser.userId,
@@ -89,17 +89,27 @@ const reciveWebhook = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             console.log('paymentId', req.query);
             const paymentInfo = yield payment.get({ id: paymentId });
             console.log('meta', paymentInfo);
-            yield prisma.donation.create({
-                data: {
-                    programId: paymentInfo.metadata.program_id,
-                    userId: paymentInfo.metadata.user_id,
-                    amount: paymentInfo.transaction_amount,
-                    date: paymentInfo.date_created,
-                    message: paymentInfo.metadata.message,
-                    contact_email: paymentInfo.metadata.contact_email,
-                    contact_phone: paymentInfo.metadata.contact_phone
+            if (paymentInfo.status === 'approved') {
+                const donation = yield prisma.donation.findUnique({
+                    where: {
+                        transactionId: Number(paymentId)
+                    },
+                });
+                if (!donation) {
+                    yield prisma.donation.create({
+                        data: {
+                            transactionId: Number(paymentId),
+                            programId: Number(paymentInfo.metadata.program_id),
+                            userId: paymentInfo.metadata.user_id,
+                            amount: paymentInfo.transaction_amount,
+                            date: paymentInfo.date_created,
+                            message: paymentInfo.metadata.message,
+                            contact_email: paymentInfo.metadata.contact_email,
+                            contact_phone: paymentInfo.metadata.contact_phone,
+                        },
+                    });
                 }
-            });
+            }
         }
         res.status(400).send('No es un pago');
     }

@@ -80,7 +80,7 @@ const getUsersByRole = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.getUsersByRole = getUsersByRole;
-const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllUsers = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Obtener todos los usuarios
         const users = yield prisma.user.findMany();

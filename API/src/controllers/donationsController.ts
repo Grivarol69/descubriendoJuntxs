@@ -4,7 +4,7 @@ import { PrismaClient } from "@prisma/client"
 
 const prisma = new PrismaClient();
 
-const getDonations = async (_req:Request, res:Response) => {
+const getDonations = async (_req: Request, res: Response) => {
     try {
         const donations = await prisma.donation.findMany();
         res.status(200).json(donations);
@@ -13,12 +13,12 @@ const getDonations = async (_req:Request, res:Response) => {
     }
 }
 
-const getDonationsByProgram = async (req:Request, res:Response) => {
+const getDonationsByProgram = async (req: Request, res: Response) => {
     const { programId } = req.query;
 
     try {
         const donation = await prisma.donation.findMany({
-            where: { 
+            where: {
                 programId: Number(programId)
             }
         });
@@ -29,12 +29,12 @@ const getDonationsByProgram = async (req:Request, res:Response) => {
     }
 }
 
-const getDonationsByUser = async (req:Request, res:Response) => {
+const getDonationsByUser = async (req: Request, res: Response) => {
     const { userId } = req.query;
 
     try {
         const donation = await prisma.donation.findMany({
-            where: { 
+            where: {
                 userId: Number(userId)
             }
         });
@@ -45,12 +45,12 @@ const getDonationsByUser = async (req:Request, res:Response) => {
     }
 }
 
-const getDonationsByUserAndProgram = async (req:Request, res:Response) => {
+const getDonationsByUserAndProgram = async (req: Request, res: Response) => {
     const { userId, programId } = req.query;
 
     try {
         const donation = await prisma.donation.findMany({
-            where: { 
+            where: {
                 userId: Number(userId),
                 programId: Number(programId)
             }
@@ -62,24 +62,26 @@ const getDonationsByUserAndProgram = async (req:Request, res:Response) => {
 }
 
 const postDonation = async (req: Request, res: Response) => {
-    
-    const { programId, userId, amount, date, type, frequency, message, contact_phone, contact_email, state } = req.body;
+
+    const { programId, userId, amount, date, type, frequency, message, contact_phone, contact_email, state, transactionId } = req.body;
 
     try {
         const newDonation = await prisma.donation.create({
-            data: { 
+            data: {
                 programId: programId && programId,
-                userId: userId && userId,   
+                transactionId: transactionId ? Number(transactionId) : 0,
+                userId: userId && userId,
                 amount: amount && amount as number,
                 date: date && date as Date,
                 type: type && type as string,
                 frequency: frequency && frequency as string,
-                message:  message && message as string,
+                message: message && message as string,
                 contact_phone: contact_phone && contact_phone as string,
                 contact_email: contact_email && contact_email as string,
                 state: state && state as string
             }
         });
+
 
         res.status(200).json(newDonation);
 
@@ -88,7 +90,7 @@ const postDonation = async (req: Request, res: Response) => {
     }
 }
 
-export{
+export {
     getDonations,
     getDonationsByProgram,
     getDonationsByUser,
