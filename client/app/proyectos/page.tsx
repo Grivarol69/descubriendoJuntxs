@@ -1,4 +1,5 @@
 'use client'
+
 import Filter from "@/components/filters/Filter";
 import CardProyect from "@/components/CardProyecto/cardProyecto";
 import SearchBar from "@/components/searchbar/SearchBar";
@@ -69,6 +70,9 @@ const Proyectos: React.FC = () => {
                         </>
                     )
                 })}
+                
+ 
+                   
             </div>
         </>
     )
