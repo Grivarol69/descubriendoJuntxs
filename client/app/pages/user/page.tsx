@@ -4,13 +4,17 @@ import style from './myProfile.module.css'
 import { icons } from '@/components/Icons/Icons'
 import ProfilePage from '@/components/UserProfile/ProfilePage/ProfilePage'
 import { useAuthContext } from '../../contexto/AuthContext'
+import { useRouter } from 'next/navigation'
 
 const Profile = () => {
 
     const { user }: any = useAuthContext()
+    const router = useRouter()
+    if (!user) router.push('/pages/signin')
+
     console.log(user);
-    
-    
+
+
     const useInfo = {
         nombre: user?.displayName,
         apellido: '',
@@ -22,14 +26,19 @@ const Profile = () => {
         linkedin: 'https://www.linkedin.com/in/luisfgonzalezt09/',
         contraseña: 'luisito'
     }
-    
+
     console.log(user);
     return (
-        <div className={style.gridColumns} style={{ color: '#24275A' }}>
-            <ProfilePage
-            useInfo={useInfo}
-            />
-        </div>
+        <>
+            { user &&
+                <div className={style.gridColumns} style={{ color: '#24275A' }}>
+                    <ProfilePage
+                        useInfo={useInfo}
+                    />
+                </div>
+            }
+        </>
+
     )
 }
 

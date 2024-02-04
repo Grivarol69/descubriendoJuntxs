@@ -1,25 +1,35 @@
+import React, { CSSProperties } from 'react';
 import style from './Perfil.module.css'
 import { logout } from '@/app/firebase/auth/signOut';
+import { useRouter } from 'next/navigation';
 
 
 interface ToggleTyps {
     toggle: boolean,
-    logOut: () => void
+    logOut: () => void,
+    closeToggle: () => void
 }
 
-const PerfilTogle: React.FC<ToggleTyps> = ({toggle, logOut}) => {
+const PerfilTogle: React.FC<ToggleTyps> = ({ toggle, logOut, closeToggle }) => {
 
-    const styleFunction = () => {
-        const styleOff = {
+    const router = useRouter()
+    const styleFunction = (): CSSProperties => {
+
+
+        const styleOff: CSSProperties = {
             opacity: '0',
-            height: '0rem'
+            height: '0rem',
+            pointerEvents: 'none'
         }
-        const styleOn = {
+
+        const styleOn: CSSProperties = {
             display: 'flex',
-            height: '5rem'
+            height: '6rem',
+            pointerEvents: 'visible'
         }
-        if(!toggle) return styleOff
-        if(toggle) return styleOn
+
+        if (!toggle) return styleOff
+         return styleOn
     }
 
     const styles = styleFunction()
@@ -27,9 +37,17 @@ const PerfilTogle: React.FC<ToggleTyps> = ({toggle, logOut}) => {
     return (
         <>
             <div className={style.containerToggle} style={styles}>
-                <div className={style.myProfile}> Mi Perfil </div>
-                <div onClick={logOut} className={style.logOut}> Logout </div>
-            </div> 
+                <div
+                onClick={() => {
+                    return router.push('/pages/user')
+                }}
+                className={style.myProfile}> Mi Perfil </div>
+                <div onClick={() => {
+                    logOut()
+                    closeToggle()
+                    return router.push('/')
+                    }} className={style.logOut}> Logout </div>
+            </div>
         </>
     )
 }

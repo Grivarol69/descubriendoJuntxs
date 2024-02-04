@@ -38,9 +38,11 @@ const Navbar = () => {
 
 
   useEffect(() => {
-    document.addEventListener('click', handleClickOutside)
+    document.addEventListener('mousedown', handleClickOutside)
 
-    return document.removeEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
 
   }, [])
 
@@ -78,7 +80,7 @@ const Navbar = () => {
 
           <div className="flex items-center gap-x-2 justify-center">
             <span className="hidden font-medium text-[#fff] lg:block rounded-lg py-3 px-10 text-center" style={{ backgroundColor: "#7286ff" }} >
-              <Link href='/pages/user'>
+              <Link href='/pages/signup'>
                 Registro
               </Link>
             </span>
@@ -86,21 +88,23 @@ const Navbar = () => {
         </div>}
         {user &&
           <div className="flex items-center gap-x-2 justify-center">
-                {/* <div>{user.displayname}</div> */}
-              <div className="flex max-h-4 w-10 h-10 max-w-10 justify-center items-center">
-                <div
-                  ref={componentRef}
-                  onClick={() => !toggle ? setToggle(true) : setToggle(false)}
-                  className="flex w-8 h-8 bg-slate-600 rounded-[100%] cursor-pointer">
-                </div>
-              </div>
+            {/* <div>{user.displayname}</div> */}
             <div
               ref={componentRef}
-              className="w-fit h-fit">
-              <PerfilTogle
-                toggle={toggle}
-                logOut={() => logout()}
-              />
+
+              className="flex max-h-4 w-10 h-10 max-w-10 justify-center items-center">
+              <div
+                onClick={() => !toggle ? setToggle(true) : setToggle(false)}
+                className="flex w-8 h-8 bg-slate-600 rounded-[100%] cursor-pointer">
+              </div>
+              <div
+                className="w-fit h-fit">
+                <PerfilTogle
+                  toggle={toggle}
+                  logOut={() => logout()}
+                  closeToggle={() => setToggle(false)}
+                />
+              </div>
             </div>
             {/* <div className="text-[#FF72D7]" style={{ cursor: 'pointer' }} onClick={async () => {
               await logout()

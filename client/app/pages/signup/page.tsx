@@ -10,6 +10,7 @@ import { ValidateForm } from "@/app/firebase/validation";
 
 import style from './signup.module.css'
 import googleLogo from '../../../public/googleLogo.png'
+import { useAuthContext } from "@/app/contexto/AuthContext";
 
 
 const SignUpPage = () => {
@@ -25,8 +26,8 @@ const SignUpPage = () => {
         password: ''
     });
 
+    const { infoUserGlobal, setInfoUserGlobal } = useAuthContext()
     const [errorMessage, setErrorMessage] = useState('');
-
     const router = useRouter()
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,17 +67,16 @@ const SignUpPage = () => {
     };
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-
         event.preventDefault()
         try {
-            if(!infoUser.name) {
-                alert ('Debes escribir un nombre')
+            if (!infoUser.name) {
+                alert('Debes escribir un nombre')
             }
-            if(!infoUser.email) {
-                alert ('Debes escribir un email')
+            if (!infoUser.email) {
+                alert('Debes escribir un email')
             }
-            if(!infoUser.password) {
-                alert ('Debes escribir una contraseña ')
+            if (!infoUser.password) {
+                alert('Debes escribir una contraseña ')
             }
             console.log('hola');
             const { result, error } = await signUp(infoUser.email, infoUser.password)
@@ -87,10 +87,10 @@ const SignUpPage = () => {
             else {
                 const token = result?.user.accessToken
                 console.log(token);
-
-                const userInfoCreate = (await axios.post('http://localhost:3002/auth', { token, name: infoUser.name })).data
+                const userInfoCreate = (await axios.post('https://juntxs.vercel.app/auth', { token, name: infoUser.name })).data
                 if (userInfoCreate.status) {
                     alert('Todo bien')
+                    setInfoUserGlobal(userInfoCreate.createUser)
                     return router.push('/userIn')
                 }
                 return console.log(
@@ -111,12 +111,13 @@ const SignUpPage = () => {
                 setErrorMessage('Error al registrarse con Google');
                 return console.log(error);
             }
-
             else {
                 const token = result?.user.accessToken
                 const name = result?.user.displayName
-                const userInfoCreate = (await axios.post('http://localhost:3002/auth', { token, name })).data
+                const userInfoCreate = (await axios.post('https://juntxs.vercel.app/auth', { token, name })).data
                 if (userInfoCreate.status) {
+                    console.log(userInfoCreate);
+                    setInfoUserGlobal(userInfoCreate.createUser)
                     return router.push('/userIn')
                 }
                 return console.log(
@@ -152,7 +153,6 @@ const SignUpPage = () => {
                                 {errors.email && <p>{errors.email}</p>}
                             </div>
                             <div className={style.labelAndInput}>
-
                                 <label>
                                     Contraseña
                                 </label>
@@ -162,15 +162,11 @@ const SignUpPage = () => {
                             {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
                             <div className={style.buttons}>
                                 <button
-                                disabled={Object.values(errors).some(error => error !== '') || !infoUser.name || !infoUser.email || !infoUser.password}
-                                type="submit" className={style.buttonFull}>Registrarse</button>
-
-
-                                <button  className={style.buttonGoogle} 
-                                 onClick={handleGoogleSignUp}>
+                                    disabled={Object.values(errors).some(error => error !== '') || !infoUser.name || !infoUser.email || !infoUser.password}
+                                    type="submit" className={style.buttonFull}>Registrarse</button>
+                                <button className={style.buttonGoogle}
+                                    onClick={handleGoogleSignUp}>
                                     <img src={googleLogo.src} style={{ width: '3rem' }} alt="google" /> Registrarse Con Google </button>
-                                    
-                               
                             </div>
                         </form>
                     </div>
