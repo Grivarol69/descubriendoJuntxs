@@ -29,6 +29,8 @@ interface AuthContextProviderProps {
 }
 
 export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
+
+
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [infoUserGlobal, setInfoUserGlobal] = useState(window.localStorage.getItem('user'))
@@ -44,7 +46,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       window.localStorage.setItem('user', JSON.stringify(user))
       window.localStorage.setItem('userLogged', 'true')
       console.log(logged);
-      
+
     } catch (error) {
       alert(error);
     }
@@ -57,6 +59,17 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   }
 
   useEffect(() => {
+    const falseWord: any = ['false']
+    const falseObject: any = {}
+    setInfoUserGlobal(falseObject)
+    setLogged(falseWord)
+    window.localStorage.setItem('user', falseObject)
+    window.localStorage.setItem('userLogged', 'false')
+
+  }, [])
+
+  useEffect(() => {
+
     const unsubscribe = onAuthStateChanged(auth, (authUser) => {
       setUser(authUser);
       if (!authUser?.emailVerified && authUser) {
