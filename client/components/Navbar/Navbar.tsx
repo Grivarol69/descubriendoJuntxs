@@ -107,6 +107,7 @@ const Navbar = () => {
               </div>
             </div>
             {/* <div className="text-[#FF72D7]" style={{ cursor: 'pointer' }} onClick={async () => {
+
               await logout()
               return router.push('/userIn')
             }}>
@@ -114,6 +115,7 @@ const Navbar = () => {
             </div> */}
           </div>
         }
+
 
         <div className="lg:hidden cursor-pointer" onClick={handlerMenu}>
           <Image

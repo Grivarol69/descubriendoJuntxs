@@ -2,9 +2,11 @@ import express from "express";
 // import { readdirSync } from "fs";
 import MessageResponse from "../interfaces/MessageResponse";
 import categories from "./categories";
-import programs from "./programs";
+import programsRouter from "./programs";
 import users from "./users";
-import { createUser } from "../controllers/firebase";
+import services from "./services";
+import payments from "./payments";
+import createUser from "./auth";
 // import path from "path";
 
 // const PATH_ROUTER = path.resolve('./src/routes') 
@@ -19,7 +21,7 @@ const router = express.Router()
 
 // readdirSync(PATH_ROUTER).filter((fileName) => {
 //     const cleanName = cleanFileName(fileName)
-    
+
 //     if(cleanName !== 'index'){
 //         import(`./${cleanName}`).then((moduleRouter) => {
 //             console.log(`Loading router: /${cleanName}`)
@@ -36,9 +38,18 @@ router.get<{}, MessageResponse>('/', (_req, res) => {
 });
 
 router.use('/categories', categories);
-router.use('/programs', programs);
+router.use('/programs', programsRouter);
+router.use('/services', services);
 router.use('/users', users);
+
+router.use('/payments', payments)
+
+
+
+
+
 router.use('/auth', createUser)
+
 
 
 export default router;

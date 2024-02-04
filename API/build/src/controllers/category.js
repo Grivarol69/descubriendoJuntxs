@@ -21,7 +21,7 @@ const getCategory = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                 id: Number(id)
             },
             include: {
-                program: true
+                project: true
             }
         });
         res.json(category);
@@ -58,7 +58,7 @@ const postCategory = ({ body }, res) => __awaiter(void 0, void 0, void 0, functi
     }
     catch (error) {
         const message = error.message;
-        console.log(message);
+        console.log(error);
         res.status(500).json({ error: message });
     }
 });
