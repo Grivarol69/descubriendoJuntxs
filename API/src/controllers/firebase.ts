@@ -12,9 +12,7 @@ const createUser = async (req: Request, res: Response) => {
         const decodedToken = await admin.auth().verifyIdToken(token);
 
         if (decodedToken) {
-            console.log(decodedToken);
 
-            
             const email = decodedToken.email || 'null@gmail.com'
             const createUserFinal = await prisma.user.create({
                 data: {
