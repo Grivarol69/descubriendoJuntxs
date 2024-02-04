@@ -23,18 +23,19 @@ const navLinks = [
 ];
 
 const Navbar = () => {
-  const { user }: any = useAuthContext()
+  const { logged, logoutReal }: any = useAuthContext()
   const [toggle, setToggle] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const path = usePathname()
   console.log(path);
-  const componentRef = useRef(null)
+  const componentRef: any = useRef(null)
 
   const handleClickOutside = (event: any) => {
     if (componentRef.current && !componentRef.current.contains(event.target)) {
       setToggle(false)
     }
   }
+
 
 
   useEffect(() => {
@@ -47,11 +48,12 @@ const Navbar = () => {
   }, [])
 
 
-
   const handlerMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
   const router = useRouter()
+
+  console.log(logged);
 
   return (
 
@@ -62,8 +64,8 @@ const Navbar = () => {
 
         <div className="hidden lg:flex pl-[74px] gap-x-[36px]">
           {navLinks.map((item, index) => (
-            <Link href={item.href}>
-              <p className="text-[#36485C] font-medium" key={index}>
+            <Link key={index} href={item.href}>
+              <p className="text-[#36485C] font-medium">
                 {item.name}
               </p>
             </Link>
@@ -71,9 +73,8 @@ const Navbar = () => {
         </div>
       </div>
 
-
       <div className="flex items-center gap-x-5 justify-center">
-        {!user && <div className="flex items-center gap-x-5">
+        {logged[0] === 'false' && <div className="flex items-center gap-x-5">
           <p className="hidden lg:block font-medium text-[#36485C] pr-[10px]">
             <Link href="/pages/signin">Ingreso</Link>
           </p>
@@ -86,7 +87,7 @@ const Navbar = () => {
             </span>
           </div>
         </div>}
-        {user &&
+        {logged[0] === 'true' &&
           <div className="flex items-center gap-x-2 justify-center">
             {/* <div>{user.displayname}</div> */}
             <div
@@ -101,7 +102,10 @@ const Navbar = () => {
                 className="w-fit h-fit">
                 <PerfilTogle
                   toggle={toggle}
-                  logOut={() => logout()}
+                  logOut={() => {
+                    logout()
+                    logoutReal()
+                  }}
                   closeToggle={() => setToggle(false)}
                 />
               </div>

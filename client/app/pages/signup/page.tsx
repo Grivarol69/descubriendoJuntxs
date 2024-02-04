@@ -7,11 +7,10 @@ import signUp from "@/app/firebase/auth/signup";
 import signUpWithGoogle from "@/app/firebase/auth/signInWithGoogle";
 import axios from "axios";
 import { ValidateForm } from "@/app/firebase/validation";
-
 import style from './signup.module.css'
 import googleLogo from '../../../public/googleLogo.png'
 import { useAuthContext } from "@/app/contexto/AuthContext";
-
+export const urlGlobal = 'https://juntxs.vercel.app/' 
 
 const SignUpPage = () => {
     const [infoUser, setInfoUser] = useState({
@@ -26,7 +25,7 @@ const SignUpPage = () => {
         password: ''
     });
 
-    const { infoUserGlobal, setInfoUserGlobal } = useAuthContext()
+    const { persistirSesion } = useAuthContext()
     const [errorMessage, setErrorMessage] = useState('');
     const router = useRouter()
 
@@ -87,10 +86,10 @@ const SignUpPage = () => {
             else {
                 const token = result?.user.accessToken
                 console.log(token);
-                const userInfoCreate = (await axios.post('https://juntxs.vercel.app/auth', { token, name: infoUser.name })).data
+                const userInfoCreate = (await axios.post(`${urlGlobal}auth`, { token, name: infoUser.name })).data
                 if (userInfoCreate.status) {
                     alert('Todo bien')
-                    setInfoUserGlobal(userInfoCreate.createUser)
+                    persistirSesion(userInfoCreate.createUserFinal)
                     return router.push('/userIn')
                 }
                 return console.log(
@@ -114,10 +113,10 @@ const SignUpPage = () => {
             else {
                 const token = result?.user.accessToken
                 const name = result?.user.displayName
-                const userInfoCreate = (await axios.post('https://juntxs.vercel.app/auth', { token, name })).data
+                const userInfoCreate = (await axios.post(`${urlGlobal}auth`, { token, name })).data
                 if (userInfoCreate.status) {
-                    console.log(userInfoCreate);
-                    setInfoUserGlobal(userInfoCreate.createUser)
+                    alert('Todo bien')
+                    persistirSesion(userInfoCreate.createUserFinal)
                     return router.push('/userIn')
                 }
                 return console.log(
@@ -125,7 +124,7 @@ const SignUpPage = () => {
                 );
             }
         } catch (error: any) {
-            alert(error.message)
+            alert('ya estás registrado con este correo')
         }
     }
     return (
