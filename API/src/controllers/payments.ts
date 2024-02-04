@@ -94,19 +94,32 @@ const reciveWebhook = async (req: Request, res: Response) => {
 
             const paymentInfo = await (payment as any).get({ id: paymentId });
             console.log('meta', paymentInfo);
+            if (paymentInfo.status === 'approved') {
 
-            await prisma.donation.create({
-                data: {
-                    programId: paymentInfo.metadata.program_id,
-                    userId: paymentInfo.metadata.user_id,
-                    amount: paymentInfo.transaction_amount,
-                    date: paymentInfo.date_created,
-                    message: paymentInfo.metadata.message,
+                const donation = await prisma.donation.findUnique({
+                    where: {
+                        transactionId: Number(paymentId)
+                    },
+                });
 
-                    contact_email: paymentInfo.metadata.contact_email,
-                    contact_phone: paymentInfo.metadata.contact_phone
+                if (!donation) {
+                    await prisma.donation.create({
+                        data: {
+                            transactionId: Number(paymentId),
+                            programId: Number(paymentInfo.metadata.program_id),
+                            userId: paymentInfo.metadata.user_id,
+                            amount: paymentInfo.transaction_amount,
+                            date: paymentInfo.date_created,
+                            message: paymentInfo.metadata.message,
+                            contact_email: paymentInfo.metadata.contact_email,
+                            contact_phone: paymentInfo.metadata.contact_phone,
+                        },
+                    });
                 }
-            });
+
+            }
+
+
 
         }
 

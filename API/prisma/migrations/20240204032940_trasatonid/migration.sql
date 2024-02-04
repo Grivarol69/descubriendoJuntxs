@@ -114,6 +114,7 @@ CREATE TABLE "Participant" (
 -- CreateTable
 CREATE TABLE "Donation" (
     "id" SERIAL NOT NULL,
+    "transactionId" INTEGER NOT NULL,
     "programId" INTEGER NOT NULL,
     "userId" INTEGER NOT NULL,
     "amount" DOUBLE PRECISION NOT NULL,
@@ -147,6 +148,9 @@ CREATE TABLE "Favorite" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Donation_transactionId_key" ON "Donation"("transactionId");
 
 -- AddForeignKey
 ALTER TABLE "Program" ADD CONSTRAINT "Program_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
