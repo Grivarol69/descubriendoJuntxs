@@ -8,24 +8,32 @@ import Menu from "../../public/assets/Menu.svg";
 import Link from "next/link";
 import BlurArrow from "../../public/assets/blue-button.svg";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
+import style from './navbar.module.css'
+import { logout } from "@/app/firebase/auth/signOut";
 
 const navLinks = [
   { name: "Inicio", href: "/" },
   { name: "Proyectos", href: "/proyectos" },
   { name: "Donaciones", href: "/donaciones" },
   { name: "Servicios", href: "/servicios" },
-  { name: "Contacto", href: "contacto" },
+  { name: "Contacto", href: "/contacto" },
 ];
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const path = usePathname()
+  console.log(path);
+
 
   const handlerMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
   return (
-    <nav className="flex w-full items-center justify-between px-[10px] py-[16px] lg:container lg:mx-auto lg:px-15">
+
+
+    <nav className={path.includes('/pages/user') ? 'flex w-full bg-white items-center justify-between px-[20px] py-[16px]  lg:mx-auto lg:px-15 shadow-custom fixed z-[1000]' : "flex w-full bg-white items-center justify-between px-[20px] py-[16px] lg:mx-auto lg:px-15"} >
       <div className="flex items-center">
         <Image src={Logo} alt="Logo" />
 
@@ -40,21 +48,28 @@ const Navbar = () => {
         </div>
       </div>
 
+
       <div className="flex items-center gap-x-5">
         <p className="hidden lg:block font-medium text-[#36485C] pr-[10px]">
-          <Link href="autenticacion/registro">Ingreso</Link>
+          <Link href="/pages/signin">Ingreso</Link>
         </p>
 
         <div className="flex items-center gap-x-2">
-          <span className="hidden font-medium text-[#fff] lg:block rounded-lg py-3 px-10 text-center" style={{ backgroundColor: "#7286ff" }} >
-            <Link
-              href="/autenticacion/ingreso"
-              
-            >
-              Registro
-            </Link>
+
+          <Link href='/pages/user'>
+        <span className="hidden font-medium text-[#fff] lg:block rounded-lg py-3 px-10 text-center" style={{ backgroundColor: "#7286ff" }} >
+            Registro
           </span>
+          </Link>
+
         </div>
+            <div style={{cursor: 'pointer'}} onClick={async () => {
+              await logout()
+            }}>
+              log out
+
+            </div>
+            
         <div className="lg:hidden cursor-pointer" onClick={handlerMenu}>
           <Image
             src={Menu}
@@ -99,15 +114,3 @@ const Navbar = () => {
 
 export default Navbar;
 
-
-// Feature/HU-Form
-//       <div className="flex items-center gap-x-5">
-//         <p className="hidden lg:block font-medium text-[#36485C] pr-[10px]">
-//           <Link href="autenticacion/registro">Ingreso</Link>
-//         </p>
-
-//         <div className="flex items-center gap-x-2">
-//           <span className="hidden font-medium text-[#fff] lg:block rounded-lg py-3 px-10 text-center" style={{ backgroundColor: "#7286ff" }} >
-//             <Link
-//               href="/autenticacion/ingreso"
-              
