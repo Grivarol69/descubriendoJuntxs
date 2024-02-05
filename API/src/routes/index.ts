@@ -6,7 +6,12 @@ import programsRouter from "./programs";
 import users from "./users";
 import services from "./services";
 import payments from "./payments";
+
+import donations from "./donationsRoute";
+
+
 import createUser from "./auth";
+
 // import path from "path";
 
 // const PATH_ROUTER = path.resolve('./src/routes') 
@@ -42,7 +47,12 @@ router.use('/programs', programsRouter);
 router.use('/services', services);
 router.use('/users', users);
 
+router.use('/payments', payments);
+router.use('/donations',donations )
+
+
 router.use('/payments', payments)
+
 
 
 
