@@ -5,7 +5,10 @@ import categories from "./categories";
 import programsRouter from "./programs";
 import users from "./users";
 import services from "./services";
+import participants from "./participants";
 import payments from "./payments";
+import favorites from "./favorites";
+import commentaries from "./commentaries";
 import createUser from "./auth";
 // import path from "path";
 
@@ -41,6 +44,10 @@ router.use('/categories', categories);
 router.use('/programs', programsRouter);
 router.use('/services', services);
 router.use('/users', users);
+router.use('/participants', participants);
+router.use('/payments', payments);
+router.use('/favorites', favorites);
+router.use('/commentaries', commentaries);
 
 router.use('/payments', payments)
 

@@ -37,19 +37,18 @@ model Category {
   id    Int    @id @default(autoincrement())
   name  String
   type categoryType @default(Publico)
-  project Program[] 
+  program Program[] 
 }
 
 model Program {
   id     Int    @id @default(autoincrement())
   name    String
   description String
-  amount Float
   objective String
   syllabus String
+  duration Frequency @default(Unico)
   state State @default(Activo)
   categoryId Int
-  type ProgramType @default(Proyecto)
   category Category @relation(fields: [categoryId], references: [id])
   donation Donation[]
   commentary Commentary[]
@@ -60,14 +59,15 @@ model Program {
 model Service {
   id Int @id @default(autoincrement())
   name String
+  description String
   userId Int
   dateIn DateTime? @default(now())
   dateOut DateTime?
   hourIn DateTime?
-  duration String?
+  duration Frequency? @default(Unico)
   amount Float
-  objective String
-  syllabus String
+  objective String?
+  syllabus String?
   type ServiceType @default(Coaching)
   state ServiceState @default(Activo)
   user User @relation(fields: [userId], references: [id])
@@ -82,7 +82,7 @@ model Payment {
   amount Float
   instrument String
   transactionId String
-  state String
+  state PaymentState @default(Aceptado)
   service Service @relation(fields: [serviceId], references: [id])
   user User @relation(fields: [userId], references: [id])
 }
@@ -92,7 +92,7 @@ model Participant {
   serviceId Int
   userId Int
   role String
-  state String
+  state State @default(Activo)
   service Service @relation(fields: [serviceId], references: [id])
   user User @relation(fields: [userId], references: [id])
 }
@@ -115,15 +115,18 @@ model Donation {
 }
 
 model Commentary {
+  // id Int @id @default(autoincrement())
   programId Int 
   userId Int
-  state String
+  commentary String
+  state State @default(Activo)
   program Program @relation(fields: [programId], references: [id])
   user User @relation(fields: [userId], references: [id])
   @@id([programId,userId])
 }
 
 model Favorite {
+  // id Int @id @default(autoincrement())
   programId Int 
   userId Int
   program Program @relation(fields: [programId], references: [id])
