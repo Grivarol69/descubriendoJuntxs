@@ -9,6 +9,7 @@ import participants from "./participants";
 import payments from "./payments";
 import favorites from "./favorites";
 import commentaries from "./commentaries";
+import createUser from "./auth";
 // import path from "path";
 
 // const PATH_ROUTER = path.resolve('./src/routes') 
@@ -23,7 +24,7 @@ const router = express.Router()
 
 // readdirSync(PATH_ROUTER).filter((fileName) => {
 //     const cleanName = cleanFileName(fileName)
-    
+
 //     if(cleanName !== 'index'){
 //         import(`./${cleanName}`).then((moduleRouter) => {
 //             console.log(`Loading router: /${cleanName}`)
@@ -47,6 +48,14 @@ router.use('/participants', participants);
 router.use('/payments', payments);
 router.use('/favorites', favorites);
 router.use('/commentaries', commentaries);
+
+router.use('/payments', payments)
+
+
+
+
+
+router.use('/auth', createUser)
 
 
 
