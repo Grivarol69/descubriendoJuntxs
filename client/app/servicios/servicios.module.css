@@ -1,4 +1,4 @@
-.backgroundProyecto{
+.backgroundServicios {
     box-sizing: border-box;
     margin: 0;
     display: flex;
@@ -10,4 +10,7 @@
     width: 100%;
     overflow-x: hidden;
     padding-bottom: 10rem;
-}
+  }
+  
+
+  

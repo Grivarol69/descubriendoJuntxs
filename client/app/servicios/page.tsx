@@ -2,6 +2,7 @@
 
 import React from 'react';
 import CardServicios from '@/components/CardServicios/CardServicios';
+import style from './servicios.module.css'
 
 const ServiciosPage: React.FC = () => {
   const serviciosData = [
@@ -26,8 +27,7 @@ const ServiciosPage: React.FC = () => {
   ];
 
   return (
-    <div>
-      <h1>Servicios</h1>
+    <div className={style.backgroundServicios}>
       <CardServicios servicios={serviciosData} />
     </div>
   );
