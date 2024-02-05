@@ -11,17 +11,23 @@ interface ModalProjectProps {
     closeModal: () => void;
     project: {
         nombre: string,
-        descripcion: string,
-        meta: string,
-        comentarios: string[],
-        rating: string,
-        imagen: string
+        description: string,
+        amount: number,
+        objective: string,
+        syllabus: string,
+        state: string,
+        categoryId: number,
+        type: string,
+        image: string,
+        donation: [],
+        commentary: [],
+        favorite: []
     }
 }
 
 const ModalProject: React.FC<ModalProjectProps> = ({ openModal, closeModal, project }) => {
     if (!openModal) return null
-    const { nombre, descripcion, meta, comentarios, rating, imagen } = project;
+    const { nombre, description, image, objective, commentary } = project;
     const [MostrarComentario, setMostrarComentario] = useState(false)
     useEffect(() => {
         document.body.style.overflow = 'hidden';
@@ -37,7 +43,7 @@ const ModalProject: React.FC<ModalProjectProps> = ({ openModal, closeModal, proj
             <div className="padreProyect">
                 <div className="proyectLetra">
                     <div className="proyectDetailImage">
-                        <img className="imageProject" src={imagen} alt="" />
+                        <img className="imageProject" src={image} alt="" />
                     </div>
                     <div className="infoTotalComplete">
                         <div className="closeModal">
@@ -49,7 +55,6 @@ const ModalProject: React.FC<ModalProjectProps> = ({ openModal, closeModal, proj
                         </div>
                         <div className="infoContainerDetail">
                             <div className="proyectDescRating">
-                                <p>{rating}</p>
                                 <button className="verMasInfo" onClick={() => setMostrarComentario(!MostrarComentario)}>
                                     {MostrarComentario ? "Ocultar Comentarios" : <div className="flex gap-2" style={{ color: '#7286FF' }}>
                                         Ver Comentarios
@@ -62,14 +67,14 @@ const ModalProject: React.FC<ModalProjectProps> = ({ openModal, closeModal, proj
                                     {!MostrarComentario && 
                                         <>
                                             <h1 className="title">{nombre}</h1>
-                                            <p className="descriptionParrafo">{descripcion}</p>
+                                            <p className="descriptionParrafo">{description}</p>
                                         </>
                                     }
                                     {MostrarComentario && (
                                         <>
                                             <h2 className="titleComments" >30 Comentarios</h2>
                                             <ul className="commentsStyle">
-                                                {comentarios.map((comentario, index) => (
+                                                {commentary && commentary.map((comentario, index) => (
                                                     <div>
                                                         <div className="titleComment">
                                                             nombre user
@@ -86,7 +91,7 @@ const ModalProject: React.FC<ModalProjectProps> = ({ openModal, closeModal, proj
                                     )}
                                 </div>
                                 <div className="buttonsContainer">
-                                    <p className="meta">{meta}</p>
+                                    <p className="meta">{objective}</p>
                                     <Link href="/donaciones">
                                         <button className="buttonFull"> Donar Proyecto </button>
                                     </Link>
