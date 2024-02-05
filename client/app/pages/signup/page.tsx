@@ -84,7 +84,7 @@ const SignUpPage = () => {
                 return console.log(error);
             }
             else {
-                const token = result?.user.accessToken
+                const token =  await result?.user.getIdToken()
                 console.log(token);
                 const userInfoCreate = (await axios.post(`${urlGlobal}auth`, { token, name: infoUser.name })).data
                 if (userInfoCreate.status) {
@@ -111,7 +111,7 @@ const SignUpPage = () => {
                 return console.log(error);
             }
             else {
-                const token = result?.user.accessToken
+                const token =  await result?.user.getIdToken()
                 const name = result?.user.displayName
                 const userInfoCreate = (await axios.post(`${urlGlobal}auth`, { token, name })).data
                 if (userInfoCreate.status) {

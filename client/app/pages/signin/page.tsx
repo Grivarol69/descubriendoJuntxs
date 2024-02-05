@@ -72,7 +72,9 @@ const SignInPage = () => {
                 setErrorMessage('Usuario o contraseña incorrectos');
                 return console.log(error);
             }
-            const token = result?.user.accessToken
+            const token =  await result?.user.getIdToken()
+            console.log(token);
+            
             const userInfoCreate = (await axios.post(`${urlGlobal}users/authToken`, { token })).data
             if (userInfoCreate.status) {
                 console.log(userInfoCreate);
@@ -96,7 +98,7 @@ const SignInPage = () => {
                 setErrorMessage('Error iniciando sesión con Google');
                 return console.log(error);
             }
-            const token = result?.user.accessToken
+            const token =  await result?.user.getIdToken()
             const userInfoCreate = (await axios.post(`${urlGlobal}users/authToken`, { token })).data
             if (userInfoCreate.status) {
                 console.log(userInfoCreate);

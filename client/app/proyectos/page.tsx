@@ -1,7 +1,4 @@
 
-import Filter from "@/components/filters/Filter";
-import CardProyect from "@/components/CardProyecto/cardProyecto";
-import SearchBar from "@/components/searchbar/SearchBar";
 import style from './proyectos.module.css'
 import axios, { AxiosResponse } from "axios";
 import AllCards from "@/components/allCardsComponent/allCards";
