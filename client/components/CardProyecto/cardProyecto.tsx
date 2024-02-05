@@ -6,18 +6,24 @@ import ModalProject from "../modal/Modal"
 export interface Proyect {
     project: {
         nombre: string,
-        descripcion: string,
-        meta: string,
-        comentarios: string[]
-        imagen: string,
-        rating: string
+        description: string,
+        amount: number,
+        objective: string,
+        syllabus: string,
+        state: string,
+        categoryId: number,
+        type: string,
+        image: string,
+        donation: [],
+        commentary: [],
+        favorite: []
     }
 }
 
 
 const CardProyect: React.FC<Proyect> = ({ project }) => {
 
-    const { nombre, descripcion, meta, imagen } = project
+    const { nombre, description, image, objective} = project
     const [modal, setModal] = useState(false)
 
 
@@ -32,11 +38,11 @@ const CardProyect: React.FC<Proyect> = ({ project }) => {
             </div>}
             <div className={style.cardContainer}>
                 <div className={style.infoContainer}>
-                    <h2 className={style.meta}>{meta}</h2>
+                    <h2 className={style.meta}>{objective}</h2>
                     <div className={style.titleAndDescription}>
                         <h1 className={style.title}>{nombre}</h1>
                         <div className={style.containerDesc}>
-                            <p className={style.description}>{descripcion}</p>
+                            <p className={style.description}>{description}</p>
                         </div>
                     </div>
                     <div className={style.buttonContainer}>
@@ -51,7 +57,7 @@ const CardProyect: React.FC<Proyect> = ({ project }) => {
                     </div>
                 </div>
                 <div className={style.imageContainer}>
-                    <img className={style.image} src={imagen} alt="no se pudo" />
+                    <img className={style.image} src={image} alt="no se pudo" />
                 </div>
             </div>
         </>

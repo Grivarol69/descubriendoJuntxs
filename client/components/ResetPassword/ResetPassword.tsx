@@ -1,8 +1,8 @@
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import { useState } from "react";
+import style from './reset.module.css'
 
-
-const ResetPassword = () => {
+const ResetPassword = ({ closeHeOlvidado }: { closeHeOlvidado: any }) => {
 
     const [email, setEmail] = useState("");
 
@@ -13,7 +13,6 @@ const ResetPassword = () => {
     const auth = getAuth();
 
     const handleSubmit = async () => {
-        event.preventDefault();
         try {
             await sendPasswordResetEmail(auth, email);
             alert('Password reset email sent!');
@@ -23,9 +22,12 @@ const ResetPassword = () => {
     }
 
     return (
-        <div>
-            <input type="text" name='email' placeholder='Type Email' value={email} onChange={handleChange} />
-            <button onClick={handleSubmit}>Send Email</button>
+        <div className={style.containerAll}>
+            <input type="text" name='email' placeholder='Escribe tu Email' value={email} onChange={handleChange} className={style.input} />
+            <div className={style.buttonsContainer}>
+                <button className={style.buttonText} onClick={() => closeHeOlvidado()}>Cancelar</button>
+                <button className={style.buttonFull} onClick={handleSubmit}>Send Email</button>
+            </div>
         </div>
     )
 }

@@ -9,37 +9,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUser = exports.updateUser = exports.postUser = exports.getUser = exports.getUsers = void 0;
+exports.getUserById = exports.getAllUsers = exports.getUsersByRole = exports.updateUserById = exports.postUser = void 0;
 const error_handler_1 = require("../utils/error.handler");
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
-const getUsers = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const users = yield prisma.user.findMany();
-        res.status(200).json(users);
-    }
-    catch (error) {
-        (0, error_handler_1.handleHttp)(res, 'ERROR_GET_USERS');
-    }
-});
-exports.getUsers = getUsers;
-const getUser = (req, res) => {
-    const { id } = req.params;
-    try {
-        const user = prisma.user.findUnique({
-            where: {
-                id: Number(id)
-            }
-        });
-        res.status(200).json(user);
-    }
-    catch (error) {
-        (0, error_handler_1.handleHttp)(res, 'ERROR_GET_USER');
-    }
-};
-exports.getUser = getUser;
 const postUser = ({ body }, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, name, surName, identification, phone, dateIn, dateOut, description, linkedin, languaje, position, role } = body;
+    if (!email || !name) {
+        (0, error_handler_1.handleHttp)(res, 'EMAIL_AND_NAME_REQUIRED');
+        return;
+    }
     try {
         const newUser = yield prisma.user.create({
             data: {
@@ -60,50 +39,71 @@ const postUser = ({ body }, res) => __awaiter(void 0, void 0, void 0, function* 
         res.status(200).json(newUser);
     }
     catch (error) {
+        console.error('Error creating user:', error);
         (0, error_handler_1.handleHttp)(res, 'ERROR_POST_USER');
     }
 });
 exports.postUser = postUser;
-const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
-    const { email, name, surName, identification, phone, dateIn, dateOut, description, linkedin, languaje, position, role } = req.body;
+const updateUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = parseInt(req.params.userId); // Obtener el ID de la solicitud
+    const userData = req.body; // Datos actualizados del usuario
     try {
         const updatedUser = yield prisma.user.update({
-            where: { id: Number(id) },
-            data: {
-                email: email && email,
-                name: name && name,
-                surName: surName && surName,
-                identification: identification && identification,
-                phone: phone && phone,
-                dateIn: dateIn && dateIn,
-                dateOut: dateOut && dateOut,
-                description: description && description,
-                linkedin: linkedin && linkedin,
-                languaje: languaje && languaje,
-                position: position && position,
-                role: role && role
-            }
+            where: { id: userId }, // Filtrar por ID
+            data: userData // Datos actualizados
         });
-        res.status(200).json(updatedUser);
+        res.status(200).json(updatedUser); // Devolver el usuario modificado
     }
     catch (error) {
+        console.error('Error updating user by ID:', error);
         (0, error_handler_1.handleHttp)(res, 'ERROR_UPDATE_USER');
     }
 });
-exports.updateUser = updateUser;
-const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
+exports.updateUserById = updateUserById;
+const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = parseInt(req.params.userId); // Obtener el ID de la solicitud
     try {
-        const user = yield prisma.user.delete({
-            where: {
-                id: Number(id)
-            }
+        const user = yield prisma.user.findUnique({
+            where: { id: userId } // Filtrar por ID
         });
-        res.status(200).json(user);
+        res.status(200).json(user); // Devolver el usuario
     }
     catch (error) {
-        (0, error_handler_1.handleHttp)(res, 'ERROR_DELETE_USER');
+        console.error('Error fetching user by ID:', error);
+        (0, error_handler_1.handleHttp)(res, 'ERROR_FETCH_USER_BY_ID');
     }
 });
-exports.deleteUser = deleteUser;
+exports.getUserById = getUserById;
+const getUsersByRole = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const role = req.params.role; // Obtener el rol de la solicitud
+    try {
+        // Obtener la lista de usuarios filtrados por rol y estado "Activo"
+        const users = yield prisma.user.findMany({
+            where: {
+                role: role === 'Coach' ? 'Coach' : 'Usuario', // Filtrar por el rol especificado
+                AND: {
+                    state: 'Activo' // Filtrar por el estado "Activo"
+                }
+            }
+        });
+        res.status(200).json(users); // Devolver la lista de usuarios
+    }
+    catch (error) {
+        console.error('Error fetching users by role and status:', error);
+        (0, error_handler_1.handleHttp)(res, 'ERROR_FETCH_USERS_BY_ROLE_AND_STATUS');
+    }
+});
+exports.getUsersByRole = getUsersByRole;
+// @ts-ignore
+const getAllUsers = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        // Obtener todos los usuarios
+        const users = yield prisma.user.findMany();
+        res.status(200).json(users); // Devolver la lista de usuarios
+    }
+    catch (error) {
+        console.error('Error al obtener todos los usuarios:', error);
+        (0, error_handler_1.handleHttp)(res, 'ERROR_GET_ALL_USERS');
+    }
+});
+exports.getAllUsers = getAllUsers;

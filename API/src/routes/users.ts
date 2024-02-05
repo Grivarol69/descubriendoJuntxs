@@ -1,12 +1,14 @@
 import { Router } from "express";
-import { getUsers, getUser, postUser, updateUser, deleteUser} from "../controllers/users"
+import { postUser, updateUserById, getUsersByRole, getAllUsers, getUserByEmail } from '../controllers/users';
 
 const router = Router()
 
-router.get('/', getUsers)
-router.get('/:id', getUser)
-router.post('/', postUser)
-router.put('/:id', updateUser)
-router.delete('/:id', deleteUser)
+// Definir las rutas
+router.post('/users', postUser); // Crear un nuevo usuario
+router.put('/users/:userId', updateUserById); // Actualizar un usuario por ID
+router.post('/authToken', getUserByEmail); // Obtener todos los usuarios
+router.get('/users/:role', getUsersByRole); // Obtener usuarios por rol y estado
+router.get('/users', getAllUsers); // Obtener todos los usuarios
+
 
 export default router;

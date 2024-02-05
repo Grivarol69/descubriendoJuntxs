@@ -5,8 +5,12 @@ import style from './signin.module.css'
 import googleLogo from '../../../public/googleLogo.png'
 import { useRouter } from 'next/navigation'
 import signIn from "@/app/firebase/auth/signIn";
-import signUpWithGoogle from "@/app/firebase/auth/signInWithGoogle";
+import signInWithGoogle from "@/app/firebase/auth/signInWithGoogle";
 import ResetPassword from "@/components/ResetPassword/ResetPassword";
+import { userInfo } from 'os';
+import axios from "axios";
+import { useAuthContext } from "@/app/contexto/AuthContext";
+import { urlGlobal } from "../signup/page";
 
 const SignInPage = () => {
     const [infoUser, setInfoUser] = useState({
@@ -19,10 +23,13 @@ const SignInPage = () => {
         email: '',
         password: ''
     });
+    const { persistirSesion } = useAuthContext()
 
     const [errorMessage, setErrorMessage] = useState('');
 
     const router = useRouter()
+
+    const [heOlvidado, setHeOlvidado] = useState(false)
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -48,13 +55,11 @@ const SignInPage = () => {
                 }
                 break;
         }
-
         setErrors(prevState => ({
             ...prevState,
             [name]: error
         }));
     }
-
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -67,30 +72,48 @@ const SignInPage = () => {
                 setErrorMessage('Usuario o contraseña incorrectos');
                 return console.log(error);
             }
-            console.log(result);
-            return router.push('/userIn')
+            const token = await result?.user.getIdToken()
+            console.log('dasasd' + token);
+         
+                
+                const userInfoCreate = (await axios.post(`${urlGlobal}users/authToken`, { token })).data
+                if (userInfoCreate.status) {
+                    console.log(userInfoCreate);
+                    persistirSesion(userInfoCreate.user)
+                    return router.push('/userIn')
+                }
+            return console.log(
+                'error amigo'
+            );
         } catch (error) {
             alert(error)
         }
     };
-
     const handleGoogleSignIn = async (event: any) => {
         // Handle Google sign in here with firebase
         event.preventDefault()
         try {
             console.log('hola');
-            const { result, error } = await signUpWithGoogle()
+            const { result, error } = await signInWithGoogle()
             if (error) {
                 setErrorMessage('Error iniciando sesión con Google');
                 return console.log(error);
             }
-            console.log(result);
-            return router.push('/pages/user')
+            const token = await result?.user.getIdToken()
+
+            const userInfoCreate = (await axios.post(`${urlGlobal}users/authToken`, { token })).data
+            if (userInfoCreate.status) {
+                console.log('hola pedro' + userInfoCreate);
+                persistirSesion(userInfoCreate.user)
+                return router.push('/userIn')
+            }
+            return console.log(
+                'error amigo'
+            );
         } catch (error) {
             alert(error)
         }
     }
-
 
 
     return (
@@ -99,40 +122,45 @@ const SignInPage = () => {
                 <div className={style.formAndImage}>
                     <div className={style.illu}>
                     </div>
-                    <div className={style.textInfo}>
+                    <div className={heOlvidado ? style.textInfoHeOlvidado : style.textInfo}>
                         <div className={style.registerAndInit}>
-                            <h1 className={style.titleCard}>Inicio De Sesión</h1>
+                            <h1 className={style.titleCard}>{heOlvidado ? 'Recuperar Contraseña' : 'Inicio de Sesión'}</h1>
                             <p> ¿No tienes cuenta aún? <Link href="/pages/signup" className={style.register}> Registrarme </Link></p>
-                            <p>
-                                <ResetPassword />
-                            </p>
+                            <p onClick={() => setHeOlvidado(true)} className={style.heOlvidado}> {!heOlvidado && 'He olvidado mi contraseña'}</p>
+                            {heOlvidado &&
+                                <ResetPassword
+                                    closeHeOlvidado={() => setHeOlvidado(false)}
+                                />
+                            }
                         </div>
-                        <form onSubmit={handleSubmit} className={style.formDesign}>
-                            <div className={style.labelAndInput}>
-                                <label>
-                                    Correo Electronico
-                                </label>
-                                <input className={style.input} type="text" value={infoUser.email} name='email' placeholder="ejemplo@dominio.com" onChange={handleChange} />
-                                {errors.email && <p>{errors.email}</p>}
-                            </div>
-                            <div className={style.labelAndInput}>
-                                <label>
-                                    Contraseña
-                                </label>
-                                <input className={style.input} type="password" value={infoUser.password} name='password' placeholder="Contraseña segura" onChange={handleChange} />
-                                {errors.password && <p>{errors.password}</p>}
-                            </div>
-                            <div className={style.buttons}>
-                                {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-                                <button className={style.buttonFull} type="submit"
-                                    disabled={Object.values(errors).some(error => error !== '') || !infoUser.email || !infoUser.password}
-                                > Iniciar Sesión
-                                </button>
+                        {!heOlvidado &&
+                            <form onSubmit={handleSubmit} className={style.formDesign}>
+                                <div className={style.labelAndInput}>
+                                    <label>
+                                        Correo Electronico
+                                    </label>
+                                    <input className={style.input} type="text" value={infoUser.email} name='email' placeholder="ejemplo@dominio.com" onChange={handleChange} />
+                                    {errors.email && <p>{errors.email}</p>}
+                                </div>
+                                <div className={style.labelAndInput}>
+                                    <label>
+                                        Contraseña
+                                    </label>
+                                    <input className={style.input} type="password" value={infoUser.password} name='password' placeholder="Contraseña segura" onChange={handleChange} />
+                                    {errors.password && <p>{errors.password}</p>}
+                                </div>
+                                <div className={style.buttons}>
+                                    {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+                                    <button className={style.buttonFull} type="submit"
+                                        disabled={Object.values(errors).some(error => error !== '') || !infoUser.email || !infoUser.password}
+                                    > Iniciar Sesión
+                                    </button>
 
-                                <button className={style.buttonGoogle} onClick={handleGoogleSignIn}>
-                                    <img src={googleLogo.src} style={{ width: '3rem' }} alt="google" /> Iniciar Sesión Con Google</button>
-                            </div>
-                        </form>
+                                    <button className={style.buttonGoogle} onClick={handleGoogleSignIn}>
+                                        <img src={googleLogo.src} style={{ width: '3rem' }} alt="google" /> Iniciar Sesión Con Google</button>
+                                </div>
+                            </form>
+                        }
                     </div>
                 </div>
             </div>
