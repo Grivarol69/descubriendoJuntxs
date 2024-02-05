@@ -1,7 +1,9 @@
-"use client"
-import React from 'react';
+'use client'
+import React, { useState } from 'react';
 import DashServicios, { Servicio } from '../../../../components/DashboardAdmin/DashServicios/DashServicios';
-import style from './ServiciosPage.module.css'; 
+import ModalServicio from '../../../../components/CardServicios/Modal/ModalServicio';
+import style from './ServiciosPage.module.css';
+import Link from 'next/link';
 
 const ServiciosPage: React.FC = () => {
   const talleres: Servicio[] = [
@@ -41,13 +43,47 @@ const ServiciosPage: React.FC = () => {
     comentarios: ['Comentario 1', 'Comentario 2'],
   };
 
+  const [selectedService, setSelectedService] = useState<Servicio | null>(null);
+
+  const openModal = (servicio: Servicio) => {
+    setSelectedService(servicio);
+  };
+
+  const closeModal = () => {
+    setSelectedService(null);
+  };
+
+  const [modal, setModal] = useState(false);
+
   return (
-    <div>
-      <h1>Página de Servicios</h1>
-      <DashServicios
-        servicios={[coaching, ...talleres, ...retiros]}
-      />
-    </div>
+    <>
+      <DashServicios servicios={talleres} openModal={openModal} />
+      <div className={style.container}>
+        {/* Render talleres */}
+        {talleres.map((servicio, index) => (
+          <DashServicios key={index} servicios={[servicio]} openModal={() => openModal(servicio)} />
+        ))}
+
+        {/* Render retiros */}
+        {retiros.map((servicio, index) => (
+          <DashServicios key={index} servicios={[servicio]} openModal={() => openModal(servicio)} />
+        ))}
+
+        {/* Render coaching */}
+        <DashServicios servicios={[coaching]} openModal={() => openModal(coaching)} />
+
+        <Link href="/admin/services">
+          <button className={style.buttonFull} onClick={() => setModal(true)}>
+            Open Modal
+          </button>
+        </Link>
+      </div>
+
+      {/* Render ModalServicio with selectedService if it exists */}
+      {selectedService && (
+        <ModalServicio openModal={modal} closeModal={closeModal} servicio={selectedService} />
+      )}
+    </>
   );
 };
 

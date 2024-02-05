@@ -14,12 +14,13 @@ const ModalServicio: React.FC<ModalServicioProps> = ({ openModal, closeModal, se
     return null;
   }
 
-  const { nombre, descripcion, comentarios, ruta } = servicio;
+  const { nombre, descripcion, comentarios } = servicio;
 
   return (
     <div className={style.padreServicio}>
       <div className={style.servicioLetra}>
         <div className={style.servicioDetailImage}>
+          {/* Puedes agregar tu imagen aquí si es necesario */}
         </div>
         <div className={style.infoTotalComplete}>
           <div className={style.closeModal}>
@@ -29,12 +30,15 @@ const ModalServicio: React.FC<ModalServicioProps> = ({ openModal, closeModal, se
           </div>
           <div className={style.infoContainerDetail}>
             <div className={style.servicioDesc}>
+              <h2>{nombre}</h2>
               <p>{descripcion}</p>
               <div className={style.buttonContainer}>
+                {/* Añadir el botón de cierre aquí */}
                 <button className={style.buttonText} onClick={closeModal}>
                   Cerrar
                 </button>
-                <Link href={ruta}>
+                {/* Puedes agregar tu enlace aquí si es necesario */}
+                <Link href="/ruta-a-agendar">
                   <button className={style.buttonFull}>Agendar</button>
                 </Link>
               </div>
@@ -46,12 +50,12 @@ const ModalServicio: React.FC<ModalServicioProps> = ({ openModal, closeModal, se
                 </h2>
                 {comentarios && (
                   <ul className={style.commentsStyle}>
-                  {comentarios.map((comentario: string, index: number) => (
-                    <li className={style.commentBox} key={index}>
-                      {comentario}
-                    </li>
-                  ))}
-                </ul>
+                    {comentarios.map((comentario: string, index: number) => (
+                      <li className={style.commentBox} key={index}>
+                        {comentario}
+                      </li>
+                    ))}
+                  </ul>
                 )}
               </div>
             </div>
