@@ -72,15 +72,16 @@ const SignInPage = () => {
                 setErrorMessage('Usuario o contraseña incorrectos');
                 return console.log(error);
             }
-            const token =  await result?.user.getIdToken()
-            console.log(token);
-            
-            const userInfoCreate = (await axios.post(`${urlGlobal}users/authToken`, { token })).data
-            if (userInfoCreate.status) {
-                console.log(userInfoCreate);
-                persistirSesion(userInfoCreate.user)
-                return router.push('/userIn')
-            }
+            const token = await result?.user.getIdToken()
+            console.log('dasasd' + token);
+         
+                
+                const userInfoCreate = (await axios.post(`${urlGlobal}users/authToken`, { token })).data
+                if (userInfoCreate.status) {
+                    console.log(userInfoCreate);
+                    persistirSesion(userInfoCreate.user)
+                    return router.push('/userIn')
+                }
             return console.log(
                 'error amigo'
             );
@@ -98,10 +99,11 @@ const SignInPage = () => {
                 setErrorMessage('Error iniciando sesión con Google');
                 return console.log(error);
             }
-            const token =  await result?.user.getIdToken()
+            const token = await result?.user.getIdToken()
+
             const userInfoCreate = (await axios.post(`${urlGlobal}users/authToken`, { token })).data
             if (userInfoCreate.status) {
-                console.log(userInfoCreate);
+                console.log('hola pedro' + userInfoCreate);
                 persistirSesion(userInfoCreate.user)
                 return router.push('/userIn')
             }
