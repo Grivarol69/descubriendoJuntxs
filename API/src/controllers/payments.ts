@@ -21,7 +21,7 @@ const postCreatePayment = async (req: Request, res: Response) => {
     const preference = new Preference(client);
     try {
         const infoUser = {
-            userId: userId ? userId : "anonimo",
+            userId: userId ? userId : 1,
             contact_phone: contact_phone ? contact_phone : "anonimo",
             contact_email: contact_email ? contact_email : "anonimo"
         }
@@ -56,12 +56,14 @@ const postCreatePayment = async (req: Request, res: Response) => {
                 ],
                 purpose: "wallet_purchase",
                 back_urls: {
-                    success: "http://localhost:3000/feedback",
-                    failure: "http://localhost:3000/feedback",
-                    pending: "http://localhost:3000/feedback",
+                    success: "http://localhost:3000",
+
+                    failure: "http://localhost:3000",
+                    pending: "http://localhost:3000",
+
                 },
                 auto_return: "approved",
-                notification_url: "https://124a-181-167-76-221.ngrok-free.app/webhook",
+                notification_url: "https://juntxs.vercel.app/webhook",
                 metadata: {
                     programId: programId,
                     userId: infoUser.userId,
@@ -74,69 +76,68 @@ const postCreatePayment = async (req: Request, res: Response) => {
             },
         });
         res.send(response);
+
     } catch (error) {
         console.log(error);
     }
 }
 
 const reciveWebhook = async (req: Request, res: Response) => {
-    console.log(req.query);
-    const id = req.query.id || "xxxx";
 
-    if (typeof id === 'string') {
-        try {
-            const paymentInfo = await payment.get({ id: id });
-            console.log('meta', paymentInfo);
-            res.send('ok');
-        } catch (error) {
-            console.log('Error al obtener el pago:', error);
-            res.status(500).send('Error al obtener el pago');
-        }
-    } else {
-        console.log('ID no es una cadena');
-        res.status(400).send('ID no es una cadena');
-    }
-}
 
-const getPaymentDetails = async (req: Request, res: Response) => {
-    const paymentId = req.params.paymentId;
 
-    if (typeof paymentId === 'string') {
-        try {
+
+    try {
+        if (req.query.topic === 'payment') {
+            const paymentId = req.query.id as string;
+            console.log('paymentId', req.query);
+
             const paymentInfo = await (payment as any).get({ id: paymentId });
             console.log('meta', paymentInfo);
+            if (paymentInfo.status === 'approved') {
 
-            const createPayment = await prisma.donation.create({
-                data: {
-                    programId: paymentInfo.metadata.programId,
-                    userId: paymentInfo.metadata.userId,
-                    amount: paymentInfo.transaction_amount,
-                    date: paymentInfo.date_created,
-                    type: paymentInfo.metadata.type,
-                    message: paymentInfo.metadata.message,
-                    state: paymentInfo.metadata.state,
-                    contact_email: paymentInfo.metadata.contact_email,
-                    contact_phone: paymentInfo.metadata.contact_phone
+                const donation = await prisma.donation.findUnique({
+                    where: {
+                        transactionId: Number(paymentId)
+                    },
+                });
 
+                if (!donation) {
+                    await prisma.donation.create({
+                        data: {
+                            transactionId: Number(paymentId),
+                            programId: Number(paymentInfo.metadata.program_id),
+                            userId: paymentInfo.metadata.user_id,
+                            amount: paymentInfo.transaction_amount,
+                            date: paymentInfo.date_created,
+                            message: paymentInfo.metadata.message,
+                            contact_email: paymentInfo.metadata.contact_email,
+                            contact_phone: paymentInfo.metadata.contact_phone,
+                        },
+                    });
                 }
-            });
 
-            res.status(200).json(createPayment);
-
+            }
 
 
-        } catch (error) {
-            console.log(error)
-            res.status(500).send('Error al obtener el pago');
+
         }
-    } else {
-        res.status(400).send('ID no es una cadena');
-    }
 
+
+
+        res.status(400).send('No es un pago');
+    } catch (error) {
+        console.log('Error al obtener el pago:', error);
+        res.status(500).send('Error al obtener el pago');
+
+    }
 }
+
+
 
 export {
     postCreatePayment,
     reciveWebhook,
-    getPaymentDetails
+
+
 }

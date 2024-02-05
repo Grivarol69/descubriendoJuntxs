@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getPaymentDetails, postCreatePayment, reciveWebhook } from "../controllers/payments";
+import { postCreatePayment, reciveWebhook } from "../controllers/payments";
 
 
 const router = Router()
@@ -21,8 +21,6 @@ router.get('/pending', (_req, res) => {
 })
 
 router.post('/webhook', reciveWebhook)
-router.get('/:paymentId', getPaymentDetails)
 
-// router.post('/webhook', reciveWebhook)
 
 export default router;

@@ -4,8 +4,13 @@ import MessageResponse from "../interfaces/MessageResponse";
 import categories from "./categories";
 import programsRouter from "./programs";
 import users from "./users";
+import services from "./services";
 import payments from "./payments";
+
 import donations from "./donationsRoute";
+
+
+import createUser from "./auth";
 
 // import path from "path";
 
@@ -21,7 +26,7 @@ const router = express.Router()
 
 // readdirSync(PATH_ROUTER).filter((fileName) => {
 //     const cleanName = cleanFileName(fileName)
-    
+
 //     if(cleanName !== 'index'){
 //         import(`./${cleanName}`).then((moduleRouter) => {
 //             console.log(`Loading router: /${cleanName}`)
@@ -39,12 +44,21 @@ router.get<{}, MessageResponse>('/', (_req, res) => {
 
 router.use('/categories', categories);
 router.use('/programs', programsRouter);
+router.use('/services', services);
 router.use('/users', users);
+
 router.use('/payments', payments);
 router.use('/donations',donations )
 
 
+router.use('/payments', payments)
 
+
+
+
+
+
+router.use('/auth', createUser)
 
 
 
