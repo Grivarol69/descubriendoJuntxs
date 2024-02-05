@@ -138,6 +138,7 @@ model Favorite {
 enum Role {
   Coach
   Usuario
+  Admin
 }
 
 enum State {

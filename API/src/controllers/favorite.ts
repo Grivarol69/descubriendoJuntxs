@@ -4,21 +4,39 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+const countFavoritesByProgram = async (req: Request, res: Response) => {
+  const { programId } = req.params;
+  console.log('count: ', programId);
+
+    try {
+      const countFavorites = await prisma.favorite.count({
+        where: {
+          programId: Number(programId),
+        },
+      });
+
+      res.status(200).json({ programId: programId, count: countFavorites });
+
+    } catch (error) {
+      handleHttp(res, "ERROR_GET_FAVORITES_BY_SERVICE");
+    }
+  };
+
 const getFavoritesByProgramAndUser = async (req: Request, res: Response) => {
   const { programId, userId } = req.params;
 
     try {
-      const participants = await prisma.favorite.findMany({
+      const favorites = await prisma.favorite.findMany({
         where: {
           programId: Number(programId),
           userId: Number(userId),
         },
       });
 
-      res.status(200).json(participants);
+      res.status(200).json(favorites);
 
     } catch (error) {
-      handleHttp(res, "ERROR_GET_FAVORITES_BY_SERVICE");
+      handleHttp(res, "ERROR_GET_FAVORITES_BY_PROMGRAM_AND_USER");
     }
   };
 
@@ -70,6 +88,7 @@ const deleteFavorite = async (req:Request, res:Response) => {
 
 export {
   getFavoritesByProgramAndUser,
+  countFavoritesByProgram,
   postFavorite,
   deleteFavorite
 };
