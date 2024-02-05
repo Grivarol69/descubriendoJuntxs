@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import { handleHttp } from "../utils/error.handler"
-import { PrismaClient, ProgramType, State } from "@prisma/client"
+import { Frequency, PrismaClient, State } from "@prisma/client"
 
 const prisma = new PrismaClient();
 
@@ -12,6 +12,9 @@ const getPrograms = async (req: Request, res: Response) => {
         const programs = await prisma.program.findMany({
             where: {
                 state: "Activo"
+            },
+            include: {
+                commentary: true,
             }
         });
 
@@ -45,9 +48,7 @@ const getProgramsByCategory = async (req: Request, res: Response) => {
         console.log(error)
         handleHttp(res, 'ERROR_GET_Programs')
     }
-
 }
-
 
 
 
@@ -75,7 +76,6 @@ const getProgramByType = async (req: Request, res: Response) => {
     try {
         const program = await prisma.program.findMany({
             where: {
-                type: type as ProgramType,
                 state: "Activo",
             }
         });
@@ -89,7 +89,7 @@ const getProgramByType = async (req: Request, res: Response) => {
 const postProgram = async ({ body }: Request, res: Response) => {
 
 
-    const { name, description, amount, objective, syllabus, state, type, categoryId, image } = body;
+    const { name, description, objective, syllabus, duration, state, categoryId } = body;
 
 
     try {
@@ -99,12 +99,11 @@ const postProgram = async ({ body }: Request, res: Response) => {
 
                 name: name && name as string,
                 description: description && description as string,
-                amount: amount && amount as number,
                 objective: objective && objective as string,
                 syllabus: syllabus && syllabus as string,
+                duration: duration && duration as Frequency,
                 state: state && state as State,
                 image: image && image as string,
-                type: type && type as ProgramType,
                 categoryId: categoryId && categoryId
 
 
@@ -127,7 +126,7 @@ const updateProgram = async (req: Request, res: Response) => {
 
 
 
-    const { name, description, amount, objective, syllabus, state, type, categoryId } = req.body;
+    const { name, description, objective, syllabus, duration, state, categoryId } = req.body;
 
 
     try {
@@ -139,11 +138,10 @@ const updateProgram = async (req: Request, res: Response) => {
 
                 name: name && name as string,
                 description: description && description as string,
-                amount: amount && amount as number,
                 objective: objective && objective as string,
                 syllabus: syllabus && syllabus as string,
+                duration: duration && duration as Frequency,
                 state: state && state as State,
-                type: type && type as ProgramType,
                 categoryId: categoryId && categoryId
 
             }
@@ -182,23 +180,6 @@ const paginationProgram = async (req: Request, res: Response) => {
     }
 }
 
-// const deleteProgram = async (req:Request, res:Response) => {
-
-//     const { id } = req.params;
-
-//     try {
-
-//         const program = await prisma.program.delete({
-//             where: { 
-//                 id: Number(id) },
-//         });
-//         res.status(200).json(program);
-
-//     } catch (error) {
-//         handleHttp(res, 'ERROR_DELETE_CATEGORY')
-//     }
-
-// }
 
 export {
     getPrograms,
@@ -208,5 +189,4 @@ export {
     updateProgram,
     getProgramsByCategory,
     paginationProgram
-    // deleteProgram
 }
