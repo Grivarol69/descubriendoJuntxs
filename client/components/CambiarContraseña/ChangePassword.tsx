@@ -12,7 +12,6 @@ const PasswordChange = () => {
     const user = auth.currentUser;
 
     const handleSubmit = async () => {
-        event.preventDefault();
         if (user) {
             try {
                 await updatePassword(user, newPassword);

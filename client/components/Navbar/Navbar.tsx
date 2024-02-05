@@ -74,7 +74,7 @@ const Navbar = () => {
       </div>
 
       <div className="flex items-center gap-x-5 justify-center">
-        {logged[0] === 'false' && <div className="flex items-center gap-x-5">
+        {logged === 'false' && <div className="flex items-center gap-x-5">
           <p className="hidden lg:block font-medium text-[#36485C] pr-[10px]">
             <Link href="/pages/signin">Ingreso</Link>
           </p>
@@ -87,7 +87,7 @@ const Navbar = () => {
             </span>
           </div>
         </div>}
-        {logged[0] === 'true' &&
+        {logged === 'true' &&
           <div className="flex items-center gap-x-2 justify-center">
             {/* <div>{user.displayname}</div> */}
             <div

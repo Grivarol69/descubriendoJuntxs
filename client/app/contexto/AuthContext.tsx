@@ -1,5 +1,4 @@
 'use client'
-
 import { onAuthStateChanged, getAuth, User, sendEmailVerification } from 'firebase/auth';
 import firebase_app from '../firebase/firebase-config';
 import { SetStateAction, useContext, useEffect, useState } from 'react';
@@ -31,16 +30,30 @@ interface AuthContextProviderProps {
 export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 
 
+  let savedUser: any = ''
+  let savedLoggin: any = 'false'
+
+
+
+  useEffect(() => {
+    savedUser = localStorage.getItem('user')
+    savedLoggin = localStorage.getItem('userLogged')
+    setInfoUserGlobal(savedUser)
+    setLogged(savedLoggin)
+  }, [])
+
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [infoUserGlobal, setInfoUserGlobal] = useState(window.localStorage.getItem('user'))
-  const [logged, setLogged] = useState(useState(window.localStorage.getItem('userLogged')))
+  const [infoUserGlobal, setInfoUserGlobal] = useState(savedUser ?? '')
+  const [logged, setLogged] = useState(savedLoggin ?? 'false')
 
   const auth = getAuth(firebase_app);
 
   const persistirSesion = (user: any) => {
     try {
-      const trueWord: any = ['true']
+      console.log(user);
+      
+      const trueWord: any = 'true'
       setInfoUserGlobal(JSON.stringify(user))
       setLogged(trueWord)
       window.localStorage.setItem('user', JSON.stringify(user))
@@ -53,23 +66,14 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   }
 
   const logoutReal = () => {
-    const falseWord: any = ['false']
+    const falseWord: any = 'false'
     setLogged(falseWord)
     window.localStorage.setItem('userLogged', 'false')
   }
 
+ 
   useEffect(() => {
-    const falseWord: any = ['false']
-    const falseObject: any = {}
-    setInfoUserGlobal(falseObject)
-    setLogged(falseWord)
-    window.localStorage.setItem('user', falseObject)
-    window.localStorage.setItem('userLogged', 'false')
-
-  }, [])
-
-  useEffect(() => {
-
+    if(!localStorage.getItem('userLogged'))setLogged('false')
     const unsubscribe = onAuthStateChanged(auth, (authUser) => {
       setUser(authUser);
       if (!authUser?.emailVerified && authUser) {
@@ -85,5 +89,5 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     <AuthContext.Provider value={{ user, infoUserGlobal, persistirSesion, setInfoUserGlobal, logged, logoutReal }}>
       {loading ? <div>Loading...</div> : children}
     </AuthContext.Provider>
-  );
+  );
 };
