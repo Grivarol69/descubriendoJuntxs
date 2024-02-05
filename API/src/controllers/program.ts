@@ -89,7 +89,7 @@ const getProgramByType = async (req: Request, res: Response) => {
 const postProgram = async ({ body }: Request, res: Response) => {
 
 
-    const { name, description, amount, objective, syllabus, state, type, categoryId } = body;
+    const { name, description, amount, objective, syllabus, state, type, categoryId, image } = body;
 
 
     try {
@@ -103,6 +103,7 @@ const postProgram = async ({ body }: Request, res: Response) => {
                 objective: objective && objective as string,
                 syllabus: syllabus && syllabus as string,
                 state: state && state as State,
+                image: image && image as string,
                 type: type && type as ProgramType,
                 categoryId: categoryId && categoryId
 

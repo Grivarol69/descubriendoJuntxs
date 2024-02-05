@@ -49,6 +49,7 @@ model Program {
   syllabus String
   state State @default(Activo)
   categoryId Int
+  image String @default("default_image.jpg")
   type ProgramType @default(Proyecto)
   category Category @relation(fields: [categoryId], references: [id])
   donation Donation[]
