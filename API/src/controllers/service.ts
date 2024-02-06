@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { handleHttp } from "../utils/error.handler";
 import { ServiceType, PrismaClient, ServiceState } from "@prisma/client";
+import { ZodError } from "zod"
+import { serviceSchema } from "../schemas/service.schema"
 
 const prisma = new PrismaClient();
 
@@ -77,62 +79,80 @@ const getServicesByUser = async (req: Request, res: Response) => {
 };
 
 const postService = async (req: Request, res: Response) => {
-  const {
-    name,
-    description,
-    userId,
-    dateIn,
-    dateOut,
-    hourIn,
-    duration,
-    amount,
-    objective,
-    syllabus,
-    type
-  } = req.body;
-
+  
   try {
+    const { type } = req.body;
+    const result = serviceSchema.parse(req.body);
+    //* Datos validados por Zod
+
+    const {
+      name,
+      description,
+      userId,
+      categoryId,
+      dateIn,
+      dateOut,
+      hourIn,
+      hourOut,
+      amount,
+      objective,
+      syllabus,
+      
+    } = result;
     const newService = await prisma.service.create({
       data: {
-        userId: userId && (userId as number),
-        description: description && (description as string),
         name: name && (name as string),
+        description: description && (description as string),
         dateIn: dateIn && (dateIn as Date),
         dateOut: dateOut && (dateOut as Date),
         hourIn: hourIn && (hourIn as Date),
-        duration: duration && (duration as string),
+        hourOut: hourOut && (hourOut as Date),
         amount: amount && (amount as number),
         objective: objective && (objective as string),
         syllabus: syllabus && (syllabus as string),
+        userId: userId && (userId as number),
+        categoryId: categoryId && (categoryId as number),
         type: type && (type as ServiceType),
         state: "Activo"
       },
     });
 
-    res.status(200).json(newService);
+    return res.status(200).json(newService);
   } catch (error) {
-    handleHttp(res, "ERROR_POST_SERVICE");
+    if (error instanceof ZodError) {
+      return res
+        .status(400)
+        .json(error.issues.map((issue) => ({ message: `${issue.path}: ${issue.message}` })));
+    }
+
+    return res.status(400).json({ error: "Bad request" });
   }
 };
 
 const updateService = async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  const {
-    name,
-    description,
-    dateIn,
-    dateOut,
-    hourIn,
-    duration,
-    amount,
-    objective,
-    syllabus,
-    type,
-    state
-  } = req.body;
-
   try {
+
+    const { type, state } = req.body;
+    const result = serviceSchema.parse(req.body);
+    //* Datos validados por Zod
+
+    const {
+      name,
+      description,
+      userId,
+      categoryId,
+      dateIn,
+      dateOut,
+      hourIn,
+      hourOut,
+      amount,
+      objective,
+      syllabus,
+      
+    } = result;
+
     const updatedService = await prisma.service.update({
       where: { id: Number(id) },
 
@@ -142,18 +162,26 @@ const updateService = async (req: Request, res: Response) => {
         dateIn: dateIn && (dateIn as Date),
         dateOut: dateOut && (dateOut as Date),
         hourIn: hourIn && (hourIn as Date),
-        duration: duration && (duration as string),
+        hourOut: hourOut && (hourOut as Date),
         amount: amount && (amount as number),
         objective: objective && (objective as string),
         syllabus: syllabus && (syllabus as string),
+        userId: userId && (userId as number),
+        categoryId: categoryId && (categoryId as number),
         type: type && (type as ServiceType),
-        state: state && (state as ServiceState)
+        state: state && (state as ServiceState),
       },
     });
 
-    res.status(200).json(updatedService);
+    return res.status(200).json(updatedService);
   } catch (error) {
-    return handleHttp(res, "ERROR_UPDATE_SERVICE");
+    if (error instanceof ZodError) {
+      return res
+        .status(400)
+        .json(error.issues.map((issue) => ({ message: `${issue.path}: ${issue.message}` })));
+    }
+
+    return res.status(400).json({ error: "Bad request" });
   }
 };
 

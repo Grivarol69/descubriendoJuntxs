@@ -39,15 +39,19 @@ model Category {
   name  String
   type categoryType @default(Publico)
   program Program[] 
+  service Service[]
 }
 
 model Program {
   id     Int    @id @default(autoincrement())
   name    String
   description String
+  image String
+  dateIn DateTime? @default(now())
+  dateOut DateTime?
   objective String
   syllabus String
-  duration Frequency @default(Unico)
+  urlYoutube String
   state State @default(Activo)
   categoryId Int
   category Category @relation(fields: [categoryId], references: [id])
@@ -62,16 +66,18 @@ model Service {
   name String
   description String
   userId Int
+  categoryId Int
   dateIn DateTime? @default(now())
   dateOut DateTime?
   hourIn DateTime?
-  duration Frequency? @default(Unico)
+  hourOut DateTime?
   amount Float
   objective String?
   syllabus String?
   type ServiceType @default(Coaching)
   state ServiceState @default(Activo)
   user User @relation(fields: [userId], references: [id])
+  category Category @relation(fields: [categoryId], references: [id])
   payment Payment[]
   participants Participant[]
 }
