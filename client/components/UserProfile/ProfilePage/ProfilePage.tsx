@@ -1,8 +1,9 @@
 'use client'
-import { useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import style from './profilePage.module.css'
 import { userInfo } from 'os';
 import PasswordChange from '@/components/CambiarContraseña/ChangePassword';
+import { useAuthContext } from '@/app/contexto/AuthContext';
 
 interface useInfoType {
     useInfo: {
@@ -16,22 +17,20 @@ interface useInfoType {
         linkedin: string,
         contraseña: string
     }
-
 }
-
-
 const ProfilePage: React.FC<useInfoType> = ({ useInfo }) => {
-
-
     const [vistaDeComponente, setVistaDeComponente] = useState('')
-
     const vistaComponente = (name: string) => {
         if (name === 'datos') return setVistaDeComponente('datos')
         if (name === 'seguridad') return setVistaDeComponente('seguridad')
         if (name === 'condiciones') return setVistaDeComponente('condiciones')
     }
+    const { infoUserGlobal } = useAuthContext()
+    const infoUserGlobalParse = infoUserGlobal && JSON.parse(infoUserGlobal)
 
-
+    console.log('me gusta comer' + infoUserGlobalParse);
+    
+    console.log(infoUserGlobalParse);
 
     const estiloTransition = () => {
         const datos = {
@@ -42,28 +41,25 @@ const ProfilePage: React.FC<useInfoType> = ({ useInfo }) => {
         const seguridad = {
             width: '55vw',
             height: '40vh',
-            gridTemplateRows: '0.5fr 0.8fr 0.8fr 1fr 1fr',
+            gridTemplateRows: '0.5fr 0.8fr 0.8fr 1fr 1fr'
         }
         const condiciones = {
             width: '55vw',
             height: '70h',
             gridTemplateRows: '0.1fr 0.5fr 0.5fr 1fr 1fr'
         }
-
         const normal = {
             width: '55vw'
         }
-
         if (vistaDeComponente === 'datos') return datos
         if (vistaDeComponente === 'seguridad') return seguridad
         if (vistaDeComponente === 'condiciones') return condiciones
         return normal
     }
-
     const estilo = estiloTransition()
-
-
-
+    const userName = infoUserGlobalParse.name.split(' ')
+    console.log();
+    
     return (
         <>
             <div className={style.userProfile} style={estilo}>
@@ -72,9 +68,8 @@ const ProfilePage: React.FC<useInfoType> = ({ useInfo }) => {
                     <>
                         <div className={style.portadaImage}></div>
                         <div className={style.bodyInfo}>
-
                             <div className={style.nombreYData}>
-                                <div className={style.nombreCompleto}>{useInfo.nombre + ' ' + useInfo.apellido}</div>
+                                <div className={style.nombreCompleto}>{userName[0] + ' ' + userName[1]}</div>
                                 <div className={style.optionsContainerOfAll}>
                                     <div className={style.contanerOptions}>
                                         <div className={style.menuDescriptionTitle}>
@@ -108,7 +103,6 @@ const ProfilePage: React.FC<useInfoType> = ({ useInfo }) => {
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                         <div className={style.profilePhoto}>
                             <div className={style.profilePhotoCircle}> LG </div>
@@ -119,7 +113,6 @@ const ProfilePage: React.FC<useInfoType> = ({ useInfo }) => {
                     vistaDeComponente === 'datos' &&
                     <>
                         <div className={style.portadaImage}></div>
-
                         <div className={style.bodyInfo} style={{ gap: '1.5rem', paddingBottom: '3rem' }}>
                             <div className={style.titleAndButton}>
                                 <div className={style.nombreCompleto}> Mis datos </div>
@@ -134,59 +127,57 @@ const ProfilePage: React.FC<useInfoType> = ({ useInfo }) => {
                             <div className={style.infoPeople}>
                                 <div className={style.nombre}>
                                     <div className={style.titleMenu}>Nombre
-                                        <div className={style.descriptionMenu}>info</div>
+                                        <div className={style.descriptionMenu}>{userName[0]}</div>
                                     </div>
                                 </div>
                                 <div className={style.apellido}>
 
                                     <div className={style.titleMenu}>Apellido
-                                        <div className={style.descriptionMenu}>info</div>
+                                        <div className={style.descriptionMenu}>{userName[1]}</div>
                                     </div>
                                 </div>
                                 <div className={style.identificacion}>
                                     <div className={style.titleMenu}>
                                         Identificación
-                                        <div className={style.descriptionMenu}>info</div>
+                                        <div className={style.descriptionMenu}>{infoUserGlobalParse.identificacion ? infoUserGlobalParse.identificacion : 'Insert id'}</div>
                                     </div>
                                 </div>
                                 <div className={style.fechaNaci}>
 
                                     <div className={style.titleMenu}>
                                         Fecha de Nacimiento
-                                        <div className={style.descriptionMenu}>info</div>
+                                        <div className={style.descriptionMenu}>{infoUserGlobalParse.dateIn ? infoUserGlobalParse.dateIn : 'Insert date'}</div>
                                     </div>
                                 </div>
                                 <div className={style.idiomas}>
 
                                     <div className={style.titleMenu}>
                                         Idiomas
-                                        <div className={style.descriptionMenu}>info</div>
+                                        <div className={style.descriptionMenu}>{infoUserGlobalParse.languaje ? infoUserGlobalParse.languaje : 'Insert languages'}</div>
                                     </div>
                                 </div>
                                 <div className={style.telefono}>
 
                                     <div className={style.titleMenu}>
                                         Teléfono
-                                        <div className={style.descriptionMenu}>info</div>
+                                        <div className={style.descriptionMenu}>{infoUserGlobalParse.phone ? infoUserGlobalParse.phone : 'Insert phone'}</div>
                                     </div>
                                 </div>
                                 <div className={style.email}>
 
                                     <div className={style.titleMenu}>
                                         Email
-                                        <div className={style.descriptionMenu}>info</div>
+                                        <div className={style.descriptionMenu}>{infoUserGlobalParse.email ? infoUserGlobalParse.email : 'Insert mail'}</div>
                                     </div>
                                 </div>
                                 <div className={style.linkedin}>
 
                                     <div className={style.titleMenu}>
                                         Linkedin
-                                        <div className={style.descriptionMenu}>info</div>
+                                        <div className={style.descriptionMenu}>{infoUserGlobalParse.linkedin ? infoUserGlobalParse.linkedin : 'insert linkedin'}</div>
                                     </div>
                                 </div>
-
                             </div>
-
                         </div>
                         <div className={style.profilePhoto}>
                             <div className={style.profilePhotoCircle}> LG </div>
@@ -265,14 +256,12 @@ const ProfilePage: React.FC<useInfoType> = ({ useInfo }) => {
                                     8. Ley Aplicable
                                     Estos términos y condiciones se regirán e interpretarán de acuerdo con las leyes del [país], y cualquier disputa estará sujeta a la jurisdicción exclusiva de los tribunales de [ciudad].</div>
                             </div>
-
                         </div>
                         <div className={style.profilePhoto}>
                             <div className={style.profilePhotoCircle}> LG </div>
                         </div>
                     </>
                 }
-
             </div>
         </>
     )

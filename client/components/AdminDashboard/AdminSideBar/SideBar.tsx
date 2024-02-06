@@ -1,3 +1,5 @@
+'use client'
+
 import Link from "next/link"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faWindowRestore, faHandHoldingDollar, faPeopleLine, faComment, faUserGear } from '@fortawesome/free-solid-svg-icons'
@@ -7,7 +9,7 @@ import { usePathname } from "next/navigation"
 
 const AdminDashboard = () => {
     const path = usePathname()
-    if (!path.includes('/pages/user')) return null
+    if (!path.includes('/pages/admin')) return null
 
 
     return (

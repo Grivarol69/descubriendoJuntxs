@@ -13,6 +13,7 @@ export default async function signUpWithGoogle() {
         provider.setCustomParameters({
             prompt: 'select_account'
         });
+        
         result = await signInWithPopup(auth, provider);
     } catch (e) {
         error = e;
