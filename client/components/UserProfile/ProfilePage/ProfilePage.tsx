@@ -29,7 +29,7 @@ const ProfilePage: React.FC<useInfoType> = ({ useInfo }) => {
     const infoUserGlobalParse = infoUserGlobal && JSON.parse(infoUserGlobal)
 
     console.log('me gusta comer' + infoUserGlobalParse);
-    
+
     console.log(infoUserGlobalParse);
 
     const estiloTransition = () => {
@@ -57,9 +57,9 @@ const ProfilePage: React.FC<useInfoType> = ({ useInfo }) => {
         return normal
     }
     const estilo = estiloTransition()
-    const userName = infoUserGlobalParse.name.split(' ')
+    const userName = infoUserGlobalParse?.name.split(' ')
     console.log();
-    
+
     return (
         <>
             <div className={style.userProfile} style={estilo}>

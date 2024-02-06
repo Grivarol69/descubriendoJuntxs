@@ -2,25 +2,32 @@ import React, { useState } from 'react'
 import { getAuth, sendPasswordResetEmail, updatePassword } from "firebase/auth";
 
 const PasswordChange = () => {
-
-    // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     set(e.target.value);
-    // }
-
     const auth = getAuth();
     const user = auth.currentUser;
+    let isGoogleUser = false;
+
+    if (user) {
+        const providerData = user.providerData;
+        providerData.forEach((provider) => {
+            if (provider.providerId === 'google.com') {
+                isGoogleUser = true;
+            }
+        });
+    }
 
     const handleSubmit = async () => {
         event.preventDefault();
-        if (user && user.email) {
+        if (user && user.email && !isGoogleUser) {
             try {
                 await sendPasswordResetEmail(auth, user.email);
                 alert('Email enviado para cambiar contraseña');
             } catch (error) {
                 alert('Error al enviar email para cambiar contraseña');
             }
+        } else if (isGoogleUser) {
+            alert('No se puede cambiar la contraseña para usuarios de Google');
         } else {
-            alert('No hay usuario logueado');
+            alert("No hay usuario logueado");
         }
     }
 
