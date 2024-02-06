@@ -9,6 +9,7 @@ import participants from "./participants";
 import payments from "./payments";
 import favorites from "./favorites";
 import commentaries from "./commentaries";
+import createUser from "./auth";
 
 
 import donations from "./donationsRoute";
@@ -53,9 +54,7 @@ router.use('/participants', participants);
 router.use('/payments', payments);
 router.use('/favorites', favorites);
 router.use('/commentaries', commentaries);
-
-router.use('/payments', payments);
-router.use('/donations',donations )
+router.use('/donations', donations)
 
 
 router.use('/payments', payments)

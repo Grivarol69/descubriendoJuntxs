@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "Role" AS ENUM ('Coach', 'Usuario');
+CREATE TYPE "Role" AS ENUM ('Coach', 'Usuario', 'Admin');
 
 -- CreateEnum
 CREATE TYPE "State" AS ENUM ('Activo', 'Inactivo');
@@ -59,12 +59,12 @@ CREATE TABLE "Program" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
-    "amount" DOUBLE PRECISION NOT NULL,
     "objective" TEXT NOT NULL,
     "syllabus" TEXT NOT NULL,
+    "duration" "Frequency" NOT NULL DEFAULT 'Unico',
     "state" "State" NOT NULL DEFAULT 'Activo',
     "categoryId" INTEGER NOT NULL,
-    "type" "ProgramType" NOT NULL DEFAULT 'Proyecto',
+    "image" TEXT NOT NULL DEFAULT 'default_image.jpg',
 
     CONSTRAINT "Program_pkey" PRIMARY KEY ("id")
 );
@@ -73,14 +73,15 @@ CREATE TABLE "Program" (
 CREATE TABLE "Service" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
     "userId" INTEGER NOT NULL,
     "dateIn" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
     "dateOut" TIMESTAMP(3),
     "hourIn" TIMESTAMP(3),
-    "duration" TEXT,
+    "duration" "Frequency" DEFAULT 'Unico',
     "amount" DOUBLE PRECISION NOT NULL,
-    "objective" TEXT NOT NULL,
-    "syllabus" TEXT NOT NULL,
+    "objective" TEXT,
+    "syllabus" TEXT,
     "type" "ServiceType" NOT NULL DEFAULT 'Coaching',
     "state" "ServiceState" NOT NULL DEFAULT 'Activo',
 
@@ -95,7 +96,7 @@ CREATE TABLE "Payment" (
     "amount" DOUBLE PRECISION NOT NULL,
     "instrument" TEXT NOT NULL,
     "transactionId" TEXT NOT NULL,
-    "state" TEXT NOT NULL,
+    "state" "PaymentState" NOT NULL DEFAULT 'Aceptado',
 
     CONSTRAINT "Payment_pkey" PRIMARY KEY ("id")
 );
@@ -106,7 +107,7 @@ CREATE TABLE "Participant" (
     "serviceId" INTEGER NOT NULL,
     "userId" INTEGER NOT NULL,
     "role" TEXT NOT NULL,
-    "state" TEXT NOT NULL,
+    "state" "State" NOT NULL DEFAULT 'Activo',
 
     CONSTRAINT "Participant_pkey" PRIMARY KEY ("id")
 );
@@ -114,7 +115,7 @@ CREATE TABLE "Participant" (
 -- CreateTable
 CREATE TABLE "Donation" (
     "id" SERIAL NOT NULL,
-    "transactionId" INTEGER NOT NULL,
+    "transactionId" BIGINT NOT NULL,
     "programId" INTEGER NOT NULL,
     "userId" INTEGER NOT NULL,
     "amount" DOUBLE PRECISION NOT NULL,
@@ -133,7 +134,8 @@ CREATE TABLE "Donation" (
 CREATE TABLE "Commentary" (
     "programId" INTEGER NOT NULL,
     "userId" INTEGER NOT NULL,
-    "state" TEXT NOT NULL,
+    "commentary" TEXT NOT NULL,
+    "state" "State" NOT NULL DEFAULT 'Activo',
 
     CONSTRAINT "Commentary_pkey" PRIMARY KEY ("programId","userId")
 );

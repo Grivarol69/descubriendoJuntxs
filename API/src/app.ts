@@ -9,7 +9,7 @@ import compression from 'compression'
 
 import routes from './routes'
 
-const server =  express() 
+const server = express()
 
 
 
@@ -25,7 +25,7 @@ server.use(morgan('dev')) // middleware que muestra por consola las peticiones q
 
 // routes
 
-server.use("/" , routes)
+server.use("/", routes)
 
 
 export default server;

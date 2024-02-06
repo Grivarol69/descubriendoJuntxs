@@ -17,7 +17,7 @@ const getCategory = async (req: Request, res: Response) => {
                 id: Number(id)
             },
             include: {
-                project: true
+                program: true
             }
         });
         res.json(category)
@@ -38,8 +38,8 @@ const getCategories = async (_req: Request, res: Response) => {
 }
 
 
-const postCategory = async ({body }:Request, res:Response) => {
-    const {name, type} = body;
+const postCategory = async ({ body }: Request, res: Response) => {
+    const { name, type } = body;
 
     console.log(body)
     if (!name) {
@@ -64,8 +64,8 @@ const postCategory = async ({body }:Request, res:Response) => {
 const updateCategory = async (req: Request, res: Response) => {
     try {
 
-        const {id} = req.params;
-        const {name, type} = req.body;
+        const { id } = req.params;
+        const { name, type } = req.body;
 
         console.log(id, name)
         const updatedCategory = await prisma.category.update({
@@ -73,7 +73,7 @@ const updateCategory = async (req: Request, res: Response) => {
                 id: Number(id)
             },
 
-            data:{
+            data: {
                 name: name && name,
                 type: type && type
 

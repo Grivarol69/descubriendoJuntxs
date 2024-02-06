@@ -1,4 +1,0 @@
--- AlterTable
-ALTER TABLE "Service" ALTER COLUMN "objective" DROP NOT NULL,
-ALTER COLUMN "syllabus" DROP NOT NULL,
-ALTER COLUMN "duration" DROP NOT NULL;

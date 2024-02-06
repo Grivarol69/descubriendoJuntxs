@@ -5,18 +5,13 @@ import admin from "../../firebase/firebase-config"
 
 const prisma = new PrismaClient();
 
-
-const postUser = async ({ body }:Request, res:Response)=>{
-
+const postUser = async ({ body }: Request, res: Response) => {
+    const { email, name, surName, identification, phone, dateIn, dateOut, description, linkedin, languaje, position, role } = body;
+    if (!email || !name) {
+        handleHttp(res, 'EMAIL_AND_NAME_REQUIRED');
+        return;
+    }
     try {
-        const { email, name, surName, identification, phone, dateIn, dateOut, description, linkedin, languaje, position, role} = body;
-
-        console.log(email);
-        
-        if (!email || !name) {
-            handleHttp(res, 'EMAIL_AND_NAME_REQUIRED');
-            return;
-        }
         const newUser = await prisma.user.create({
             data: {
                 email: email,
@@ -34,10 +29,9 @@ const postUser = async ({ body }:Request, res:Response)=>{
             }
         })
         res.status(200).json(newUser);
-    } catch (error:any) {
-        //console.error('Error creating user:', error);
-        //handleHttp(res, 'ERROR_POST_USER')
-        res.status(500).json(error.message);
+    } catch (error) {
+        console.error('Error creating user:', error);
+        handleHttp(res, 'ERROR_POST_USER')
     }
 }
 
@@ -67,7 +61,8 @@ const getUserByEmail = async (req: Request, res: Response) => {
             });
             res.status(200).json({
                 status: true,
-                user}); // Devolver el usuario
+                user
+            }); // Devolver el usuario
         }
     } catch (error) {
         console.error('Error fetching user by ID:', error);
@@ -92,20 +87,13 @@ const getUsersByRole = async (req: Request, res: Response) => {
         handleHttp(res, 'ERROR_FETCH_USERS_BY_ROLE_AND_STATUS');
     }
 }
-
-
-const getAllUsers = async ( req: Request, res: Response) => {
+const getAllUsers = async (_req: Request, res: Response) => {
     try {
-        // Obtener todos los usuarios
-        const {usersReq} = req.body
-        if (usersReq) {
-            const users = await prisma.user.findMany();
-            return res.status(200).json(users); // Devolver la lista de usuarios
-        } return res.status(400)
-
+        const users = await prisma.user.findMany();
+        res.status(200).json(users);
     } catch (error) {
         console.error('Error al obtener todos los usuarios:', error);
-        return handleHttp(res, 'ERROR_GET_ALL_USERS');
+        handleHttp(res, 'ERROR_GET_ALL_USERS');
     }
 }
 export {

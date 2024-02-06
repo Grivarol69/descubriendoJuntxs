@@ -89,7 +89,7 @@ const getProgramByType = async (req: Request, res: Response) => {
 const postProgram = async ({ body }: Request, res: Response) => {
 
 
-    const { name, description, objective, syllabus, duration, state, categoryId } = body;
+    const { name, description, objective, syllabus, duration, state, categoryId, image } = body;
 
 
     try {
