@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
 import UserProfile from "@/components/UserProfile/profile";
 import { AuthContextProvider } from "./contexto/AuthContext";
+import AdminDashboard from "@/components/AdminDashboard/AdminSideBar/SideBar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
   title: "Descubriendo Juntxs",
   description: "ONG",
 };
+
 
 
 export default function RootLayout({
@@ -25,6 +27,7 @@ export default function RootLayout({
         <AuthContextProvider >
           <div>
             <Navbar />
+            <AdminDashboard />
             <UserProfile />
             {children}
             <Footer />
