@@ -133,6 +133,7 @@ const SignInPage = () => {
                                 />
                             }
                         </div>
+
                         {!heOlvidado &&
                             <form onSubmit={handleSubmit} className={style.formDesign}>
                                 <div className={style.labelAndInput}>
@@ -161,6 +162,7 @@ const SignInPage = () => {
                                 </div>
                             </form>
                         }
+
                     </div>
                 </div>
             </div>
