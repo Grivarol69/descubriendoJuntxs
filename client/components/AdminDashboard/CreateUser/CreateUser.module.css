@@ -16,4 +16,38 @@
     width: 50vw;
     height: 70vh;
     border-radius: 1rem;
+    padding: 2rem;
+}
+
+.labelInput {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: fit-content;
+    gap: 0.5rem;
+}
+
+.input {
+    height: 2rem;
+    background: rgb(215, 213, 213);
+    border-radius: 1rem;
+}
+
+.inputsContainer {
+    display: flex;
+    gap: 2rem;
+    width: 100%;
+    height: fit-content;
+}
+
+.createUserAndCloseModal {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: fit-content;
+    padding: 1rem;
+}
+
+.form {
+    gap: 1rem;
 }

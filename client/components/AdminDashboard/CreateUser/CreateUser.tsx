@@ -1,5 +1,6 @@
 import { useState } from "react"
 import style from './CreateUser.module.css'
+import axios from "axios"
 
 
 interface CreateProjectProps {
@@ -11,6 +12,8 @@ const CreateUser: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
     if (!modal) {
         return null
     }
+
+    const URL_BASE = "https://juntxs.vercel.app/"
 
     const [input, setInput] = useState({
         nombre: "",
@@ -33,8 +36,7 @@ const CreateUser: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         try {
-            const response = true
-            // await axios.post('http://localhost:3000/api/proyectos')
+            const response = await axios.post(`${URL_BASE}users/users`)
             if (response) {
                 closeModal()
             }
@@ -47,41 +49,51 @@ const CreateUser: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
         <>
             <div className={style.background}>
                 <div className={style.container}>
-                    <h1>Crear usuario</h1>
-                    <button onClick={closeModal}>X</button>
+                    <div className={style.createUserAndCloseModal}>
+                        <h1>Crear usuario</h1>
+                        <button onClick={closeModal}>X</button>
+                    </div>
                     <div>
-                        <form action="">
-                            <div>
-                                <label htmlFor="" >Nombre</label>
-                                <input type="text" name="nombre" value={input.nombre} onChange={handleChange} />
+                        <form className={style.form} action="">
+                            <div className={style.inputsContainer}>
+                                <div className={style.labelInput}>
+                                    <label htmlFor="" >Nombre</label>
+                                    <input className={style.input} type="text" name="nombre" value={input.nombre} onChange={handleChange} />
+                                </div>
+                                <div className={style.labelInput}>
+                                    <label htmlFor="" >Apellido</label>
+                                    <input className={style.input} type="text" name="apellido" value={input.apellido} onChange={handleChange} />
+                                </div>
                             </div>
-                            <div>
-                                <label htmlFor="" >Descripción</label>
-                                <input type="text" name="apellido" value={input.apellido} onChange={handleChange} />
+                            <div className={style.inputsContainer}>
+                                <div className={style.labelInput}>
+                                    <label htmlFor="" >Fecha De Nacimiento</label>
+                                    <input className={style.input} type="text" name="fechaNacimiento" value={input.fechaNacimiento} onChange={handleChange} />
+                                </div>
+                                <div className={style.labelInput}>
+                                    <label htmlFor="" >Telefono</label>
+                                    <input className={style.input} type="text" name="telefono" value={input.telefono} onChange={handleChange} />
+                                </div>
                             </div>
-                            <div>
-                                <label htmlFor="" >Comentarios</label>
-                                <input type="text" name="fechaNacimiento" value={input.fechaNacimiento} onChange={handleChange} />
-                            </div>
-                            <div>
-                                <label htmlFor="" >Imagen</label>
-                                <input type="text" name="telefono" value={input.telefono} onChange={handleChange} />
-                            </div>
-                            <div>
-                                <label htmlFor="" >Imagen</label>
-                                <input type="text" name="linkedin" value={input.linkedin} onChange={handleChange} />
-                            </div>
-                            <div>
-                                <label htmlFor="" >Imagen</label>
-                                <input type="text" name="identificacion" value={input.identificacion} onChange={handleChange} />
-                            </div>
-                            <div>
-                                <label htmlFor="" >Imagen</label>
-                                <input type="text" name="idiomas" value={input.idiomas} onChange={handleChange} />
-                            </div>
-                            <div>
-                                <label htmlFor="" >Imagen</label>
-                                <input type="text" name="email" value={input.email} onChange={handleChange} />
+                            <div className={style.inputsContainer}>
+                                <div className={style.labelInput}>
+                                    <label htmlFor="" >LinkedIn</label>
+                                    <input className={style.input} type="text" name="linkedin" value={input.linkedin} onChange={handleChange} />
+                                </div>
+                                <div className={style.labelInput}>
+                                    <label htmlFor="" >Identificación</label>
+                                    <input className={style.input} type="text" name="identificacion" value={input.identificacion} onChange={handleChange} />
+                                </div>
+                            </div >
+                            <div className={style.inputsContainer}>
+                                <div className={style.labelInput}>
+                                    <label htmlFor="" >Idiomas</label>
+                                    <input className={style.input} type="text" name="idiomas" value={input.idiomas} onChange={handleChange} />
+                                </div>
+                                <div className={style.labelInput}>
+                                    <label htmlFor="" >Email</label>
+                                    <input className={style.input} type="text" name="email" value={input.email} onChange={handleChange} />
+                                </div>
                             </div>
                         </form>
                         <button onClick={handleSubmit}>Crear Usuario</button>

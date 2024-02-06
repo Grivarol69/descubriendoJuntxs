@@ -1,6 +1,6 @@
 'use client'
 import { use, useEffect, useState } from 'react';
-import style from './profilePage.module.css'
+import style from './AdminProfile.module.css'
 import { userInfo } from 'os';
 import PasswordChange from '@/components/CambiarContraseña/ChangePassword';
 import { useAuthContext } from '@/app/contexto/AuthContext';
@@ -23,7 +23,7 @@ interface useInfoType {
         role: string,
     }[]
 }
-const ProfilePage: React.FC<useInfoType> = ({ users }) => {
+const AdminProfile: React.FC<useInfoType> = ({ users }) => {
     const [vistaDeComponente, setVistaDeComponente] = useState('')
     const vistaComponente = (name: string) => {
         if (name === 'datos') return setVistaDeComponente('datos')
@@ -272,4 +272,4 @@ const ProfilePage: React.FC<useInfoType> = ({ users }) => {
     )
 }
 
-export default ProfilePage
+export default AdminProfile

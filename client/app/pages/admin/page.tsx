@@ -1,28 +1,24 @@
 import ProfilePage from "@/components/UserProfile/ProfilePage/ProfilePage";
 import style from './adminProfile.module.css'
+import axios from 'axios'
+import AdminDashboard from "@/components/AdminDashboard/AdminSideBar/SideBar";
+import AdminProfile from "@/components/AdminDashboard/AdminProfile/AdminProfile";
 
 
-const AdminProfile = () => {
 
-    const useInfo = {
-        nombre: 'Isabella',
-        apellido: 'Torrente',
-        identificacion: '1193762943',
-        fechaNacimiento: '10/10/2001',
-        idiomas: 'Español, Frances, Inglés',
-        telefono: '3196378502',
-        email: 'isalamaslinda@gmail.com',
-        linkedin: 'https://www.linkedin.com/in/isabellatorrente/',
-        contraseña: 'isalinda'
-    }
+const Admin = async () => {
+
+    const URL_BASE = "https://juntxs.vercel.app/"
+    const users = (await axios.get(`${URL_BASE}users`)).data
+
 
     return (
         <div className={style.gridColumns} style={{ color: '#24275A' }}>
-            <ProfilePage
-                useInfo={useInfo}
+            <AdminProfile
+                users={users}
             />
         </div>
     );
 }
 
-export default AdminProfile;
+export default Admin;
