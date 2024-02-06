@@ -128,7 +128,6 @@ const SignInPage = () => {
                                     disabled={Object.values(errors).some(error => error !== '') || !infoUser.email || !infoUser.password}
                                 > Iniciar Sesión
                                 </button>
-
                                 <button className={style.buttonGoogle} onClick={handleGoogleSignIn}>
                                     <img src={googleLogo.src} style={{ width: '3rem' }} alt="google" /> Iniciar Sesión Con Google</button>
                             </div>

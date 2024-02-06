@@ -1,33 +1,32 @@
 import React, { useState } from 'react'
-import { getAuth, updatePassword } from "firebase/auth";
+import { getAuth, sendPasswordResetEmail, updatePassword } from "firebase/auth";
 
 const PasswordChange = () => {
-    const [newPassword, setNewPassword] = useState("");
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setNewPassword(e.target.value);
-    }
+    // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     set(e.target.value);
+    // }
 
     const auth = getAuth();
     const user = auth.currentUser;
 
     const handleSubmit = async () => {
         event.preventDefault();
-        if (user) {
+        if (user && user.email) {
             try {
-                await updatePassword(user, newPassword);
-                alert('Password Updated');
+                await sendPasswordResetEmail(auth, user.email);
+                alert('Email enviado para cambiar contraseña');
             } catch (error) {
-                alert('Error updating password')
+                alert('Error al enviar email para cambiar contraseña');
             }
+        } else {
+            alert('No hay usuario logueado');
         }
-
     }
 
     return (
         <div>
-            <input type="text" name='password' placeholder='Type New Password' value={newPassword} onChange={handleChange} />
-            <button onClick={handleSubmit}>Change Password</button>
+            <button onClick={handleSubmit}>Enviar email para cambiar la contraseña</button>
         </div>
     )
 }
