@@ -5,7 +5,7 @@ import ModalProject from "../modal/Modal"
 
 export interface Proyect {
     project: {
-        nombre: string,
+        name: string,
         description: string,
         amount: number,
         objective: string,
@@ -23,7 +23,7 @@ export interface Proyect {
 
 const CardProyect: React.FC<Proyect> = ({ project }) => {
 
-    const { nombre, description, image, objective} = project
+    const { name, description, image, objective} = project
     const [modal, setModal] = useState(false)
 
 
@@ -40,7 +40,7 @@ const CardProyect: React.FC<Proyect> = ({ project }) => {
                 <div className={style.infoContainer}>
                     <h2 className={style.meta}>{objective}</h2>
                     <div className={style.titleAndDescription}>
-                        <h1 className={style.title}>{nombre}</h1>
+                        <h1 className={style.title}>{name}</h1>
                         <div className={style.containerDesc}>
                             <p className={style.description}>{description}</p>
                         </div>
