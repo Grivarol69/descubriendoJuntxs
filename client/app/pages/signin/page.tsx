@@ -72,6 +72,7 @@ const SignInPage = () => {
                 setErrorMessage('Usuario o contraseña incorrectos');
                 return console.log(error);
             }
+
             const token = await result?.user.getIdToken();
             if (token) {
                 const userInfoCreate = (await axios.post(`${urlGlobal}users/authToken`, { token })).data
@@ -80,6 +81,7 @@ const SignInPage = () => {
                     persistirSesion(userInfoCreate.user)
                     return router.push('/userIn')
                 }
+
             }
             return console.log(
                 'error amigo'
@@ -98,6 +100,7 @@ const SignInPage = () => {
                 setErrorMessage('Error iniciando sesión con Google');
                 return console.log(error);
             }
+
             const token = await result?.user.getIdToken();
             if (token) {
                 const userInfoCreate = (await axios.post(`${urlGlobal}users/authToken`, { token })).data
@@ -133,6 +136,7 @@ const SignInPage = () => {
                                 />
                             }
                         </div>
+
                         {!heOlvidado &&
                             <form onSubmit={handleSubmit} className={style.formDesign}>
                                 <div className={style.labelAndInput}>
@@ -161,6 +165,7 @@ const SignInPage = () => {
                                 </div>
                             </form>
                         }
+
                     </div>
                 </div>
             </div>

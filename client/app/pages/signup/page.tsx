@@ -89,6 +89,7 @@ const SignUpPage = () => {
                     console.log(token);
                 const userInfoCreate = (await axios.post(`${urlGlobal}auth`, { token, name: infoUser.name })).data
                 if (userInfoCreate.status) {
+                    console.log(userInfoCreate);
                     alert('Todo bien')
                     persistirSesion(userInfoCreate.createUserFinal)
                     return router.push('/userIn')
@@ -113,6 +114,7 @@ const SignUpPage = () => {
                 return console.log(error);
             }
             else {
+
                 const token = await result?.user.getIdToken();
                 if(token){
                     const name = result?.user.displayName

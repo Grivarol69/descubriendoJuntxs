@@ -5,6 +5,7 @@ import { Frequency, PrismaClient, State } from "@prisma/client"
 const prisma = new PrismaClient();
 
 
+
 const getPrograms = async (req: Request, res: Response) => {
     const { name } = req.query;
 
@@ -171,7 +172,7 @@ const paginationProgram = async (req: Request, res: Response) => {
             skip: startIndex,
             take: pageSize
         });
-
+        
         res.status(200).json(programs);
 
     } catch (error) {
