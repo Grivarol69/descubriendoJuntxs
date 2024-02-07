@@ -2,10 +2,10 @@
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import Gradient from "../../public/assets/Gradient.svg";
-import HeroImage from "../../public/assets/Image.svg";
 import email from "../../public/assets/icon-mail.svg";
 import location from "../../public/assets/item-location.svg";
 import phone from "../../public/assets/item-phone.svg";
+import axios from "axios";
 
 const Contacto: React.FC = () => {
   const {
@@ -14,8 +14,18 @@ const Contacto: React.FC = () => {
     handleSubmit,
   } = useForm();
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = async (data: any) => {
+    try {
+      console.log(data);
+      const response = await axios.post(
+        "https://juntxs.vercel.app/nodemailer",
+        data
+      );
+
+      console.log("Respuesta del servidor:", response.data);
+    } catch (error: any) {
+      console.error("Error al enviar datos al servidor:", error.message);
+    }
   };
 
   return (
@@ -49,7 +59,8 @@ const Contacto: React.FC = () => {
                   />
 
                   <label htmlFor="name" className=" flex text-sm">
-                    <div className="mr-1 text-slate-600">Nombre </div> <div className="text-slate-600"> Completo</div>
+                    <div className="mr-1 text-slate-600">Nombre </div>{" "}
+                    <div className="text-slate-600"> Completo</div>
                     <span className="w-full flex justify-end items-center">
                       {errors.nombre?.type === "required" && (
                         <span className="text-red-600 text-[12px] ">
@@ -77,7 +88,10 @@ const Contacto: React.FC = () => {
                     className="border rounded p-1 text-sm placeholder-zinc-300"
                   />
 
-                  <label htmlFor="email" className="flex text-sm text-slate-600">
+                  <label
+                    htmlFor="email"
+                    className="flex text-sm text-slate-600"
+                  >
                     Correo{" "}
                     <span className="w-full flex justify-end items-center">
                       {errors.correo?.type === "pattern" && (
@@ -101,12 +115,15 @@ const Contacto: React.FC = () => {
                     placeholder="Numero Telefónico"
                     {...register("celular", {
                       required: true,
-                      pattern: /^\d{9,15}$/,
+                      pattern: /^(\+\d{1,2}|(\(\d{1,4}\)))?\d{5,15}$/,
                     })}
                     className="border rounded p-1 text-sm placeholder-zinc-300"
                   />
 
-                  <label htmlFor="telephone" className="flex text-sm text-slate-600">
+                  <label
+                    htmlFor="telephone"
+                    className="flex text-sm text-slate-600"
+                  >
                     Celular{" "}
                     <span className="w-full flex justify-end">
                       {errors.celular?.type === "required" && (
@@ -129,7 +146,10 @@ const Contacto: React.FC = () => {
                     className="border rounded p-1 text-sm placeholder-zinc-300 "
                   />
 
-                  <label htmlFor="asunto" className="flex  text-sm text-slate-600">
+                  <label
+                    htmlFor="asunto"
+                    className="flex  text-sm text-slate-600"
+                  >
                     Asunto
                     <span className="w-full flex justify-end">
                       {errors.asunto?.type === "required" && (
@@ -153,7 +173,10 @@ const Contacto: React.FC = () => {
                     className="border rounded p-1 text-sm placeholder-zinc-300"
                   ></textarea>
 
-                  <label htmlFor="mensaje" className="flex text-sm text-slate-600">
+                  <label
+                    htmlFor="mensaje"
+                    className="flex text-sm text-slate-600"
+                  >
                     Mensaje{" "}
                     <span className="w-full flex justify-end items-center">
                       {errors.asunto?.type === "required" && (
