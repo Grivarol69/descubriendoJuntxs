@@ -6,6 +6,8 @@ import { programSchema } from "../schemas/program.schema";
 
 const prisma = new PrismaClient();
 
+
+
 const getPrograms = async (req: Request, res: Response) => {
   const { name } = req.query;
 
@@ -51,8 +53,24 @@ const getProgramsByCategory = async (req: Request, res: Response) => {
   }
 };
 
+
 const getProgramById = async (req: Request, res: Response) => {
-  const { id } = req.params;
+
+
+    const { id } = req.params;
+
+    try {
+        const program = await prisma.program.findUnique({
+            where: {
+                id: Number(id)
+            }
+        });
+
+        res.status(200).json(program);
+    } catch (error) {
+        handleHttp(res, 'ERROR_GET_CATEGORYS')
+    }
+}
 
   try {
     const program = await prisma.program.findUnique({
@@ -69,6 +87,11 @@ const getProgramById = async (req: Request, res: Response) => {
 
 const postProgram = async ({ body }: Request, res: Response) => {
 
+
+
+    const { name, description, objective, syllabus, duration, state, categoryId, image } = body;
+
+
     try {
         const { state } = body; //* restricciones en la DB Enum
         const result = programSchema.parse(body);
@@ -76,6 +99,7 @@ const postProgram = async ({ body }: Request, res: Response) => {
         const { name, description, image, urlYoutube, objective, syllabus, categoryId } = result; 
       
         const newProgram = await prisma.program.create({
+
             data: {
                 name: name && name as string,
                 description: description && description as string,
@@ -84,6 +108,7 @@ const postProgram = async ({ body }: Request, res: Response) => {
                 objective: objective && objective as string,
                 syllabus: syllabus && syllabus as string,
                 state: state && state as State,
+                image: image && image as string,
                 categoryId: categoryId && categoryId
             }
         });
@@ -98,6 +123,7 @@ const postProgram = async ({ body }: Request, res: Response) => {
       }
   
       return res.status(400).json({ error: "Bad request" });
+
     }
 };
 
@@ -151,6 +177,7 @@ const paginationProgram = async (req: Request, res: Response) => {
       skip: startIndex,
       take: pageSize,
     });
+
 
     res.status(200).json(programs);
   } catch (error) {
