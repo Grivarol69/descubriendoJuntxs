@@ -3,6 +3,8 @@ import { Router } from "express";
 import {
     getPaymentsByService,
     getPaymentsByUser,
+    postPayment,
+    reciveMP,
     updatePayment,
 } from "../controllers/payment"
 
@@ -20,6 +22,7 @@ router.get('/', (_req, res) => {
 
 })
 router.post('/', postCreatePayment)
+router.post('/services', postPayment)
 
 router.get('/success', (_req, res) => {
     res.send("Success");
@@ -33,6 +36,7 @@ router.get('/pending', (_req, res) => {
 })
 
 router.post('/webhook', reciveWebhook)
+router.post('/reciveMP', reciveMP)
 
 
 
