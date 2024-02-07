@@ -1,6 +1,7 @@
 import { useState } from "react"
 import style from './CreateUser.module.css'
 import axios from "axios"
+import signUp from "@/app/firebase/auth/signup";
 
 
 interface CreateProjectProps {
@@ -27,8 +28,9 @@ const CreateUser: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
         languaje: "",
         position: "",
         role: "",
+        password: ""
     })
-    
+
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault()
@@ -40,24 +42,36 @@ const CreateUser: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
 
     const handleSubmit = async () => {
         try {
-            const fechaActualIn = new Date 
-            const response = await axios.post(`${URL_BASE}users`, {
-                email: input.email,
-                name: input.name,
-                surName: input.surName,
-                identification: input.identification,
-                phone: input.phone,
-                dateIn: fechaActualIn,
-                dateOut: fechaActualIn,
-                description: input.description,
-                linkedin: input.linkedin,
-                languaje: input.languaje,
-                position: input.position,
-                role: 'Coach',
-            })
-            if (response) {
-                location.reload();
-                closeModal()
+            const { result, error } = await signUp(input.email, input.password)
+            if (error) {
+                alert(error)
+                return console.log(error);
+            }
+            else {
+                const token = await result?.user.getIdToken();
+                if (token) {
+                    console.log(token);
+                    const fechaActualIn = new Date
+                    const response = await axios.post(`${URL_BASE}users`, {
+                        email: input.email,
+                        name: input.name,
+                        surName: input.surName,
+                        identification: input.identification,
+                        phone: input.phone,
+                        dateIn: fechaActualIn,
+                        dateOut: fechaActualIn,
+                        description: input.description,
+                        linkedin: input.linkedin,
+                        languaje: input.languaje,
+                        position: input.position,
+                        role: 'Coach',
+                        token
+                    })
+                    if (response) {
+                        location.reload();
+                        closeModal()
+                    }
+                }
             }
         } catch (error) {
             console.log(error)
