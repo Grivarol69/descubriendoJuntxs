@@ -16,15 +16,19 @@ const CreateUser: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
     const URL_BASE = "https://juntxs.vercel.app/"
 
     const [input, setInput] = useState({
-        nombre: "",
-        apellido: "",
-        fechaNacimiento: "",
-        telefono: "",
-        linkedin: "",
-        identificacion: "",
-        idiomas: "",
         email: "",
+        name: "",
+        surName: "",
+        identification: "",
+        phone: "",
+        dateIn: "",
+        description: "",
+        linkedin: "",
+        languaje: "",
+        position: "",
+        role: "",
     })
+    
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault()
@@ -34,10 +38,25 @@ const CreateUser: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
         })
     }
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async () => {
         try {
-            const response = await axios.post(`${URL_BASE}users/users`)
+            const fechaActualIn = new Date 
+            const response = await axios.post(`${URL_BASE}users`, {
+                email: input.email,
+                name: input.name,
+                surName: input.surName,
+                identification: input.identification,
+                phone: input.phone,
+                dateIn: fechaActualIn,
+                dateOut: fechaActualIn,
+                description: input.description,
+                linkedin: input.linkedin,
+                languaje: input.languaje,
+                position: input.position,
+                role: 'Coach',
+            })
             if (response) {
+                location.reload();
                 closeModal()
             }
         } catch (error) {
@@ -58,21 +77,31 @@ const CreateUser: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
                             <div className={style.inputsContainer}>
                                 <div className={style.labelInput}>
                                     <label htmlFor="" >Nombre</label>
-                                    <input className={style.input} type="text" name="nombre" value={input.nombre} onChange={handleChange} />
+                                    <input className={style.input} type="text" name="name" value={input.name} onChange={handleChange} />
                                 </div>
                                 <div className={style.labelInput}>
                                     <label htmlFor="" >Apellido</label>
-                                    <input className={style.input} type="text" name="apellido" value={input.apellido} onChange={handleChange} />
+                                    <input className={style.input} type="text" name="surName" value={input.surName} onChange={handleChange} />
                                 </div>
                             </div>
                             <div className={style.inputsContainer}>
                                 <div className={style.labelInput}>
-                                    <label htmlFor="" >Fecha De Nacimiento</label>
-                                    <input className={style.input} type="text" name="fechaNacimiento" value={input.fechaNacimiento} onChange={handleChange} />
+                                    <label htmlFor="" >Descripción</label>
+                                    <input className={style.input} type="text" name="description" value={input.description} onChange={handleChange} />
                                 </div>
                                 <div className={style.labelInput}>
+                                    <label htmlFor="" >Position</label>
+                                    <input className={style.input} type="text" name="position" value={input.position} onChange={handleChange} />
+                                </div>
+                            </div>
+                            <div className={style.inputsContainer}>
+                                <div className={style.labelInput}>
                                     <label htmlFor="" >Telefono</label>
-                                    <input className={style.input} type="text" name="telefono" value={input.telefono} onChange={handleChange} />
+                                    <input className={style.input} type="text" name="phone" value={input.phone} onChange={handleChange} />
+                                </div>
+                                <div className={style.labelInput}>
+                                    <label htmlFor="" >Idiomas</label>
+                                    <input className={style.input} type="text" name="languaje" value={input.languaje} onChange={handleChange} />
                                 </div>
                             </div>
                             <div className={style.inputsContainer}>
@@ -82,21 +111,17 @@ const CreateUser: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
                                 </div>
                                 <div className={style.labelInput}>
                                     <label htmlFor="" >Identificación</label>
-                                    <input className={style.input} type="text" name="identificacion" value={input.identificacion} onChange={handleChange} />
+                                    <input className={style.input} type="text" name="identification" value={input.identification} onChange={handleChange} />
                                 </div>
                             </div >
                             <div className={style.inputsContainer}>
-                                <div className={style.labelInput}>
-                                    <label htmlFor="" >Idiomas</label>
-                                    <input className={style.input} type="text" name="idiomas" value={input.idiomas} onChange={handleChange} />
-                                </div>
                                 <div className={style.labelInput}>
                                     <label htmlFor="" >Email</label>
                                     <input className={style.input} type="text" name="email" value={input.email} onChange={handleChange} />
                                 </div>
                             </div>
                         </form>
-                        <button onClick={handleSubmit}>Crear Usuario</button>
+                        <button onClick={() => handleSubmit()}>Crear Usuario</button>
                     </div>
                 </div>
             </div>

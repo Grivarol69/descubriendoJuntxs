@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import style from './createUser.module.css'
+import style from './listaUsers.module.css'
 import CreateUser from '@/components/AdminDashboard/CreateUser/CreateUser'
 
 

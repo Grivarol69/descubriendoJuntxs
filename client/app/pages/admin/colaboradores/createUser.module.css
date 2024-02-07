@@ -1,32 +1,11 @@
-.container {
+.gridColumns {
     box-sizing: border-box;
     margin: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 4rem;
-    height: fit-content;
+    display: grid;
+    position: relative;
+    top: 0;
     width: 100%;
-    overflow-x: hidden;
-    padding-bottom: 10rem;
-}
-
-.buttonFull {
-    display: flex;
-    justify-content: center;
-    width: 20vw;
-    min-width: 5rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    align-items: center;
-    height: 3.5rem;
-    border-radius: 1rem;
-    background: #7286FF;
-    color: white;
-    transition: 100ms;
-}
-
-.buttonFull:hover {
-    background: #5063ce;
+    height: 100vh;
+    grid-template-columns: 0.23fr 1fr;
+    grid-template-rows: 0.13fr 1fr;
 }

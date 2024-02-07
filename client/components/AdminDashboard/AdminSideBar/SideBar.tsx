@@ -7,7 +7,7 @@ import style from "./sideBar.module.css"
 import { usePathname } from "next/navigation"
 
 
-const AdminDashboard = () => {
+const  AdminDashboard = () => {
     const path = usePathname()
     if (!path.includes('/pages/admin')) return null
 

@@ -1,4 +1,3 @@
-
 import style from './proyectos.module.css'
 import axios, { AxiosResponse } from "axios";
 import AllCards from "@/components/allCardsComponent/allCards";
@@ -25,7 +24,6 @@ const Proyectos = async () => {
     return (
         <>
             <div className={style.backgroundProyecto}>
-
                 <AllCards
                     projects={proyectsFetch}
                 />
