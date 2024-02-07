@@ -10,7 +10,7 @@ interface ModalProjectProps {
     openModal: boolean;
     closeModal: () => void;
     project: {
-        nombre: string,
+        name: string,
         description: string,
         amount: number,
         objective: string,
@@ -27,7 +27,7 @@ interface ModalProjectProps {
 
 const ModalProject: React.FC<ModalProjectProps> = ({ openModal, closeModal, project }) => {
     if (!openModal) return null
-    const { nombre, description, image, objective, commentary } = project;
+    const { name, description, image, objective, commentary } = project;
     const [MostrarComentario, setMostrarComentario] = useState(false)
 
     useEffect(() => {
@@ -38,7 +38,7 @@ const ModalProject: React.FC<ModalProjectProps> = ({ openModal, closeModal, proj
         };
     }, [])
     if (!openModal) return null
-    const { nombre, descripcion, meta, comentarios, rating, imagen } = project;
+
     return (
 
         <>
@@ -68,7 +68,7 @@ const ModalProject: React.FC<ModalProjectProps> = ({ openModal, closeModal, proj
                                 <div className="containerTextProyect">
                                     {!MostrarComentario && 
                                         <>
-                                            <h1 className="title">{nombre}</h1>
+                                            <h1 className="title">{name}</h1>
                                             <p className="descriptionParrafo">{description}</p>
                                         </>
                                     }

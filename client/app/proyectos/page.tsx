@@ -18,7 +18,6 @@ export interface ProyectTypes {
 }
 
 const Proyectos = async () => {
-
     const urlGlobal = 'https://juntxs.vercel.app/'
     const proyectsFetch: any = (await axios.get(`${urlGlobal}programs/pagination`)).data
     return (
@@ -31,6 +30,5 @@ const Proyectos = async () => {
         </>
     )
 }
-
 export default Proyectos;
 

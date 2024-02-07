@@ -97,7 +97,6 @@ const postProgram = async ({ body }: Request, res: Response) => {
         const newProgram = await prisma.program.create({
 
             data: {
-
                 name: name && name as string,
                 description: description && description as string,
                 objective: objective && objective as string,
@@ -106,8 +105,6 @@ const postProgram = async ({ body }: Request, res: Response) => {
                 state: state && state as State,
                 image: image && image as string,
                 categoryId: categoryId && categoryId
-
-
             }
         });
 

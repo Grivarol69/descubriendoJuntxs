@@ -2,7 +2,7 @@ import CardProyect from "../CardProyecto/cardProyecto"
 
 
 interface Project {
-    nombre: string,
+    name: string,
     description: string,
     amount: number,
     objective: string,
