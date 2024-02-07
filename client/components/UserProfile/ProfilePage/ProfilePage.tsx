@@ -1,29 +1,12 @@
 'use client'
 import { use, useEffect, useState } from 'react';
 import style from './profilePage.module.css'
-import { userInfo } from 'os';
 import PasswordChange from '@/components/CambiarContraseña/ChangePassword';
 import { useAuthContext } from '@/app/contexto/AuthContext';
+import { useRouter } from 'next/navigation';
 
-interface useInfoType {
-    users: {
-        id: number,
-        name: string,
-        surname: string,
-        identification: string,
-        phone: string,
-        dateIn: string,
-        dateOut: string,
-        description: string,
-        languaje: string,
-        email: string,
-        linkedin: string,
-        position: string,
-        state: string,
-        role: string,
-    }[]
-}
-const ProfilePage: React.FC<useInfoType> = ({ users }) => {
+
+const ProfilePage = () => {
     const [vistaDeComponente, setVistaDeComponente] = useState('')
     const vistaComponente = (name: string) => {
         if (name === 'datos') return setVistaDeComponente('datos')
@@ -33,10 +16,12 @@ const ProfilePage: React.FC<useInfoType> = ({ users }) => {
     const { infoUserGlobal } = useAuthContext()
     const infoUserGlobalParse = infoUserGlobal && JSON.parse(infoUserGlobal)
 
+    const router = useRouter()
+    if (infoUserGlobalParse?.role === 'Admin') return router.push('/pages/admin')
+
     console.log('me gusta comer' + infoUserGlobalParse);
-
     console.log(infoUserGlobalParse);
-
+    
     const estiloTransition = () => {
         const datos = {
             width: '55vw',
@@ -62,7 +47,8 @@ const ProfilePage: React.FC<useInfoType> = ({ users }) => {
         return normal
     }
     const estilo = estiloTransition()
-    const userName = infoUserGlobalParse?.name.split(' ')
+    const userName = infoUserGlobalParse?.name
+    const userNameLast = infoUserGlobalParse?.surName
     console.log();
 
     return (
@@ -74,7 +60,7 @@ const ProfilePage: React.FC<useInfoType> = ({ users }) => {
                         <div className={style.portadaImage}></div>
                         <div className={style.bodyInfo}>
                             <div className={style.nombreYData}>
-                                <div className={style.nombreCompleto}>{userName[0] + ' ' + userName[1]}</div>
+                                <div className={style.nombreCompleto}>{userName + ' ' + userNameLast}</div>
                                 <div className={style.optionsContainerOfAll}>
                                     <div className={style.contanerOptions}>
                                         <div className={style.menuDescriptionTitle}>
@@ -132,13 +118,13 @@ const ProfilePage: React.FC<useInfoType> = ({ users }) => {
                             <div className={style.infoPeople}>
                                 <div className={style.nombre}>
                                     <div className={style.titleMenu}>Nombre
-                                        <div className={style.descriptionMenu}>{userName[0]}</div>
+                                        <div className={style.descriptionMenu}>{userName}</div>
                                     </div>
                                 </div>
                                 <div className={style.apellido}>
 
                                     <div className={style.titleMenu}>Apellido
-                                        <div className={style.descriptionMenu}>{userName[1]}</div>
+                                        <div className={style.descriptionMenu}>{userNameLast}</div>
                                     </div>
                                 </div>
                                 <div className={style.identificacion}>

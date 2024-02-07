@@ -53,7 +53,7 @@ const CreateUser: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
                     console.log(token);
                     const fechaActualIn = new Date
                     const response = await axios.post(`${URL_BASE}users`, {
-                        email: input.email,
+                        email: input.email.toLowerCase(),
                         name: input.name,
                         surName: input.surName,
                         identification: input.identification,
@@ -132,6 +132,10 @@ const CreateUser: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
                                 <div className={style.labelInput}>
                                     <label htmlFor="" >Email</label>
                                     <input className={style.input} type="text" name="email" value={input.email} onChange={handleChange} />
+                                </div>
+                                <div className={style.labelInput}>
+                                    <label htmlFor="" >Password</label>
+                                    <input className={style.input} type="text" name="password" value={input.password} onChange={handleChange} />
                                 </div>
                             </div>
                         </form>
