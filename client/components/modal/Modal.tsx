@@ -29,6 +29,7 @@ const ModalProject: React.FC<ModalProjectProps> = ({ openModal, closeModal, proj
     if (!openModal) return null
     const { nombre, description, image, objective, commentary } = project;
     const [MostrarComentario, setMostrarComentario] = useState(false)
+
     useEffect(() => {
         document.body.style.overflow = 'hidden';
 
@@ -36,7 +37,8 @@ const ModalProject: React.FC<ModalProjectProps> = ({ openModal, closeModal, proj
             document.body.style.overflow = 'visible';
         };
     }, [])
-    icons.chat
+    if (!openModal) return null
+    const { nombre, descripcion, meta, comentarios, rating, imagen } = project;
     return (
 
         <>
@@ -76,6 +78,7 @@ const ModalProject: React.FC<ModalProjectProps> = ({ openModal, closeModal, proj
                                             <ul className="commentsStyle">
                                                 {commentary && commentary.map((comentario, index) => (
                                                     <div>
+
                                                         <div className="titleComment">
                                                             nombre user
                                                             <div className="likeDislike">

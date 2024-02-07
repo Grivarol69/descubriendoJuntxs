@@ -1,8 +1,20 @@
 import { Router } from "express";
+
+import {
+    getPaymentsByService,
+    getPaymentsByUser,
+    updatePayment,
+} from "../controllers/payment"
+
+const router = Router()
+
+router.get('/:serviceId', getPaymentsByService)
+router.get('/:userId', getPaymentsByUser)
+router.put('/:id', updatePayment)
+
 import { postCreatePayment, reciveWebhook } from "../controllers/payments";
 
 
-const router = Router()
 router.get('/', (_req, res) => {
     res.send("Descubriendo Juntxs 🦄🌈✨👋🌎🌍🌏✨🌈🦄");
 
@@ -21,6 +33,7 @@ router.get('/pending', (_req, res) => {
 })
 
 router.post('/webhook', reciveWebhook)
+
 
 
 export default router;

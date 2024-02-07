@@ -10,7 +10,7 @@ import ResetPassword from "@/components/ResetPassword/ResetPassword";
 import { userInfo } from 'os';
 import axios from "axios";
 import { useAuthContext } from "@/app/contexto/AuthContext";
-import { urlGlobal } from "../signup/page";
+
 
 const SignInPage = () => {
     const [infoUser, setInfoUser] = useState({
@@ -24,7 +24,7 @@ const SignInPage = () => {
         password: ''
     });
     const { persistirSesion } = useAuthContext()
-
+    const urlGlobal = 'https://juntxs.vercel.app/' 
     const [errorMessage, setErrorMessage] = useState('');
 
     const router = useRouter()
@@ -72,16 +72,17 @@ const SignInPage = () => {
                 setErrorMessage('Usuario o contraseña incorrectos');
                 return console.log(error);
             }
-            const token = await result?.user.getIdToken()
-            console.log('dasasd' + token);
-         
-                
+
+            const token = await result?.user.getIdToken();
+            if (token) {
                 const userInfoCreate = (await axios.post(`${urlGlobal}users/authToken`, { token })).data
                 if (userInfoCreate.status) {
                     console.log(userInfoCreate);
                     persistirSesion(userInfoCreate.user)
                     return router.push('/userIn')
                 }
+
+            }
             return console.log(
                 'error amigo'
             );
@@ -99,13 +100,15 @@ const SignInPage = () => {
                 setErrorMessage('Error iniciando sesión con Google');
                 return console.log(error);
             }
-            const token = await result?.user.getIdToken()
 
-            const userInfoCreate = (await axios.post(`${urlGlobal}users/authToken`, { token })).data
-            if (userInfoCreate.status) {
-                console.log('hola pedro' + userInfoCreate);
-                persistirSesion(userInfoCreate.user)
-                return router.push('/userIn')
+            const token = await result?.user.getIdToken();
+            if (token) {
+                const userInfoCreate = (await axios.post(`${urlGlobal}users/authToken`, { token })).data
+                if (userInfoCreate.status) {
+                    console.log(userInfoCreate);
+                    persistirSesion(userInfoCreate.user)
+                    return router.push('/userIn')
+                }
             }
             return console.log(
                 'error amigo'

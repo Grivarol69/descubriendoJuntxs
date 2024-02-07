@@ -10,7 +10,6 @@ import { ValidateForm } from "@/app/firebase/validation";
 import style from './signup.module.css'
 import googleLogo from '../../../public/googleLogo.png'
 import { useAuthContext } from "@/app/contexto/AuthContext";
-export const urlGlobal = 'https://juntxs.vercel.app/' 
 
 const SignUpPage = () => {
     const [infoUser, setInfoUser] = useState({
@@ -18,13 +17,14 @@ const SignUpPage = () => {
         email: '',
         password: ''
     })
-
+    
     const [errors, setErrors] = useState({
         name: '',
         email: '',
         password: ''
     });
-
+    
+    const urlGlobal = 'https://juntxs.vercel.app/' 
     const { persistirSesion } = useAuthContext()
     const [errorMessage, setErrorMessage] = useState('');
     const router = useRouter()
@@ -84,8 +84,9 @@ const SignUpPage = () => {
                 return console.log(error);
             }
             else {
-                const token =  await result?.user.getIdToken()
-                console.log(token);
+                const token = await result?.user.getIdToken();
+                if(token){
+                    console.log(token);
                 const userInfoCreate = (await axios.post(`${urlGlobal}auth`, { token, name: infoUser.name })).data
                 if (userInfoCreate.status) {
                     console.log(userInfoCreate);
@@ -97,6 +98,7 @@ const SignUpPage = () => {
                     'error al logearse'
                 );
             }
+                }
         } catch (error) {
             alert(error)
         }
@@ -112,8 +114,10 @@ const SignUpPage = () => {
                 return console.log(error);
             }
             else {
-                const token =  await result?.user.getIdToken()
-                const name = result?.user.displayName
+
+                const token = await result?.user.getIdToken();
+                if(token){
+                    const name = result?.user.displayName
                 const userInfoCreate = (await axios.post(`${urlGlobal}auth`, { token, name })).data
                 if (userInfoCreate.status) {
                     alert('Todo bien')
@@ -123,6 +127,9 @@ const SignUpPage = () => {
                 return console.log(
                     'error amigo'
                 );
+
+                }
+                
             }
         } catch (error: any) {
             alert('ya estás registrado con este correo')

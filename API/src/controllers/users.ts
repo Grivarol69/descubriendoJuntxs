@@ -61,7 +61,8 @@ const getUserByEmail = async (req: Request, res: Response) => {
             });
             res.status(200).json({
                 status: true,
-                user}); // Devolver el usuario
+                user
+            }); // Devolver el usuario
         }
     } catch (error) {
         console.error('Error fetching user by ID:', error);

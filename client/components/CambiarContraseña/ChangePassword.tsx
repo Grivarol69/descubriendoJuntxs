@@ -16,8 +16,8 @@ const PasswordChange = () => {
     }
 
     const handleSubmit = async () => {
-        event.preventDefault();
-        if (user && user.email && !isGoogleUser) {
+
+        if (user) {
             try {
                 await sendPasswordResetEmail(auth, user.email);
                 alert('Email enviado para cambiar contraseña');

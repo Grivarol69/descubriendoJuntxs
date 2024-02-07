@@ -89,5 +89,5 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     <AuthContext.Provider value={{ user, infoUserGlobal, persistirSesion, setInfoUserGlobal, logged, logoutReal }}>
       {loading ? <div>Loading...</div> : children}
     </AuthContext.Provider>
-  );
+  );
 };
