@@ -1,3 +1,4 @@
+"use client"
 import Image from "next/image";
 import Feature1 from "../public/assets/feature-1.svg";
 import Feature2 from "../public/assets/feature-2.svg";
@@ -7,15 +8,20 @@ import bluebutton from "../public/assets/blue-button.svg";
 import greenButton from "../public/assets/green-button.svg";
 import pinkButton from "../public/assets/pink-button.svg";
 import Link from "next/link";
+import { CldImage } from "next-cloudinary";
 
 const Features = () => {
   return (
-    <div className="flex flex-col gap-y-[56px] py-[56px] lg:py-[120px] lg:gap-y-[80px] ">
-      <div className="flex flex-col gap-x-6 sm:flex-row-reverse">
-        <Image
-          src={Feature1}
-          alt="Feature 1 image"
-          className="hidden w-1/2 sm:block"
+   <div className="flex flex-col gap-y-[56px] py-[56px] lg:py-[120px] lg:gap-y-[80px] " style={{ marginTop: "50px "}}  >
+       <div className="flex flex-col gap-x-6 sm:flex-row-reverse" >
+        <CldImage
+          width="350"
+          height="250"
+          src="ztsviiega8esbylzuefu_b72pue_-_Profile_Picture_yhnpv3" 
+          
+          alt="imagen cloudinary"
+          className="hidden w-1/2 sm:block rounded-md" style={{borderRadius: "20px" }}
+         
         />
         <div className="sm:w-1/2 lg:py-[56px] lg:pr-[56px]">
           <h3 className='font-medium text-[#7286ff] lg:text-[18px] '>
@@ -24,8 +30,11 @@ const Features = () => {
           <h1 className="pt-[12px] text-2xl font-medium text-[#0085FF] lg:text-[42px] lg:leading-[58px]">
             Simplifica tu vida Apoya
           </h1>
-          <Image
-            src={Feature1}
+          <CldImage
+          width="350"
+          height="250"
+          src="ztsviiega8esbylzuefu_b72pue_-_Profile_Picture_yhnpv3" 
+          
             alt="feature 1 image"
             className="pt-[24px] sm:hidden"
           />
@@ -67,10 +76,12 @@ const Features = () => {
       </div>
 
       <div className="flex flex-col gap-x-6 sm:flex-row">
-        <Image
-          src={Feature2}
+        <CldImage
+          src="https://res.cloudinary.com/dwhgyy4wl/image/upload/v1707082578/lmlhubbsuurporzhywne_edebky.jpg"
+          width="350"
+          height="350"
           alt="Feature 1 image"
-          className="hidden w-1/2 sm:block"
+          className="hidden w-1/2 sm:block rounded-md" style={{borderRadius: "20px"}}
         />
         <div className="sm:w-1/2 lg:py-[56px] lg:pl-[56px]">
           <h3 className="font-medium text-[#00A424] lg:text-[18px] ">
@@ -79,9 +90,11 @@ const Features = () => {
           <h1 className="pt-[12px] text-2xl font-medium text-[#7286ff] lg:text-[42px] lg:leading-[58px]">
             Al ayudar a otros te ayudas a ti mismo
           </h1>
-          <Image
-            src={Feature2}
-            alt="feature 1 image"
+          <CldImage
+            src="https://res.cloudinary.com/dwhgyy4wl/image/upload/v1707082578/lmlhubbsuurporzhywne_edebky.jpg"
+            width="350"
+            height="350"
+            alt="Feature 1 image"
             className="pt-[24px] sm:hidden"
           />
           <p className="py-[24px] text-[#36485C] lg:text-[18px]">
@@ -120,10 +133,12 @@ const Features = () => {
       </div>
 
       <div className="flex flex-col gap-x-6 sm:flex-row-reverse">
-        <Image
-          src={Feature3}
+        <CldImage
+          src="zzkt0mrazqfijnxfy0sm"
+          width="350"
+          height="350"
           alt="Feature 1 image"
-          className="hidden w-1/2 sm:block"
+          className="hidden w-1/2 sm:block rounded-md" style={{borderRadius: "20px"}}
         />
         <div className="sm:w-1/2 lg:py-[56px] lg:pr-[56px]">
           <h3 className="font-medium text-[#7286ff] lg:text-[18px] ">
@@ -132,8 +147,10 @@ const Features = () => {
           <h1 className="pt-[12px] text-2xl font-medium text-[#EB2891] lg:text-[42px] lg:leading-[58px]">
             Crece con Nosotros
           </h1>
-          <Image
-            src={Feature3}
+          <CldImage
+            src="zzkt0mrazqfijnxfy0sm"
+            width="350"
+            height="350"
             alt="feature 1 image"
             className="pt-[24px] sm:hidden"
           />
@@ -168,3 +185,4 @@ const Features = () => {
 };
 
 export default Features;
+

@@ -355,21 +355,6 @@ const Contacto: React.FC = () => {
           </div>
         </div>
       </div>
-
-      {/* <div className="grid-container max-w-3xl border grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-4">
-        <p className="md:col-span-1 md:row-span-2 z-10">
-          holiwis bibis Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Accusamus laudantium distinctio laborum corrupti veritatis consequatur
-          commodi cupiditate recusandae autem laboriosam totam, est adipisci,
-          quibusdam iusto! Ex illum atque asperiores quis?
-        </p>
-        <Image
-          src={Gradient}
-          alt=""
-          className="hidden md:block md:col-span-2 md:row-span-1 mt-10"
-        />
-        <Image src={Gradient} alt="" className="md:hidden mt-10" />
-      </div> */}
     </div>
   );
 };

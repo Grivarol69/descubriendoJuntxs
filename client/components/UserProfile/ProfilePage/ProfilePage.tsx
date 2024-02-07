@@ -6,19 +6,24 @@ import PasswordChange from '@/components/CambiarContraseña/ChangePassword';
 import { useAuthContext } from '@/app/contexto/AuthContext';
 
 interface useInfoType {
-    useInfo: {
-        nombre: string,
-        apellido: string,
-        identificacion: string,
-        fechaNacimiento: string,
-        idiomas: string,
-        telefono: string,
+    users: {
+        id: number,
+        name: string,
+        surname: string,
+        identification: string,
+        phone: string,
+        dateIn: string,
+        dateOut: string,
+        description: string,
+        languaje: string,
         email: string,
         linkedin: string,
-        contraseña: string
-    }
+        position: string,
+        state: string,
+        role: string,
+    }[]
 }
-const ProfilePage: React.FC<useInfoType> = ({ useInfo }) => {
+const ProfilePage: React.FC<useInfoType> = ({ users }) => {
     const [vistaDeComponente, setVistaDeComponente] = useState('')
     const vistaComponente = (name: string) => {
         if (name === 'datos') return setVistaDeComponente('datos')
@@ -29,7 +34,7 @@ const ProfilePage: React.FC<useInfoType> = ({ useInfo }) => {
     const infoUserGlobalParse = infoUserGlobal && JSON.parse(infoUserGlobal)
 
     console.log('me gusta comer' + infoUserGlobalParse);
-    
+
     console.log(infoUserGlobalParse);
 
     const estiloTransition = () => {
@@ -57,9 +62,9 @@ const ProfilePage: React.FC<useInfoType> = ({ useInfo }) => {
         return normal
     }
     const estilo = estiloTransition()
-    const userName = infoUserGlobalParse.name.split(' ')
+    const userName = infoUserGlobalParse?.name.split(' ')
     console.log();
-    
+
     return (
         <>
             <div className={style.userProfile} style={estilo}>
