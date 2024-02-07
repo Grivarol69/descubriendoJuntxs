@@ -6,8 +6,7 @@ import AdminProfile from "@/components/AdminDashboard/AdminProfile/AdminProfile"
 
 
 
-const Admin = async () => {
-
+const Admin = () => {
 
     return (
         <div className={style.gridColumns} style={{ color: '#24275A' }}>
