@@ -8,14 +8,10 @@ import AdminProfile from "@/components/AdminDashboard/AdminProfile/AdminProfile"
 
 const Admin = async () => {
 
-    const URL_BASE = "https://juntxs.vercel.app/"
-    const users = (await axios.get(`${URL_BASE}users`)).data
-
 
     return (
         <div className={style.gridColumns} style={{ color: '#24275A' }}>
             <AdminProfile
-                users={users}
             />
         </div>
     );

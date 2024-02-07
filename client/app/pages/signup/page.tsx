@@ -24,7 +24,7 @@ const SignUpPage = () => {
         password: ''
     });
     
-    const urlGlobal = 'https://juntxs.vercel.app/' 
+    const urlGlobal = 'https://juntxs.vercel.app/'
     const { persistirSesion } = useAuthContext()
     const [errorMessage, setErrorMessage] = useState('');
     const router = useRouter()
