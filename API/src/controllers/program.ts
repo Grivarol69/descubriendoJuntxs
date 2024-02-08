@@ -158,6 +158,9 @@ const paginationProgram = async (req: Request, res: Response) => {
     const programs = await prisma.program.findMany({
       skip: startIndex,
       take: pageSize,
+      include: {
+        commentary: true,
+      }
     });
 
 

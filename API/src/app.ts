@@ -4,16 +4,17 @@ import cors from 'cors'
 import helmet from 'helmet'
 import bodyParser from 'body-parser'
 import compression from 'compression'
-
+import http from 'http'
+import { Server as SocketServer } from 'socket.io'
 
 
 import routes from './routes'
 
 const server = express()
+const serverSocket = http.createServer(server)
+const io = new SocketServer(serverSocket)
+console.log(io);
 
-
-
-server.set('port', 3001) // configuracion del puerto
 
 
 // middlewares prade
@@ -28,4 +29,4 @@ server.use(morgan('dev')) // middleware que muestra por consola las peticiones q
 server.use("/", routes)
 
 
-export default server;
+export default serverSocket
