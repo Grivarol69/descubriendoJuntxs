@@ -64,46 +64,56 @@ const CreateProject: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
     return (
         <div className={style.background}>
             <div className={style.container}>
-                <h1>Crear Proyecto</h1>
-                <button onClick={closeModal}>X</button>
+                <div className={style.createProjectAndCloseModal}>
+                    <h1>Crear Proyecto</h1>
+                    <button onClick={closeModal}>X</button>
+                </div>
                 <div>
-                    <form action="">
-                        <div>
-                            <label htmlFor="" >Nombre</label>
-                            <input type="text" name="name" value={input.name} onChange={handleChange} />
+                    <form action="" className={style.form}>
+                        <div className={style.inputsContainer}>
+                            <div className={style.labelInput}>
+                                <label htmlFor="" >Nombre</label>
+                                <input className={style.input} type="text" name="name" value={input.name} onChange={handleChange} />
+                            </div>
+                            <div className={style.labelInput}>
+                                <label htmlFor="" >Descripción</label>
+                                <input className={style.input} type="text" name="description" value={input.description} onChange={handleChange} />
+                            </div>
                         </div>
-                        <div>
-                            <label htmlFor="" >Descripción</label>
-                            <input type="text" name="description" value={input.description} onChange={handleChange} />
+                        <div className={style.inputsContainer}>
+                            <div className={style.labelInput}>
+                                <label htmlFor="" >Objetivo</label>
+                                <input className={style.input} type="text" name="objective" value={input.objective} onChange={handleChange} />
+                            </div>
+                            <div className={style.labelInput}>
+                                <label htmlFor="" >Syllabus</label>
+                                <input className={style.input} type="text" name="syllabus" value={input.syllabus} onChange={handleChange} />
+                            </div>
                         </div>
-                        <div>
-                            <label htmlFor="" >Objetivo</label>
-                            <input type="text" name="objective" value={input.objective} onChange={handleChange} />
+                        <div className={style.inputsContainer}>
+                            <div className={style.labelInput}>
+                                <label htmlFor="" >Duración</label>
+                                <input className={style.input} type="text" name="duration" value={input.duration} onChange={handleChange} />
+                            </div>
+                            <div className={style.labelInput}>
+                                <label htmlFor="" >Estado</label>
+                                <input className={style.input} type="text" name="state" value={input.state} onChange={handleChange} />
+                            </div>
                         </div>
-                        <div>
-                            <label htmlFor="" >Syllabus</label>
-                            <input type="text" name="syllabus" value={input.syllabus} onChange={handleChange} />
-                        </div>
-                        <div>
-                            <label htmlFor="" >Duración</label>
-                            <input type="text" name="duration" value={input.duration} onChange={handleChange} />
-                        </div>
-                        <div>
-                            <label htmlFor="" >Estado</label>
-                            <input type="text" name="state" value={input.state} onChange={handleChange} />
+                        <div className={style.inputsContainer}>
+                            <div className={style.labelInput}>
+                                <label htmlFor="" >Imagen</label>
+                                <input className={style.input} type="text" name="image" value={input.image} onChange={handleChange} />
+                            </div>
+                            <div className={style.labelInput}>
+                                <label htmlFor="" >Comentarios</label>
+                                <input className={style.input} type="text" name="commentary" value={input.commentary} onChange={handleChange} />
+                            </div>
                         </div>
                         {/* <div>
                             <label htmlFor="" >Categoria</label>
                             <input type="text" name="categoryId" value={input.categoryId} onChange={handleChange} />
                         </div> */}
-                        <div>
-                            <label htmlFor="" >Imagen</label>
-                            <input type="text" name="image" value={input.image} onChange={handleChange} />
-                        </div>
-                        <div>
-                            <label htmlFor="" >Comentarios</label>
-                            <input type="text" name="commentary" value={input.commentary} onChange={handleChange} />
-                        </div>
                     </form>
                     <button onClick={handleSubmit}>Crear Proyecto</button>
                 </div>
