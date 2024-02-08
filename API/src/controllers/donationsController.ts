@@ -6,7 +6,11 @@ const prisma = new PrismaClient();
 
 const getDonations = async (_req: Request, res: Response) => {
     try {
-        const donations = await prisma.donation.findMany();
+        const donations = await prisma.donation.findMany({
+            include: {
+                user: true,
+            },
+        });
         const donationsWithTransactionIdAsString = donations.map(donation => {
             const { transactionId, ...otherProps } = donation;
             return { ...otherProps, transactionId: transactionId.toString() };
