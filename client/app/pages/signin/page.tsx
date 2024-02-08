@@ -10,6 +10,8 @@ import ResetPassword from "@/components/ResetPassword/ResetPassword";
 import { userInfo } from 'os';
 import axios from "axios";
 import { useAuthContext } from "@/app/contexto/AuthContext";
+import deleteUserCurrent from "@/app/firebase/auth/deleteUser";
+import { logout } from "@/app/firebase/auth/signOut";
 
 
 const SignInPage = () => {
@@ -24,7 +26,7 @@ const SignInPage = () => {
         password: ''
     });
     const { persistirSesion } = useAuthContext()
-    const urlGlobal = 'https://juntxs.vercel.app/' 
+    const urlGlobal = 'http://localhost:3002/' 
     const [errorMessage, setErrorMessage] = useState('');
 
     const router = useRouter()
@@ -81,7 +83,7 @@ const SignInPage = () => {
                     persistirSesion(userInfoCreate.user)
                     return router.push('/userIn')
                 }
-
+        
             }
             return console.log(
                 'error amigo'
@@ -104,10 +106,16 @@ const SignInPage = () => {
             const token = await result?.user.getIdToken();
             if (token) {
                 const userInfoCreate = (await axios.post(`${urlGlobal}users/authToken`, { token })).data
+                
                 if (userInfoCreate.status) {
                     console.log(userInfoCreate);
                     persistirSesion(userInfoCreate.user)
                     return router.push('/userIn')
+                }
+                else {
+                    logout()
+                    deleteUserCurrent()
+                    alert ('El usuario no se ha registrado')
                 }
             }
             return console.log(
