@@ -1,12 +1,12 @@
 'use client'
-import { use, useEffect, useState } from 'react';
+import { use, useEffect, useState, FC, ReactNode } from 'react';
 import style from './profilePage.module.css'
 import PasswordChange from '@/components/CambiarContraseña/ChangePassword';
 import { useAuthContext } from '@/app/contexto/AuthContext';
 import { useRouter } from 'next/navigation';
 
 
-const ProfilePage = () => {
+const ProfilePage: FC = (): ReactNode => {
     const [vistaDeComponente, setVistaDeComponente] = useState('')
     const vistaComponente = (name: string) => {
         if (name === 'datos') return setVistaDeComponente('datos')
@@ -17,7 +17,7 @@ const ProfilePage = () => {
     const infoUserGlobalParse = infoUserGlobal && JSON.parse(infoUserGlobal)
 
     const router = useRouter()
-    if (infoUserGlobalParse?.role === 'Admin') return router.push('/pages/admin')
+    if (infoUserGlobalParse?.role === 'Admin') router.push('/pages/admin')
 
     console.log('me gusta comer' + infoUserGlobalParse);
     console.log(infoUserGlobalParse);
@@ -53,7 +53,7 @@ const ProfilePage = () => {
 
     return (
         <>
-            <div className={style.userProfile} style={estilo}>
+            <div className={infoUserGlobalParse?.role === 'Admin' ? 'hidden' : style.userProfile} style={estilo}>
                 {
                     vistaDeComponente === '' &&
                     <>
