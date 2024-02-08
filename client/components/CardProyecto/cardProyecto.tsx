@@ -23,7 +23,7 @@ export interface Proyect {
 
 const CardProyect: React.FC<Proyect> = ({ project }) => {
 
-    const { name, description, image, objective} = project
+    const { name, description, image, objective } = project
     const [modal, setModal] = useState(false)
 
 
