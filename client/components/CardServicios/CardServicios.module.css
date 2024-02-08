@@ -1,8 +1,7 @@
 
 
 .cardContainer {
-  display: flex;
-  flex-direction: column;
+  display: grid;
   grid-template-columns: 30vh 1fr;
   background: white;
   width: 40vw;
