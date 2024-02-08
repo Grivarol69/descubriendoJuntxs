@@ -27,9 +27,10 @@ interface ModalProjectProps {
 
 const ModalProject: React.FC<ModalProjectProps> = ({ openModal, closeModal, project }) => {
     if (!openModal) return null
+    console.log(project);
     const { name, description, image, objective, commentary } = project;
     const [MostrarComentario, setMostrarComentario] = useState(false)
-
+    
     useEffect(() => {
         document.body.style.overflow = 'hidden';
 
