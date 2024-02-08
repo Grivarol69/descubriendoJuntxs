@@ -72,25 +72,8 @@ const getProgramById = async (req: Request, res: Response) => {
     }
 }
 
-  try {
-    const program = await prisma.program.findUnique({
-      where: {
-        id: Number(id),
-      },
-    });
-
-    res.status(200).json(program);
-  } catch (error) {
-    handleHttp(res, "ERROR_GET_CATEGORYS");
-  }
-};
 
 const postProgram = async ({ body }: Request, res: Response) => {
-
-
-
-    const { name, description, objective, syllabus, duration, state, categoryId, image } = body;
-
 
     try {
         const { state } = body; //* restricciones en la DB Enum
@@ -103,7 +86,6 @@ const postProgram = async ({ body }: Request, res: Response) => {
             data: {
                 name: name && name as string,
                 description: description && description as string,
-                image: image && image as string,
                 urlYoutube: urlYoutube && urlYoutube as string,
                 objective: objective && objective as string,
                 syllabus: syllabus && syllabus as string,

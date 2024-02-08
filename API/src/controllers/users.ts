@@ -63,15 +63,23 @@ const getUserByEmail = async (req: Request, res: Response) => {
     try {
         const { token } = req.body
         const decodedToken = await admin.auth().verifyIdToken(token);
+        console.log(decodedToken);
         if (decodedToken) {
             const email = decodedToken.email
             const user = await prisma.user.findUnique({
                 where: { email: email } // Filtrar por ID
             });
-            res.status(200).json({
-                status: true,
-                user
-            }); // Devolver el usuario
+            if (user) {
+                res.status(200).json({
+                    status: true,
+                    user
+                }); // Devolver el usuario
+            } else {
+                res.status(200).json({
+                    status: false,
+                    message: 'el usuario no está logeado'
+                }); // Devolver el usuario
+            }
         }
     } catch (error) {
         console.error('Error fetching user by ID:', error);

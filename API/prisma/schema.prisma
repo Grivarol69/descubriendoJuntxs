@@ -45,7 +45,6 @@ model Program {
   id     Int    @id @default(autoincrement())
   name    String
   description String
-  image String
   dateIn DateTime? @default(now())
   dateOut DateTime?
   objective String

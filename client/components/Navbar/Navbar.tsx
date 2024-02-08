@@ -37,7 +37,7 @@ const Navbar = () => {
   }
 
   const infoUserParse = JSON.parse(infoUserGlobal)
-  const typeUser: string = infoUserParse.role
+  const typeUser: string = infoUserParse?.role
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside)
