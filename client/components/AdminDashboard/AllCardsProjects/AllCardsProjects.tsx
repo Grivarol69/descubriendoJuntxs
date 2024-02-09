@@ -6,7 +6,6 @@ import AllCards from "@/components/allCardsComponent/allCards"
 
 
 
-
 export interface ProyectTypes {
     projects: {
         name: string,
@@ -44,6 +43,7 @@ const AllCardsProjects: React.FC<ProyectTypes> = ({ projects }) => {
                     />
                 </div>
                 <button className={style.buttonFull} onClick={() => setModal(true)}>Crear Proyecto +</button>
+             
             </div>
         </>
     )

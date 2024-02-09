@@ -2,6 +2,7 @@ import { useState } from 'react'
 import style from './CreateProject.module.css'
 import { ProyectTypes } from '@/app/proyectos/page'
 import axios from 'axios'
+import { CldUploadWidget } from 'next-cloudinary'
 
 
 interface CreateProjectProps {
@@ -103,7 +104,16 @@ const CreateProject: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
                             </div>
                         </div>
                     </form>
-                    <button onClick={() => handleSubmit()}>Crear Proyecto</button>
+                    <CldUploadWidget signatureEndpoint="project_ong">
+                     {({ open }) => {
+                         return (
+                             <button onClick={() => open()}>
+                     Upload an Image
+                     </button>
+                        );
+                     }}
+                            </CldUploadWidget>
+                <button onClick={() => handleSubmit()}>Crear Proyecto</button>
                 </div>
             </div>
         </div>
