@@ -26,7 +26,7 @@ const SignInPage = () => {
         password: ''
     });
     const { persistirSesion } = useAuthContext()
-    const urlGlobal = 'http://localhost:3002/' 
+    const urlGlobal = 'https://juntxs.vercel.app/'
     const [errorMessage, setErrorMessage] = useState('');
 
     const router = useRouter()
@@ -83,7 +83,7 @@ const SignInPage = () => {
                     persistirSesion(userInfoCreate.user)
                     return router.push('/userIn')
                 }
-        
+
             }
             return console.log(
                 'error amigo'
@@ -106,7 +106,7 @@ const SignInPage = () => {
             const token = await result?.user.getIdToken();
             if (token) {
                 const userInfoCreate = (await axios.post(`${urlGlobal}users/authToken`, { token })).data
-                
+
                 if (userInfoCreate.status) {
                     console.log(userInfoCreate);
                     persistirSesion(userInfoCreate.user)
@@ -115,7 +115,7 @@ const SignInPage = () => {
                 else {
                     logout()
                     deleteUserCurrent()
-                    alert ('El usuario no se ha registrado')
+                    alert('El usuario no se ha registrado')
                 }
             }
             return console.log(

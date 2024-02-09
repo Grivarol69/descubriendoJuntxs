@@ -17,16 +17,17 @@ const CreateProject: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
     const URL_BASE = "https://juntxs.vercel.app/"
 
     const [input, setInput] = useState({
-        id: "",
+        // id: "",
         name: "",
         description: "",
+        dateIn: new Date().toISOString(),
+        dateOut: new Date().toISOString(),
+        state: "Activo",
+        urlYoutube: "",
         objective: "",
         syllabus: "",
-        duration: "",
-        state: "",
         categoryId: 1,
         image: "",
-        commentary: "",
     })
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,7 +38,7 @@ const CreateProject: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
         })
     }
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async () => {
         try {
             const response = true
             await axios.post('https://juntxs.vercel.app/programs', {
@@ -45,12 +46,13 @@ const CreateProject: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
                 name: input.name,
                 description: input.description,
                 objective: input.objective,
-                syllabus: input.syllabus,
-                duration: input.duration,
+                dateIn: input.dateIn,
+                dateOut: input.dateOut,
                 state: input.state,
+                syllabus: input.syllabus,
+                urlYoutube: input.urlYoutube,
                 categoryId: input.categoryId,
                 image: input.image,
-                commentary: input.commentary,
             })
             if (response) {
                 location.reload();
@@ -92,30 +94,16 @@ const CreateProject: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
                         </div>
                         <div className={style.inputsContainer}>
                             <div className={style.labelInput}>
-                                <label htmlFor="" >Duración</label>
-                                <input className={style.input} type="text" name="duration" value={input.duration} onChange={handleChange} />
+                                <label htmlFor="" >URL YouTube</label>
+                                <input className={style.input} type="text" name="urlYoutube" value={input.urlYoutube} onChange={handleChange} />
                             </div>
-                            <div className={style.labelInput}>
-                                <label htmlFor="" >Estado</label>
-                                <input className={style.input} type="text" name="state" value={input.state} onChange={handleChange} />
-                            </div>
-                        </div>
-                        <div className={style.inputsContainer}>
                             <div className={style.labelInput}>
                                 <label htmlFor="" >Imagen</label>
                                 <input className={style.input} type="text" name="image" value={input.image} onChange={handleChange} />
                             </div>
-                            <div className={style.labelInput}>
-                                <label htmlFor="" >Comentarios</label>
-                                <input className={style.input} type="text" name="commentary" value={input.commentary} onChange={handleChange} />
-                            </div>
                         </div>
-                        {/* <div>
-                            <label htmlFor="" >Categoria</label>
-                            <input type="text" name="categoryId" value={input.categoryId} onChange={handleChange} />
-                        </div> */}
                     </form>
-                    <button onClick={handleSubmit}>Crear Proyecto</button>
+                    <button onClick={() => handleSubmit()}>Crear Proyecto</button>
                 </div>
             </div>
         </div>

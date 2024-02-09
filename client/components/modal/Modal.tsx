@@ -12,16 +12,16 @@ interface ModalProjectProps {
     project: {
         name: string,
         description: string,
-        amount: number,
+        dateIn: string,
+        dateOut: string,
+        urlYoutube: string,
         objective: string,
         syllabus: string,
         state: string,
         categoryId: number,
         type: string,
         image: string,
-        donation: [],
-        commentary: [],
-        favorite: []
+        commentary: []
     }
 }
 
@@ -66,7 +66,7 @@ const ModalProject: React.FC<ModalProjectProps> = ({ openModal, closeModal, proj
                             </div>
                             <div className="proyectDetailInfo">
                                 <div className="containerTextProyect">
-                                    {!MostrarComentario && 
+                                    {!MostrarComentario &&
                                         <>
                                             <h1 className="title">{name}</h1>
                                             <p className="descriptionParrafo">{description}</p>
