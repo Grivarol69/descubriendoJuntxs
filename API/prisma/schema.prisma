@@ -10,7 +10,6 @@ datasource db {
   url = env("DATABASE_URL")
 }
 
-
 model User {
   id      Int      @id @default(autoincrement())
   email   String   @unique
@@ -45,8 +44,7 @@ model Category {
 model Program {
   id     Int    @id @default(autoincrement())
   name    String
-  description String?
-  image String?
+  description String
   dateIn DateTime? @default(now())
   dateOut DateTime?
   objective String?
@@ -54,6 +52,7 @@ model Program {
   urlYoutube String?
   state State @default(Activo)
   categoryId Int
+  image String @default("default_image.jpg")
   category Category @relation(fields: [categoryId], references: [id])
   donation Donation[]
   commentary Commentary[]
@@ -88,7 +87,7 @@ model Payment {
   userId Int 
   amount Float
   instrument String
-  transactionId String
+  transactionId String @unique
   state PaymentState @default(Aceptado)
   service Service @relation(fields: [serviceId], references: [id])
   user User @relation(fields: [userId], references: [id])
@@ -107,6 +106,7 @@ model Participant {
 
 model Donation {
   id Int @id @default(autoincrement())
+  transactionId BigInt @unique
   programId Int 
   userId Int 
   amount Float
@@ -119,7 +119,6 @@ model Donation {
   state PaymentState @default(Aceptado)
   program Program @relation(fields: [programId], references: [id])
   user User @relation(fields: [userId], references: [id])
-  
 }
 
 model Commentary {
