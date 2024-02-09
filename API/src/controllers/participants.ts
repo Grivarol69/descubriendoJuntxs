@@ -10,7 +10,7 @@ const getParticipantsByService = async (req: Request, res: Response) => {
     try {
       const participants = await prisma.participant.findMany({
         where: {
-          id: Number(serviceId),
+          serviceId: Number(serviceId),
           state: "Activo",
         },
       });
@@ -23,12 +23,23 @@ const getParticipantsByService = async (req: Request, res: Response) => {
   };
 
   const getParticipantByUser = async (req: Request, res: Response) => {
-    const { userId } = req.params;
+    const { userEmail } = req.params;
   
       try {
+
+        const user = await prisma.user.findUnique({
+          where: {
+            email: userEmail,
+          },
+        });
+    
+        if (!user) {
+          return handleHttp(res, "ERROR_USER_NOT_FOUND");
+        }
+
         const participants = await prisma.participant.findMany({
           where: {
-            id: Number(userId),
+            userId: user.id,
             state: "Activo",
           },
         });
@@ -44,15 +55,26 @@ const getParticipantsByService = async (req: Request, res: Response) => {
 const postParticipant = async (req: Request, res: Response) => {
   const {
     serviceId,
-    userId,
+    userEmail,
   } = req.body;
 
   try {
+    
+    const user = await prisma.user.findUnique({
+      where: {
+        email: userEmail,
+      },
+    });
+
+    if (!user) {
+      return handleHttp(res, "ERROR_USER_NOT_FOUND");
+    }
+
     const newParticipant = await prisma.participant.create({
       data: {
         serviceId: serviceId && (serviceId as number),
-        userId: userId && (userId as number),
-        role: "", // Add the missing property "role"
+        userId: user.id,
+        role: "Participante", // Add the missing property "role
         state: "Activo", // Add the missing property "state"
       },
     });
@@ -64,18 +86,33 @@ const postParticipant = async (req: Request, res: Response) => {
 };
 
 const updateParticipant = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const { serviceId, userEmail } = req.query;
 
   try {
-    const updatedParticipant = await prisma.participant.update({
-      where: { id: Number(id) },
-
-      data: {
-        state: "Inactivo",
+    const user = await prisma.user.findUnique({
+      where: {
+        email: userEmail as string,
       },
     });
 
-    res.status(200).json(updatedParticipant);
+    if (!user) {
+      return handleHttp(res, "ERROR_USER_NOT_FOUND");
+    }
+    
+      const updatedParticipant = await prisma.participant.update({
+        where: { 
+          serviceId_userId: {
+            serviceId: serviceId as unknown as number,
+            userId: user.id,
+          },
+        }, 
+
+        data: {
+          state: "Inactivo",
+        },
+    });
+
+      res.status(200).json(updatedParticipant);
   } catch (error) {
     return handleHttp(res, "ERROR_UPDATE_PARTICIPANT");
   }

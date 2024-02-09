@@ -9,9 +9,9 @@ import {
 const router = Router()
 
 router.get('/:serviceId', getPaymentsByService)
-router.get('/:userId', getPaymentsByUser)
+router.get('/:userEmail', getPaymentsByUser)
 router.post('/', postPayment)
-router.put('/:id', updatePayment)
+router.put('/:userEmail', updatePayment)
 
 
 export default router;

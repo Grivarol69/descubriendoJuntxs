@@ -6,12 +6,13 @@ import {
     updateParticipant,
 } from "../controllers/participants"
 
+
 const router = Router()
 
 router.get('/:serviceId', getParticipantsByService)
-router.get('/:userId', getParticipantByUser)
+router.get('/:userEmail', getParticipantByUser)
 router.post('/', postParticipant)
-router.put('/:id', updateParticipant)
+router.put('/', updateParticipant)
 
 
 export default router;

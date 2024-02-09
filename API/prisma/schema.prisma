@@ -45,13 +45,13 @@ model Category {
 model Program {
   id     Int    @id @default(autoincrement())
   name    String
-  description String
-  image String
+  description String?
+  image String?
   dateIn DateTime? @default(now())
   dateOut DateTime?
-  objective String
-  syllabus String
-  urlYoutube String
+  objective String?
+  syllabus String?
+  urlYoutube String?
   state State @default(Activo)
   categoryId Int
   category Category @relation(fields: [categoryId], references: [id])
@@ -95,13 +95,14 @@ model Payment {
 }
 
 model Participant {
-  id Int @id @default(autoincrement())
+  // id Int @id @default(autoincrement())
   serviceId Int
   userId Int
   role String
   state State @default(Activo)
   service Service @relation(fields: [serviceId], references: [id])
   user User @relation(fields: [userId], references: [id])
+  @@id([serviceId,userId])
 }
 
 model Donation {

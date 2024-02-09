@@ -23,13 +23,23 @@ const countFavoritesByProgram = async (req: Request, res: Response) => {
   };
 
 const getFavoritesByProgramAndUser = async (req: Request, res: Response) => {
-  const { programId, userId } = req.params;
+  const { programId, userEmail } = req.params;
 
     try {
+
+      const user = await prisma.user.findUnique({
+        where: {
+          email: userEmail,
+        },
+      });
+  
+      if (!user) {
+        return handleHttp(res, "ERROR_USER_NOT_FOUND");
+      }
       const favorites = await prisma.favorite.findMany({
         where: {
           programId: Number(programId),
-          userId: Number(userId),
+          userId: Number(user.id),
         },
       });
 
@@ -44,44 +54,64 @@ const getFavoritesByProgramAndUser = async (req: Request, res: Response) => {
 const postFavorite = async (req: Request, res: Response) => {
   const {
     programId,
-    userId,
+    userEmail,
     
   } = req.body;
 
   try {
-    const newPayment = await prisma.favorite.create({
+    const user = await prisma.user.findUnique({
+      where: {
+        email: userEmail,
+      },
+    });
+
+    if (!user) {
+      return handleHttp(res, "ERROR_USER_NOT_FOUND");
+    }
+
+    const newFavorite = await prisma.favorite.create({
       data: {
         programId: programId && (programId as number),
-        userId: userId && (userId as number),
+        userId: user.id as number,
         
       }
     })
 
-    res.status(200).json(newPayment);
+    res.status(200).json(newFavorite);
   } catch (error) {
     handleHttp(res, "ERROR_POST_FAVORITE");
   }
 };
 
 const deleteFavorite = async (req:Request, res:Response) => {
-  const { programId, userId } = req.params;
+  const { programId, userEmail } = req.params;
 
-  console.log('Route: ',req.route);
-  console.log(programId, userId)
+  // console.log('Route: ',req.route);
+  // console.log(programId, userId)
 
   try {
+
+    const user = await prisma.user.findUnique({
+      where: {
+        email: userEmail,
+      },
+    });
+
+    if (!user) {
+      return handleHttp(res, "ERROR_USER_NOT_FOUND");
+    }
       
-      const favorite = await prisma.favorite.delete({
-          where:{
-              programId_userId:{
-                  programId: Number(programId),
-                  userId: Number(userId)
-              }
-          }
-      })
-      res.status(200).json(favorite)
+    const favorite = await prisma.favorite.delete({
+        where:{
+            programId_userId:{
+                programId: Number(programId),
+                userId: Number(user.id)
+            }
+        }
+    })
+    res.status(200).json(favorite)
   } catch (error) {
-      handleHttp(res, 'ERROR_DELETE_FAVORITE')
+    handleHttp(res, 'ERROR_DELETE_FAVORITE')
   }
 }
 

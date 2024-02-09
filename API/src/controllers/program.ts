@@ -108,7 +108,7 @@ const updateProgram = async (req: Request, res: Response) => {
     const { state } = req.body; //* restricciones en la DB Enum
     const result = programSchema.parse(req.body);
         //Datos validados por Zod
-    const { name, description, image, urlYoutube, objective, syllabus, categoryId } = result;
+    const { name, description, dateIn, dateOut, image, urlYoutube, objective, syllabus, categoryId } = result;
     const updatedProgram = await prisma.program.update({
       where: { id: Number(id) },
 
@@ -116,6 +116,8 @@ const updateProgram = async (req: Request, res: Response) => {
         name: name && name as string,
         description: description && description as string,
         image: image && image as string,
+        dateIn: dateIn && new Date(dateIn),
+        dateOut: dateOut && new Date(dateOut),
         urlYoutube: urlYoutube && urlYoutube as string,
         objective: objective && objective as string,
         syllabus: syllabus && syllabus as string,

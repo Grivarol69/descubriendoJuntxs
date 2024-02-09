@@ -11,8 +11,8 @@ import {
 const router = Router()
 
 router.get('/count/:programId', countFavoritesByProgram);
-router.get('/program/:programId/user/:userId', getFavoritesByProgramAndUser)
+router.get('/program/:programId/user/:userEmail', getFavoritesByProgramAndUser)
 router.post('/', postFavorite)
-router.delete('/program/:programId/user/:userId', deleteFavorite)
+router.delete('/program/:programId/user/:userEmail', deleteFavorite)
 
 export default router;

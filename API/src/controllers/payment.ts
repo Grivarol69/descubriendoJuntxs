@@ -10,7 +10,7 @@ const getPaymentsByService = async (req: Request, res: Response) => {
     try {
       const participants = await prisma.participant.findMany({
         where: {
-          id: Number(serviceId),
+          serviceId: Number(serviceId),
           state: "Activo",
         },
       });
@@ -23,12 +23,22 @@ const getPaymentsByService = async (req: Request, res: Response) => {
   };
 
   const getPaymentsByUser = async (req: Request, res: Response) => {
-    const { userId } = req.params;
+    const { userEmail } = req.params;
   
       try {
+
+        const user = await prisma.user.findUnique({
+          where: {
+            email: userEmail,
+          },
+        });
+    
+        if (!user) {
+          return handleHttp(res, "ERROR_USER_NOT_FOUND");
+        }
         const participants = await prisma.participant.findMany({
           where: {
-            id: Number(userId),
+            userId: user.id,
             state: "Activo",
           },
         });
@@ -44,21 +54,33 @@ const getPaymentsByService = async (req: Request, res: Response) => {
 const postPayment = async (req: Request, res: Response) => {
   const {
     serviceId,
-    userId,
+    userEmail,
     amount,
     instrument,
-    transactionId
+    transactionId,
+    state = "Aceptado"
   } = req.body;
 
   try {
+
+    const user = await prisma.user.findUnique({
+      where: {
+        email: userEmail,
+      },
+    });
+
+    if (!user) {
+      return handleHttp(res, "ERROR_USER_NOT_FOUND");
+    }
+
     const newPayment = await prisma.payment.create({
       data: {
         serviceId: serviceId && (serviceId as number),
-        userId: userId && (userId as number),
+        userId: user.id,
         amount: amount && (amount as number),
         instrument: instrument && (instrument as string),
         transactionId: transactionId && (transactionId as string),
-        state: "Aceptado", // Add the missing property "state"
+        state: state, // Add the missing property "state"
       },
     });
 
@@ -69,12 +91,23 @@ const postPayment = async (req: Request, res: Response) => {
 };
 
 const updatePayment = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const { userEmail } = req.params;
   const { amount, instrument, transactionId, state } = req.body;
 
   try {
+
+    const user = await prisma.user.findUnique({
+      where: {
+        email: userEmail,
+      },
+    });
+
+    if (!user) {
+      return handleHttp(res, "ERROR_USER_NOT_FOUND");
+    }
+    
     const updatedPayment = await prisma.payment.update({
-      where: { id: Number(id) },
+      where: { id: user.id },
 
       data: {
         amount: amount && (amount as number),

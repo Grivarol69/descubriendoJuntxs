@@ -1,16 +1,23 @@
 import { Router } from "express";
 import {
     getCommentaryByProgramAndUser,
+    getCommentaryByProgram,
+    getCommentaryByUser,
     postCommentary,
-    putCommentary
+    putCommentary,
+    deleteCommentary
 } from "../controllers/commentary"
 
 
 const router = Router()
 
-router.get('/program/:programId/user/:userId', getCommentaryByProgramAndUser)
+// router.get('/program/:programId/user/:userEmail', getCommentaryByProgramAndUser)
+router.get('/', getCommentaryByProgramAndUser)
+router.get('/program/:programId', getCommentaryByProgram)
+router.get('/program/:userEmail', getCommentaryByUser)
 router.post('/', postCommentary)
-router.post('/', putCommentary)
+router.put('/', putCommentary)
+router.delete('/', deleteCommentary)
 
 
 export default router;

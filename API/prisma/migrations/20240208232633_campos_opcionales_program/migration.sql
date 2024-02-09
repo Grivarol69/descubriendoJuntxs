@@ -1,0 +1,6 @@
+-- AlterTable
+ALTER TABLE "Program" ALTER COLUMN "description" DROP NOT NULL,
+ALTER COLUMN "objective" DROP NOT NULL,
+ALTER COLUMN "syllabus" DROP NOT NULL,
+ALTER COLUMN "image" DROP NOT NULL,
+ALTER COLUMN "urlYoutube" DROP NOT NULL;
