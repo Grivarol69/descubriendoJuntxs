@@ -23,7 +23,7 @@ const Hero = () => {
         height="757"
       />
 
-      <div className="px-[20px] lg:px-[280px] absolute bottom-32 text-center flex flex-col justify-center items-center">
+      <div className="px-[20px] lg:px-[280px] absolute bottom-36 lg:bottom-56 text-center flex flex-col justify-center items-center">
         <h1 className="text-center text-[32px] leading-[40px] w-64 lg:w-full font-medium text-[#172026] lg:text-[64px] lg:leading-[72px]">
           Empieza a ayudar Hoy
         </h1>
@@ -33,14 +33,14 @@ const Hero = () => {
         </p>
 
         <div className="flex w-full pt-8 justify-center gap-x-6 ">
-          <button className="bg-[#7286ff] w-1/2 py-4 lg:px-16  text-white rounded-[4px] lg:w-fit flex justify-center items-center">
+          <button className="bg-[#7286ff] w-1/2 py-2 lg:px-16  text-white rounded-[4px] lg:w-fit flex justify-center items-center">
             <Link href="/donaciones">Dona</Link>
           </button>
-          <button className="w-1/4 text-[#7286ff] flex items-center justify-center gap-x-2 lg:w-fit ">
+          {/* <button className="w-1/4 text-[#7286ff] flex items-center justify-center gap-x-2 lg:w-fit ">
             <span>
               <Image src={BlurArrow} alt="Learn more" />
             </span>
-          </button>
+          </button> */}
         </div>
       </div>
 
