@@ -77,3 +77,16 @@
   height: 50%;
   margin-right: 4px;
 }
+
+@keyframes speedup {
+  from {
+    background-position: 0% 0%;
+  }
+  to {
+    background-position: 100% 100%;
+  }
+}
+
+.accelerated-gif {
+  animation: speedup 0.25s steps(60) infinite/* Ajusta la velocidad según sea necesario */
+}
