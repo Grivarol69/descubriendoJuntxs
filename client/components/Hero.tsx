@@ -18,7 +18,7 @@ const Hero = () => {
       <Image
         src={descubriendoImage}
         alt="descubriendoJuntxs"
-        className="min-h-[500px] w-full object-cover lg:h-auto accelerated-gif"
+        className="min-h-[500px] w-full object-cover lg:h-auto"
         width="1440"
         height="757"
       />
