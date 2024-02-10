@@ -4,6 +4,7 @@ import React, { useState, FormEvent, ChangeEvent } from "react";
 import Donaciones from "../../../public/assets/donaciones-icon.svg";
 import axios from "axios";
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
+import ProjectsSelect from "@/components/Donaciones/ListaProyectos/SelectProyectos";
 
 interface FormData {
   programId: number;
@@ -26,7 +27,7 @@ const DonacionesEspeciePage: React.FC = () => {
   ) => {
     const value =
       (e.target.name === "programId" || e.target.name === "amount") &&
-      e.target.value !== ""
+        e.target.value !== ""
         ? +e.target.value
         : e.target.value;
 
@@ -39,7 +40,7 @@ const DonacionesEspeciePage: React.FC = () => {
   const handleChangeSelect = (e: ChangeEvent<HTMLSelectElement>): void => {
     const value =
       (e.target.name === "programId" || e.target.name === "amount") &&
-      e.target.value !== ""
+        e.target.value !== ""
         ? +e.target.value
         : e.target.value;
 
@@ -63,6 +64,13 @@ const DonacionesEspeciePage: React.FC = () => {
     }
   };
 
+  const handleProjectChange = (projectId: number) => {
+    setFormData({
+      ...formData,
+      programId: projectId,
+    });
+  };
+
   initMercadoPago("APP_USR-91c35bb4-a98b-4c8a-b4a7-acf55e1bb8e3");
 
   return (
@@ -83,22 +91,7 @@ const DonacionesEspeciePage: React.FC = () => {
                     <div className="flex flex-col">
                       <div className="flex flex-col gap-2">
                         <label className="m-0">Proyecto:</label>
-                        <select
-                          className="bg-blue-50 rounded-lg"
-                          value={formData.programId}
-                          name="programId"
-                          onChange={handleChangeSelect}
-                        >
-                          <option value="" selected hidden>
-                            Selecciona un proyecto
-                          </option>
-                          <option value="1" id="1">
-                            Proyecto 1
-                          </option>
-                          <option value="2" id="2">
-                            Proyecto 2
-                          </option>
-                        </select>
+                        <ProjectsSelect onProjectChange={handleProjectChange} />
                         <button className="text-xs flex justify-end ">
                           {" "}
                           Ver proyecto{" "}
@@ -147,7 +140,7 @@ const DonacionesEspeciePage: React.FC = () => {
                         {" "}
                         Donar con Paypal
                       </button>
-                      <Wallet initialization={{ preferenceId: '<PREFERENCE_ID>' }} customization={{ texts:{ valueProp: 'smart_option'}}} />
+                      <Wallet initialization={{ preferenceId: '<PREFERENCE_ID>' }} customization={{ texts: { valueProp: 'smart_option' } }} />
                     </div>
                   </div>
                 </div>

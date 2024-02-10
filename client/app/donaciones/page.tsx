@@ -39,7 +39,7 @@ const DonacionesPage: React.FC = () => {
                     <Link href="/pages/signin" className="text-[#7286FF]">
                       ingresar
                     </Link>{" "}
-                    primero. Tendrás 3 opciones para donar: recurrente, en
+                    primero. Tendrás 3 opciones para donar: única, en
                     especie y corporativo, elige con el que desees colaborar
                   </div>
                   <div>
@@ -54,7 +54,7 @@ const DonacionesPage: React.FC = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className=" w-1/3 h-full overflow-hidden flex justify-center items-center ">
                 <div className="flex justify-center items-center">
                   <div className="flex justify-center items-center object-contain h-full w-full">

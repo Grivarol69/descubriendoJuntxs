@@ -3,6 +3,7 @@ import Image from "next/image";
 import React, { useState, FormEvent, ChangeEvent } from "react";
 import Donaciones from "../../../public/assets/donaciones-icon.svg";
 import axios from "axios";
+import ProjectsSelect from "@/components/Donaciones/ListaProyectos/SelectProyectos";
 
 interface FormData {
   programId: number;
@@ -25,7 +26,7 @@ const DonacionesCorporativasPage: React.FC = () => {
   ) => {
     const value =
       (e.target.name === "programId" || e.target.name === "amount") &&
-      e.target.value !== ""
+        e.target.value !== ""
         ? +e.target.value
         : e.target.value;
 
@@ -38,7 +39,7 @@ const DonacionesCorporativasPage: React.FC = () => {
   const handleChangeSelect = (e: ChangeEvent<HTMLSelectElement>): void => {
     const value =
       (e.target.name === "programId" || e.target.name === "amount") &&
-      e.target.value !== ""
+        e.target.value !== ""
         ? +e.target.value
         : e.target.value;
 
@@ -62,6 +63,13 @@ const DonacionesCorporativasPage: React.FC = () => {
     }
   };
 
+  const handleProjectChange = (projectId: number) => {
+    setFormData({
+      ...formData,
+      programId: projectId,
+    });
+  };
+
   return (
     <div className="w-screen h-[80vh]  flex justify-center items-center">
       <div className="w-11/12 h-5/6 border border-blue-400 rounded-2xl shadow-2xl flex justify-center">
@@ -80,22 +88,7 @@ const DonacionesCorporativasPage: React.FC = () => {
                     <div className="flex flex-col">
                       <div className="flex flex-col gap-2">
                         <label className="m-0">Proyecto:</label>
-                        <select
-                          className="bg-blue-50 rounded-lg"
-                          value={formData.programId}
-                          name="programId"
-                          onChange={handleChangeSelect}
-                        >
-                          <option value="" selected hidden>
-                            Selecciona un proyecto
-                          </option>
-                          <option value="1" id="1">
-                            Proyecto 1
-                          </option>
-                          <option value="2" id="2">
-                            Proyecto 2
-                          </option>
-                        </select>
+                        <ProjectsSelect onProjectChange={handleProjectChange} />
                         <button className="text-xs flex justify-end ">
                           {" "}
                           Ver proyecto{" "}
