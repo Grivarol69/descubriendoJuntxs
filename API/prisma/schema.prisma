@@ -42,8 +42,8 @@ model Category {
 }
 
 model Program {
-  id     Int    @id @default(autoincrement())
-  name    String
+  id Int @id @default(autoincrement())
+  name String
   description String
   dateIn DateTime? @default(now())
   dateOut DateTime?

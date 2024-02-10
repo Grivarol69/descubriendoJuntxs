@@ -5,7 +5,6 @@ import React, { useContext, useEffect } from "react";
 import { useState } from "react"
 import { icons } from '../Icons/Icons';
 import { useAuthContext } from "@/app/contexto/AuthContext";
-import { useSocketContext } from "@/app/contexto/SocketContext";
 
 
 interface ModalProjectProps {
@@ -95,7 +94,10 @@ const ModalProject: React.FC<ModalProjectProps> = ({ openModal, closeModal, proj
                         <div className="closeModal">
                             <button
                                 className="closeModalTransition"
-                                onClick={() => closeModal()}>
+                                onClick={() => {
+                                    closeModal()
+                                    location.reload();
+                                    }}>
                                 <img src={icons.close.src} alt="" />
                             </button>
                         </div>
