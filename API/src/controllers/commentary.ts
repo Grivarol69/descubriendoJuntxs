@@ -32,6 +32,7 @@ const postCommentary = async ({ programId, userId, commentary }: { programId: nu
         state: "Activo"
       }
     })
+    
     return {
       error: false,
       newCommentary
