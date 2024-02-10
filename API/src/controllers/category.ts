@@ -22,6 +22,7 @@ const getCategory = async (req: Request, res: Response) => {
         });
         res.json(category)
     } catch (error) {
+        console.log(error)
         handleHttp(res, 'ERROR_GET_CATEGORY')
     }
 }

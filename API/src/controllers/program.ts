@@ -23,10 +23,10 @@ const getPrograms = async (req: Request, res: Response) => {
 
     const names = name
       ? programs.filter((program) => {
-          return program.name
-            .toLowerCase()
-            .includes(name.toString().toLowerCase());
-        })
+        return program.name
+          .toLowerCase()
+          .includes(name.toString().toLowerCase());
+      })
       : programs;
 
     res.status(200).json(names);
@@ -57,56 +57,50 @@ const getProgramsByCategory = async (req: Request, res: Response) => {
 const getProgramById = async (req: Request, res: Response) => {
 
 
-    const { id } = req.params;
+  const { id } = req.params;
 
-    try {
-        const program = await prisma.program.findUnique({
-            where: {
-                id: Number(id)
-            }
-        });
+  try {
+    const program = await prisma.program.findUnique({
+      where: {
+        id: Number(id)
+      }
+    });
 
-        res.status(200).json(program);
-    } catch (error) {
-        handleHttp(res, 'ERROR_GET_CATEGORYS')
-    }
+    res.status(200).json(program);
+  } catch (error) {
+    handleHttp(res, 'ERROR_GET_CATEGORYS')
+  }
 }
 
 
 const postProgram = async ({ body }: Request, res: Response) => {
 
-    try {
-        const { state } = body; //* restricciones en la DB Enum
-        const result = programSchema.parse(body);
-        //Datos validados por Zod
-        const { name, description, image, urlYoutube, objective, syllabus, categoryId } = result; 
-      
-        const newProgram = await prisma.program.create({
-
-            data: {
-                name: name && name as string,
-                description: description && description as string,
-                urlYoutube: urlYoutube && urlYoutube as string,
-                objective: objective && objective as string,
-                syllabus: syllabus && syllabus as string,
-                state: state && state as State,
-                image: image && image as string,
-                categoryId: categoryId && categoryId
-            }
-        });
-    
-        return res.status(200).json(newProgram);
-      
-    } catch (error) {
-      if (error instanceof ZodError) {
-        return res
-          .status(400)
-          .json(error.issues.map((issue) => ({ message: `${issue.path}: ${issue.message}` })));
+  try {
+    const { state } = body; //* restricciones en la DB Enum
+    const result = programSchema.parse(body);
+    //Datos validados por Zod
+    const { name, description, image, urlYoutube, objective, syllabus, categoryId } = result;
+    const newProgram = await prisma.program.create({
+      data: {
+        name: name && name as string,
+        description: description && description as string,
+        urlYoutube: urlYoutube && urlYoutube as string,
+        objective: objective && objective as string,
+        syllabus: syllabus && syllabus as string,
+        state: state && state as State,
+        image: image && image as string,
+        categoryId: categoryId && categoryId
       }
-  
-      return res.status(400).json({ error: "Bad request" });
-
+    });
+    return res.status(200).json(newProgram);
+  } catch (error) {
+    if (error instanceof ZodError) {
+      return res
+        .status(400)
+        .json(error.issues.map((issue) => ({ message: `${issue.path}: ${issue.message}` })));
     }
+    return res.status(400).json({ error: "Bad request" });
+  }
 };
 
 const updateProgram = async (req: Request, res: Response) => {
@@ -115,11 +109,10 @@ const updateProgram = async (req: Request, res: Response) => {
   try {
     const { state } = req.body; //* restricciones en la DB Enum
     const result = programSchema.parse(req.body);
-        //Datos validados por Zod
+    //Datos validados por Zod
     const { name, description, image, urlYoutube, objective, syllabus, categoryId } = result;
     const updatedProgram = await prisma.program.update({
       where: { id: Number(id) },
-
       data: {
         name: name && name as string,
         description: description && description as string,
@@ -135,12 +128,12 @@ const updateProgram = async (req: Request, res: Response) => {
     return res.status(200).json(updatedProgram);
   } catch (error) {
     if (error instanceof ZodError) {
-        return res
-          .status(400)
-          .json(error.issues.map((issue) => ({ message: `${issue.path}: ${issue.message}` })));
-      }
-  
-      return res.status(400).json({ error: "Bad request" });
+      return res
+        .status(400)
+        .json(error.issues.map((issue) => ({ message: `${issue.path}: ${issue.message}` })));
+    }
+
+    return res.status(400).json({ error: "Bad request" });
   }
 };
 
@@ -158,6 +151,9 @@ const paginationProgram = async (req: Request, res: Response) => {
     const programs = await prisma.program.findMany({
       skip: startIndex,
       take: pageSize,
+      include: {
+        commentary: true,
+      }
     });
 
 
