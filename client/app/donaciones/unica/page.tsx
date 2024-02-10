@@ -10,7 +10,6 @@ interface FormData {
   amount: number;
   type: string;
   message: string;
-  // Agrega más claves según tus campos de formulario
 }
 
 const DonacionesRecurrentesPage: React.FC = () => {
@@ -100,20 +99,20 @@ const DonacionesRecurrentesPage: React.FC = () => {
                       </div>
                     </div>
 
-                    <div className="w-full h-96 overflow-auto  bg-blue-50 rounded-lg p-4 scrollbar">
+                    {/* <div className="w-full h-96 overflow-auto  bg-blue-50 rounded-lg p-4 scrollbar">
                       Descripción de la donación Aca tengo que agregar el texto
                       de la descripcion de la donacion.
-                      {/* Agrega más contenido según sea necesario y tambien hacer un overflow = scroll */}
+          
                       Beneficios fiscales:
                       <ul>
                         <li>✓ Menos impuestos sobre el empleado</li>
                         <li>✓ Deducciones fiscales...</li>
                       </ul>
-                    </div>
+                    </div> */}
 
                     <div className=" ">
                       <label htmlFor="" className="">
-                        Precio:
+                        Monto:
                       </label>
                       <input
                         type="number"
@@ -125,7 +124,7 @@ const DonacionesRecurrentesPage: React.FC = () => {
                       />
                     </div>
 
-                    <div className=" ">
+                    {/* <div className=" ">
                       <textarea
                         id="message"
                         name="message"
@@ -134,12 +133,12 @@ const DonacionesRecurrentesPage: React.FC = () => {
                         className="w-full h-16 rounded-lg bg-blue-50"
                         placeholder="Deja tu mensaje"
                       />
-                    </div>
+                    </div> */}
 
                     <div>
                       <button className="bg-[#7286FF] rounded-md p-3 text-white">
                         {" "}
-                        Donar con Paypal
+                        Donar con Mercado Pago
                       </button>
                     </div>
                   </div>
