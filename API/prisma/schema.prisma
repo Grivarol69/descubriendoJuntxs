@@ -121,14 +121,13 @@ model Donation {
 }
 
 model Commentary {
-  // id Int @id @default(autoincrement())
+  id Int @id @default(autoincrement())
   programId Int 
   userId Int
   commentary String
   state State @default(Activo)
   program Program @relation(fields: [programId], references: [id])
   user User @relation(fields: [userId], references: [id])
-  @@id([programId,userId])
 }
 
 model Favorite {

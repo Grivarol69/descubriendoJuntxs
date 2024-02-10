@@ -59,9 +59,11 @@ CREATE TABLE "Program" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
+    "dateIn" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
+    "dateOut" TIMESTAMP(3),
     "objective" TEXT NOT NULL,
     "syllabus" TEXT NOT NULL,
-    "duration" "Frequency" NOT NULL DEFAULT 'Unico',
+    "urlYoutube" TEXT NOT NULL,
     "state" "State" NOT NULL DEFAULT 'Activo',
     "categoryId" INTEGER NOT NULL,
     "image" TEXT NOT NULL DEFAULT 'default_image.jpg',
@@ -75,10 +77,11 @@ CREATE TABLE "Service" (
     "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "userId" INTEGER NOT NULL,
+    "categoryId" INTEGER NOT NULL,
     "dateIn" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
     "dateOut" TIMESTAMP(3),
     "hourIn" TIMESTAMP(3),
-    "duration" "Frequency" DEFAULT 'Unico',
+    "hourOut" TIMESTAMP(3),
     "amount" DOUBLE PRECISION NOT NULL,
     "objective" TEXT,
     "syllabus" TEXT,
@@ -132,12 +135,13 @@ CREATE TABLE "Donation" (
 
 -- CreateTable
 CREATE TABLE "Commentary" (
+    "id" SERIAL NOT NULL,
     "programId" INTEGER NOT NULL,
     "userId" INTEGER NOT NULL,
     "commentary" TEXT NOT NULL,
     "state" "State" NOT NULL DEFAULT 'Activo',
 
-    CONSTRAINT "Commentary_pkey" PRIMARY KEY ("programId","userId")
+    CONSTRAINT "Commentary_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -152,6 +156,9 @@ CREATE TABLE "Favorite" (
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Payment_transactionId_key" ON "Payment"("transactionId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Donation_transactionId_key" ON "Donation"("transactionId");
 
 -- AddForeignKey
@@ -159,6 +166,9 @@ ALTER TABLE "Program" ADD CONSTRAINT "Program_categoryId_fkey" FOREIGN KEY ("cat
 
 -- AddForeignKey
 ALTER TABLE "Service" ADD CONSTRAINT "Service_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Service" ADD CONSTRAINT "Service_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Payment" ADD CONSTRAINT "Payment_serviceId_fkey" FOREIGN KEY ("serviceId") REFERENCES "Service"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
