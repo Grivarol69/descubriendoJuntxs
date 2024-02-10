@@ -2,9 +2,11 @@
 import React, { useState } from "react"
 import style from './card.module.css'
 import ModalProject from "../modal/Modal"
+import { useSocketContext } from "@/app/contexto/SocketContext";
 
 export interface Proyect {
     project: {
+        id: number,
         name: string,
         description: string,
         amount: number,
@@ -22,7 +24,7 @@ export interface Proyect {
 
 
 const CardProyect: React.FC<Proyect> = ({ project }) => {
-
+    const { socket } = useSocketContext()
     const { name, description, image, objective} = project
     const [modal, setModal] = useState(false)
 
@@ -34,6 +36,7 @@ const CardProyect: React.FC<Proyect> = ({ project }) => {
                     openModal={modal}
                     closeModal={() => setModal(false)}
                     project={project}
+                    socket={socket}
                 />
             </div>}
             <div className={style.cardContainer}>

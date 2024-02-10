@@ -1,4 +1,6 @@
+// import { error } from "console";
 import { Request, Response } from "express";
+
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 dotenv.config();
@@ -13,6 +15,7 @@ let transporter = nodemailer.createTransport({
         pass: "gwty fzgx uhol fzmc",
     },
 });
+
 
 const mail = async (req: Request, res: Response) => {
     try {

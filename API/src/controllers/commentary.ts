@@ -23,6 +23,7 @@ const getCommentaryByProgramAndUser = async (req: Request, res: Response) => {
 };
 
 
+
 const postCommentary = async (req: Request, res: Response) => {
   const {
     programId,
@@ -30,6 +31,7 @@ const postCommentary = async (req: Request, res: Response) => {
     commentary
   } = req.body;
 
+const postCommentary = async ({ programId, userId, commentary }: { programId: number, userId: number, commentary: string }) => {
   try {
     const newCommentary = await prisma.commentary.create({
       data: {
@@ -39,14 +41,20 @@ const postCommentary = async (req: Request, res: Response) => {
         state: "Activo"
       }
     })
-
-    res.status(200).json(newCommentary);
-  } catch (error) {
-    handleHttp(res, "ERROR_POST_COMMENTARY");
+    return {
+      error: false,
+      newCommentary
+    }
+  } catch (error: any) {
+    return {
+      error: true,
+      message: error.message
+    }
   }
 };
 
 const putCommentary = async (req: Request, res: Response) => {
+
   const { id } = req.params;
 
   const {
