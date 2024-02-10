@@ -1,7 +1,7 @@
+// import { error } from "console";
 import { Request, Response } from "express";
-
-const nodemailer = require("nodemailer");
-const dotenv = require("dotenv");
+import * as nodemailer from 'nodemailer';
+import dotenv from "dotenv"
 dotenv.config();
 
 let transporter = nodemailer.createTransport({
@@ -16,11 +16,9 @@ let transporter = nodemailer.createTransport({
 });
 const mail = (async (req: Request, res: Response) => {
     try {
-
         const sendEmail = async (transporter: any) => {
             const { nombre, correo, celular, asunto, mensaje } = req.body;
             console.log(nombre, correo, celular, asunto, mensaje);
-
             let mailOptions = {
                 from: {
                     name: "Forma de Contacto",
@@ -30,25 +28,26 @@ const mail = (async (req: Request, res: Response) => {
                 subject: `${asunto}`,
                 text: `Nombre: ${nombre}\nCorreo: ${correo}\nCelular: ${celular}\nAsunto: ${asunto}\nMensaje: ${mensaje}`,
             };
-
-            transporter.sendMail(mailOptions, (error: any, _info: any) => {
+            const sendEmail = await transporter.sendMail(mailOptions, (error: any, _info: any) => {
                 if (error) {
                     console.log(error);
                 } else {
                     console.log("Email sent successfully!");
                 }
             });
-
+            if (sendEmail) { return sendEmail }
+            else {
+                return null
+            }
         };
-
-
         const response = await sendEmail(transporter);
-        res.status(200).json(response)
+        if (response) {
+            res.status(200).json(response)
+        }
+        res.status(400).json(response)
     } catch (error: any) {
         res.status(404).json({ error: error.message });
     }
-
-
 });
 
 

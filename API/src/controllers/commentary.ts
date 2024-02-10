@@ -7,29 +7,22 @@ const prisma = new PrismaClient();
 const getCommentaryByProgramAndUser = async (req: Request, res: Response) => {
   const { programId, userId } = req.params;
 
-    try {
-      const commentary = await prisma.commentary.findMany({
-        where: {
-          programId: Number(programId),
-          userId: Number(userId),
-        },
-      });
+  try {
+    const commentary = await prisma.commentary.findMany({
+      where: {
+        programId: Number(programId),
+        userId: Number(userId),
+      },
+    });
 
-      res.status(200).json(commentary);
+    res.status(200).json(commentary);
 
-    } catch (error) {
-      handleHttp(res, "ERROR_GET_FAVORITES_BY_SERVICE");
-    }
-  };
+  } catch (error) {
+    handleHttp(res, "ERROR_GET_FAVORITES_BY_SERVICE");
+  }
+};
 
-  
-const postCommentary = async (req: Request, res: Response) => {
-  const {
-    programId,
-    userId,
-    commentary
-  } = req.body;
-
+const postCommentary = async ({ programId, userId, commentary }: { programId: number, userId: number, commentary: string }) => {
   try {
     const newCommentary = await prisma.commentary.create({
       data: {
@@ -39,16 +32,21 @@ const postCommentary = async (req: Request, res: Response) => {
         state: "Activo"
       }
     })
-
-    res.status(200).json(newCommentary);
-  } catch (error) {
-    handleHttp(res, "ERROR_POST_COMMENTARY");
+    return {
+      error: false,
+      newCommentary
+    }
+  } catch (error: any) {
+    return {
+      error: true,
+      message: error.message
+    }
   }
 };
 
 const putCommentary = async (req: Request, res: Response) => {
   const { programId, userId } = req.params;
-  
+
   const {
     commentary,
     state
