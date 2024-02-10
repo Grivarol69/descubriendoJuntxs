@@ -22,6 +22,15 @@ const getCommentaryByProgramAndUser = async (req: Request, res: Response) => {
   }
 };
 
+
+
+const postCommentary = async (req: Request, res: Response) => {
+  const {
+    programId,
+    userId,
+    commentary
+  } = req.body;
+
 const postCommentary = async ({ programId, userId, commentary }: { programId: number, userId: number, commentary: string }) => {
   try {
     const newCommentary = await prisma.commentary.create({
@@ -45,7 +54,8 @@ const postCommentary = async ({ programId, userId, commentary }: { programId: nu
 };
 
 const putCommentary = async (req: Request, res: Response) => {
-  const { programId, userId } = req.params;
+
+  const { id } = req.params;
 
   const {
     commentary,
@@ -55,10 +65,8 @@ const putCommentary = async (req: Request, res: Response) => {
   try {
     const updatedCommentary = await prisma.commentary.update({
       where: {
-        programId_userId: {
-          programId: Number(programId),
-          userId: Number(userId),
-        },
+
+        id: Number(id)
       },
       data: {
         commentary: commentary && (commentary as string),
