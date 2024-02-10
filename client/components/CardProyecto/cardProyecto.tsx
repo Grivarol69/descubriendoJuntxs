@@ -9,21 +9,22 @@ export interface Proyect {
         id: number,
         name: string,
         description: string,
-        amount: number,
+        dateIn: string,
+        dateOut: string,
+        urlYoutube: string,
         objective: string,
         syllabus: string,
         state: string,
         categoryId: number,
         type: string,
         image: string,
-        donation: [],
         commentary: [],
-        favorite: []
     }
 }
 
 
 const CardProyect: React.FC<Proyect> = ({ project }) => {
+
     const { socket } = useSocketContext()
     const { name, description, image, objective} = project
     const [modal, setModal] = useState(false)
