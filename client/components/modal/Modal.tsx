@@ -15,13 +15,16 @@ interface ModalProjectProps {
         id: number,
         name: string,
         description: string,
-        amount: number,
+        dateIn: string,
+        dateOut: string,
+        urlYoutube: string,
         objective: string,
         syllabus: string,
         state: string,
         categoryId: number,
         type: string,
         image: string,
+
         donation: [],
         commentary: Comment[],
         favorite: []

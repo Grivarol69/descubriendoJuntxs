@@ -1,7 +1,8 @@
 // import { error } from "console";
 import { Request, Response } from "express";
-import * as nodemailer from 'nodemailer';
-import dotenv from "dotenv"
+
+import nodemailer from "nodemailer";
+import dotenv from "dotenv";
 dotenv.config();
 
 let transporter = nodemailer.createTransport({
@@ -14,44 +15,35 @@ let transporter = nodemailer.createTransport({
         pass: "gwty fzgx uhol fzmc",
     },
 });
-const mail = (async (req: Request, res: Response) => {
+
+
+const mail = async (req: Request, res: Response) => {
     try {
-        const sendEmail = async (transporter: any) => {
-            const { nombre, correo, celular, asunto, mensaje } = req.body;
-            console.log(nombre, correo, celular, asunto, mensaje);
-            let mailOptions = {
-                from: {
-                    name: "Forma de Contacto",
-                    address: "brindamealli12@gmail.com",
-                },
-                to: "brindamealli12@gmail.com", //where you want to send it
-                subject: `${asunto}`,
-                text: `Nombre: ${nombre}\nCorreo: ${correo}\nCelular: ${celular}\nAsunto: ${asunto}\nMensaje: ${mensaje}`,
-            };
-            const sendEmail = await transporter.sendMail(mailOptions, (error: any, _info: any) => {
-                if (error) {
-                    console.log(error);
-                } else {
-                    console.log("Email sent successfully!");
-                }
-            });
-            if (sendEmail) { return sendEmail }
-            else {
-                return null
-            }
+        const { nombre, correo, celular, asunto, mensaje } = req.body;
+        console.log(nombre, correo, celular, asunto, mensaje);
+
+        let mailOptions = {
+            from: {
+                name: "Forma de Contacto",
+                address: "brindamealli12@gmail.com",
+            },
+            to: "brindamealli12@gmail.com", //where you want to send it
+            subject: asunto,
+            text: `Nombre: ${nombre}\nCorreo: ${correo}\nCelular: ${celular}\nAsunto: ${asunto}\nMensaje: ${mensaje}`,
         };
-        const response = await sendEmail(transporter);
-        if (response) {
-            res.status(200).json(response)
-        }
-        res.status(400).json(response)
+
+        transporter.sendMail(mailOptions, (error: any, _info: any) => {
+            if (error) {
+                console.log(error);
+                res.status(400).json({ error: error.message });
+            } else {
+                console.log("Email sent successfully!");
+                res.status(200).json({ message: "Email sent successfully!" });
+            }
+        });
     } catch (error: any) {
         res.status(404).json({ error: error.message });
     }
-});
+};
 
-
-export {
-    mail
-}
-
+export { mail };
