@@ -3,6 +3,7 @@ import Image from "next/image";
 import React, { useState, FormEvent, ChangeEvent } from "react";
 import Donaciones from "../../../public/assets/donaciones-icon.svg";
 import axios from "axios";
+import ProjectsSelect from "@/components/Donaciones/ListaProyectos/SelectProyectos";
 
 interface FormData {
   programId: number;
@@ -21,14 +22,14 @@ const DonacionesRecurrentesPage: React.FC = () => {
   });
 
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement >
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const value =
-    (e.target.name === "programId" || e.target.name === "amount") &&
-    e.target.value !== ""
-      ? +e.target.value
-      : e.target.value;
-  
+      (e.target.name === "programId" || e.target.name === "amount") &&
+        e.target.value !== ""
+        ? +e.target.value
+        : e.target.value;
+
     setFormData({
       ...formData,
       [e.target.name]: value,
@@ -40,10 +41,10 @@ const DonacionesRecurrentesPage: React.FC = () => {
   ): void => {
     const value =
       (e.target.name === "programId" || e.target.name === "amount") &&
-      e.target.value !== ""
+        e.target.value !== ""
         ? +e.target.value
         : e.target.value;
-  
+
     setFormData({
       ...formData,
       [e.target.name]: value,
@@ -58,12 +59,19 @@ const DonacionesRecurrentesPage: React.FC = () => {
         "https://juntxs.vercel.app/payments",
         formData
       );
-        const data =  response.data
-        window.location.href = data.init_point
+      const data = response.data
+      window.location.href = data.init_point
 
     } catch (error: any) {
       console.error("Error al enviar datos al servidor:", error.message);
     }
+  };
+
+  const handleProjectChange = (projectId: number) => {
+    setFormData({
+      ...formData,
+      programId: projectId,
+    });
   };
 
   return (
@@ -79,27 +87,12 @@ const DonacionesRecurrentesPage: React.FC = () => {
               <div className="w-full flex justify-center ">
                 <div className=" w-2/3  flex flex-col justify-center">
                   <div className="w-full flex flex-col justify-center gap-7">
-                    <div className="text-3xl">Donaciones Recurrentes</div>
+                    <div className="text-3xl">Donacion Única</div>
 
                     <div className="flex flex-col">
                       <div className="flex flex-col gap-2">
                         <label className="m-0">Proyecto:</label>
-                        <select
-                          className="bg-blue-50 rounded-lg"
-                          value={formData.programId}
-                          name="programId"
-                          onChange={handleChangeSelect}
-                        >
-                          <option value=""  selected hidden>
-                            Selecciona un proyecto
-                          </option>
-                          <option value="1" id="1">
-                            Proyecto 1
-                          </option>
-                          <option value="2" id="2">
-                            Proyecto 2
-                          </option>
-                        </select>
+                        <ProjectsSelect onProjectChange={handleProjectChange} />
                         <button className="text-xs flex justify-end ">
                           {" "}
                           Ver proyecto{" "}
