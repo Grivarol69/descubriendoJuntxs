@@ -95,7 +95,11 @@ const DonacionesCorporativasPage: React.FC = () => {
                         </button>
                       </div>
                     </div>
-
+                    <div>
+                      <label htmlFor="">Contacto</label>
+                      <input type="text" placeholder="Numero de telefono" />
+                      <input type="text" placeholder="Email" />
+                    </div>
                     <div className="w-full h-96 overflow-auto  bg-blue-50 rounded-lg p-4 scrollbar">
                       Descripción de la donación Aca tengo que agregar el texto
                       de la descripcion de la donacion.

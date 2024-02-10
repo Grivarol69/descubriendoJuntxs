@@ -98,7 +98,11 @@ const DonacionesEspeciePage: React.FC = () => {
                         </button>
                       </div>
                     </div>
-
+                    <div>
+                      <label htmlFor="">Contacto</label>
+                      <input type="text" placeholder="Numero de telefono" />
+                      <input type="text" placeholder="Email" />
+                    </div>
                     <div className="w-full h-96 overflow-auto  bg-blue-50 rounded-lg p-4 scrollbar">
                       Descripción de la donación Aca tengo que agregar el texto
                       de la descripcion de la donacion.
@@ -110,7 +114,7 @@ const DonacionesEspeciePage: React.FC = () => {
                       </ul>
                     </div>
 
-                    <div className=" ">
+                    {/* <div className=" ">
                       <label htmlFor="" className="">
                         Precio:
                       </label>
@@ -122,7 +126,7 @@ const DonacionesEspeciePage: React.FC = () => {
                         value={formData.amount}
                         onChange={handleChange}
                       />
-                    </div>
+                    </div> */}
 
                     <div className=" ">
                       <textarea
@@ -136,11 +140,11 @@ const DonacionesEspeciePage: React.FC = () => {
                     </div>
 
                     <div>
-                      <button className="bg-[#7286FF] rounded-md p-3 text-white">
+                      {/* <button className="bg-[#7286FF] rounded-md p-3 text-white">
                         {" "}
                         Donar con Paypal
-                      </button>
-                      <Wallet initialization={{ preferenceId: '<PREFERENCE_ID>' }} customization={{ texts: { valueProp: 'smart_option' } }} />
+                      </button> */}
+                      {/* <Wallet initialization={{ preferenceId: '<PREFERENCE_ID>' }} customization={{ texts: { valueProp: 'smart_option' } }} /> */}
                     </div>
                   </div>
                 </div>
