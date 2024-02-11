@@ -10,6 +10,9 @@ interface FormData {
   amount: number;
   type: string;
   message: string;
+  contact_phone: string | null;
+  contact_email: string | null;
+  userId: number | null;
 }
 
 const DonacionesRecurrentesPage: React.FC = () => {
@@ -18,6 +21,9 @@ const DonacionesRecurrentesPage: React.FC = () => {
     amount: 0,
     type: "recurrente",
     message: "",
+    contact_email: null,
+    contact_phone: null,
+    userId: null,
   });
 
   const handleChange = (
@@ -50,15 +56,24 @@ const DonacionesRecurrentesPage: React.FC = () => {
     });
   };
 
+  const handleProjectChange = (projectId: number) => {
+    setFormData({
+      ...formData,
+      programId: projectId,
+    });
+  };
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(formData);
     try {
       const response = await axios.post<{ mensaje: string, init_point: string }>(
         "https://juntxs.vercel.app/payments",
+        // "https://juntxs.vercel.app/donations",
         formData
       );
       const data = response.data
+      console.log("Respuesta del servidor:", data);
       window.location.href = data.init_point
 
     } catch (error: any) {
@@ -66,12 +81,6 @@ const DonacionesRecurrentesPage: React.FC = () => {
     }
   };
 
-  const handleProjectChange = (projectId: number) => {
-    setFormData({
-      ...formData,
-      programId: projectId,
-    });
-  };
 
   return (
     <div className="w-screen h-[80vh]  flex justify-center items-center">
