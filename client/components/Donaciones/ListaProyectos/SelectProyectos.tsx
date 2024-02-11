@@ -13,7 +13,7 @@ interface ProjectsOptionProps {
     onProjectChange: (projectId: number) => void;
 }
 
-const ProjectsSelect = ({ onProjectChange }) => {
+const ProjectsSelect: React.FC<ProjectsOptionProps> = ({ onProjectChange }) => {
 
     const [projects, setProjects] = useState<Project[]>([]);
     // const proyectsFetch: any = (await axios.get(`${urlGlobal}programs/pagination`)).data
