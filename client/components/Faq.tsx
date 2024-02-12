@@ -6,29 +6,47 @@ import Image from "next/image";
 
 const items = [
   {
-    question: "Ut enim ad minima veniam, quis nostrum exercitationem ullam?",
+    question: "Cómo puedo realizar una donación?",
     answer:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.",
+      `Puedes realizar una donación siguiendo estos pasos:
+       - Haz clic en el botón de Donar en la página principal
+       - Selecciona el proyecto al que deseas destinar la donación
+       - Ingresa el monto y elige el método de pago (tarjeta de crédito, PayPal, etc.)
+       - Completa la información requerida y confirma la donación
+       - Recibirás un recibo por correo electrónico una vez que la transacción se haya    completado con éxito.
+      `
   },
   {
-    question: "Ut enim ad minima veniam, quis nostrum exercitationem ullam?",
+    question: "¿Puedo cancelar una donación?",
     answer:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.",
+      `Sí, puedes cancelar una donación siguiendo estos pasos:
+       - Inicia sesión en tu cuenta
+       - Ve a la sección de donaciones
+       - Selecciona la donación que deseas cancelar
+       - Haz clic en el botón de Cancelar
+       - Confirma la cancelación modificar la donación recurrente
+       - Recibirás un correo electrónico confirmando la cancelación de la donación
+       `,
   },
   {
-    question: "Ut enim ad minima veniam, quis nostrum exercitationem ullam?",
+    question: "Cómo puedo contactar al equipo de soporte?",
     answer:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.",
+      `Puedes contactar al equipo de soporte siguiendo estos pasos:
+       - Ve a la sección de Contacto en la página principal 
+       - Envía un correo electrónico a descubriendojuntxs@gmail.com o
+       - llama al número de teléfono +51 991185371
+       - Recibirás una respuesta por correo electrónico en un plazo de 24 horas
+       `,
   },
   {
-    question: "Ut enim ad minima veniam, quis nostrum exercitationem ullam?",
+    question: "Si hablamos de donación nos referimos siempre a una colaboración monetaria a la ONG?",
     answer:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.",
+      "No siempre es así. En Descubriendo Juntxs se permite realizar una donación en especie, es decir, que posibilitan la entrega de alimentos, materiales de primera necesidad para actuar ante una emergencia, juguetes o material escolar para niños y niñas sin recursos…",
   },
   {
-    question: "Ut enim ad minima veniam, quis nostrum exercitationem ullam?",
+    question: "¿Es factible colaborar Descubriendo Juntxs a través de mis impuestos?",
     answer:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.",
+      "Sí, claro que puedes hacerlo! Marca la casilla “Actividades de Interés Social” de tu declaración de la renta y estarás indicando que quieres que el 0,7 % de tus impuestos sean destinados a proyectos de la ONG",
   },
 ];
 
@@ -37,14 +55,13 @@ const Faq = () => {
     <div className="flex flex-col w-full py-[48px] lg:py-[60px] lg:flex-row lg:gap-x-6">
       <div className="lg:w-1/3 lg:py-[32px] lg:pr-[56px]">
         <h3 className="text-[#7286ff] text-[14px] font-medium lg:text-base">
-          Frequently Asked Questions
+          Preguntas Frecuentes
         </h3>
         <h1 className="py-4 text-2xl font-medium text-[#172026] lg:text-[42px] lg:leading-[58px]">
           Respondemos todas tus dudas
         </h1>
         <p className="text-[#36485C] pb-[24px]">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore
+        ¿Tienes preguntas? No te quedes con ninguna duda, Encuentra las respuestas a las preguntas más frecuentes que nos hacen nuestros colaboradores en nuestra página, ponte en contacto con el equipo o pide una cita a través de los medios de contacto.
         </p>
       </div>
 
