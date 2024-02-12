@@ -105,13 +105,13 @@ model Participant {
 
 model Donation {
   id Int @id @default(autoincrement())
-  transactionId BigInt @unique
+  transactionId String 
   programId Int 
   userId Int 
-  amount Float
+  amount Float?
   date DateTime
   type DonationType @default(Recurrente)
-  frequency Frequency @default(Unico)
+  frequency Frequency? @default(Unico)
   message String
   contact_phone String
   contact_email String
