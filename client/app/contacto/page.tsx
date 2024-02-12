@@ -231,7 +231,7 @@ const Contacto: React.FC = () => {
                                     Descubriendo Juntxs
                                   </div>
                                   <div className="font-medium text-slate-200 flex  ">
-                                    Oficinas: Av Siempreviva 241{" "}
+                                    Dirección: Av. Ferrocarril 1068, el Tambo, Huancayo{" "}
                                   </div>
                                   <div className="font-medium text-slate-200 flex">
                                     Piso 3
@@ -252,7 +252,7 @@ const Contacto: React.FC = () => {
                                   />
                                 </div>{" "}
                                 <div className="font-medium text-slate-200">
-                                  Telefono: (01) 5050505
+                                  Telefono: + 51 991185371
                                 </div>
                               </a>
                             </div>
@@ -269,7 +269,7 @@ const Contacto: React.FC = () => {
                                   />
                                 </div>
                                 <div className="font-medium text-slate-200 ">
-                                  Correo: tusventasfavoritas@gmail.com
+                                  Correo: descubriendojuntxs@gmail.com
                                 </div>
                               </a>
                             </div>

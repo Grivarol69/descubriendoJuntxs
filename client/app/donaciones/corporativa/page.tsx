@@ -4,21 +4,31 @@ import React, { useState, FormEvent, ChangeEvent } from "react";
 import Donaciones from "../../../public/assets/donaciones-icon.svg";
 import axios from "axios";
 import ProjectsSelect from "@/components/Donaciones/ListaProyectos/SelectProyectos";
+import { useAuthContext } from "@/app/contexto/AuthContext";
 
 interface FormData {
   programId: number;
-  amount: number;
+  amount: number | null;
   type: string;
   message: string;
-  // Agrega más claves según tus campos de formulario
+  userId: number | null;
+  date: string;
+  frequency: string | null;
+  phone: string;
+  email: string;
 }
 
 const DonacionesCorporativasPage: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     programId: 0,
-    amount: 0,
-    type: "recurrente",
+    amount: null,
+    type: "corporativa",
     message: "",
+    userId: null,
+    date: new Date().toISOString(),
+    frequency: null,
+    phone: "",
+    email: "",
   });
 
   const handleChange = (
@@ -49,13 +59,28 @@ const DonacionesCorporativasPage: React.FC = () => {
     });
   };
 
+  const { logged, infoUserGlobal } = useAuthContext();
+  const infoUserParsed = JSON.parse(infoUserGlobal ?? '')
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(formData);
     try {
+      const infoDonacion = {
+        programId: formData.programId,
+        amount: formData.amount,
+        type: formData.type,
+        message: formData.message,
+        userId: logged ? infoUserParsed.id : 5,
+        date: formData.date,
+        frequency: formData.frequency,
+        phone: formData.phone,
+        email: formData.email,
+      }
       const response = await axios.post<{ mensaje: string }>(
-        "http://localhost:3000/payments",
-        formData
+        // "http://localhost:3000/payments",
+        "https://juntxs.vercel.app/donations",
+        infoDonacion
       );
       console.log("Respuesta del servidor:", response.data);
     } catch (error: any) {
@@ -95,19 +120,23 @@ const DonacionesCorporativasPage: React.FC = () => {
                         </button>
                       </div>
                     </div>
-
-                    <div className="w-full h-96 overflow-auto  bg-blue-50 rounded-lg p-4 scrollbar">
+                    <div>
+                      <label htmlFor="">Contacto</label>
+                      <input type="text" placeholder="Numero de telefono" />
+                      <input type="text" placeholder="Email" />
+                    </div>
+                    {/* <div className="w-full h-96 overflow-auto  bg-blue-50 rounded-lg p-4 scrollbar">
                       Descripción de la donación Aca tengo que agregar el texto
-                      de la descripcion de la donacion.
-                      {/* Agrega más contenido según sea necesario y tambien hacer un overflow = scroll */}
-                      Beneficios fiscales:
+                      de la descripcion de la donacion. */}
+                    {/* Agrega más contenido según sea necesario y tambien hacer un overflow = scroll */}
+                    {/* Beneficios fiscales:
                       <ul>
                         <li>✓ Menos impuestos sobre el empleado</li>
                         <li>✓ Deducciones fiscales...</li>
                       </ul>
-                    </div>
+                    </div> */}
 
-                    <div className=" ">
+                    {/* <div className=" ">
                       <label htmlFor="" className="">
                         Precio:
                       </label>
@@ -119,7 +148,7 @@ const DonacionesCorporativasPage: React.FC = () => {
                         value={formData.amount}
                         onChange={handleChange}
                       />
-                    </div>
+                    </div> */}
 
                     <div className=" ">
                       <textarea
@@ -133,9 +162,12 @@ const DonacionesCorporativasPage: React.FC = () => {
                     </div>
 
                     <div>
-                      <button className="bg-[#7286FF] rounded-md p-3 text-white">
+                      {/* <button className="bg-[#7286FF] rounded-md p-3 text-white">
                         {" "}
                         Donar con Paypal
+                      </button> */}
+                      <button type="submit" className="bg-[#7286FF] hover:bg-[#92A1FF] text-white py-2 px-4 rounded">
+                        Describe tu donación
                       </button>
                     </div>
                   </div>
