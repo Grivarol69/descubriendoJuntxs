@@ -74,7 +74,7 @@ const DonacionesRecurrentesPage: React.FC = () => {
       );
       const data = response.data
       console.log("Respuesta del servidor:", data);
-      window.location.href = data.init_point
+      window.open(data.init_point, '_blank');
 
     } catch (error: any) {
       console.error("Error al enviar datos al servidor:", error.message);
