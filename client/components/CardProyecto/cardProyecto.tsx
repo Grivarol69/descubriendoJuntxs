@@ -2,9 +2,12 @@
 import React, { useState } from "react"
 import style from './card.module.css'
 import ModalProject from "../modal/Modal"
+import { useAuthContext } from "@/app/contexto/AuthContext"
+import axios from 'axios'
 
 export interface Proyect {
     project: {
+        id: number
         name: string,
         description: string,
         dateIn: string,
@@ -17,15 +20,46 @@ export interface Proyect {
         type: string,
         image: string,
         commentary: [],
+        favorite: {
+            userId: number,
+            programId: number  
+        }
     }
 }
 
 
 const CardProyect: React.FC<Proyect> = ({ project }) => {
 
-    const { name, description, image, objective } = project
+    const { name, description, image, objective, favorite} = project
     const [modal, setModal] = useState(false)
+    const {infoUserGlobal}: any = useAuthContext()
+    const [favorited, setFavorited] = useState(false)
+    const parseinfo = JSON.parse(infoUserGlobal)
+    console.log("parse", parseinfo);
 
+
+    const favoriteHandler = async () => {
+        try {
+            if (!favorited) {
+                
+                
+                const programId = parseinfo.id;
+                const  userId = parseinfo.id;
+                
+                // Realiza la solicitud al servidor para añadir a favoritos
+                const { data } = await axios.post('https://juntxs.vercel.app/favorites', {
+                    userId: userId,
+                    programId: programId
+                });
+                console.log("Proyecto añadido a favoritos:", data);
+                setFavorited(true);
+                }
+
+        } catch (error) {
+            console.error("Error al añadir a favoritos:", error);
+        }
+    };
+   
 
     return (
         <>
@@ -53,6 +87,9 @@ const CardProyect: React.FC<Proyect> = ({ project }) => {
                         </button>
                         <button className={style.buttonFull}>
                             Donar Proyecto
+                        </button>
+                        <button onClick={favoriteHandler}>
+                            {favorite ? '🤍' : '❤'}
                         </button>
                     </div>
                 </div>
