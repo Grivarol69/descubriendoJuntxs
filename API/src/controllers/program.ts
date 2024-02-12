@@ -91,6 +91,7 @@ const postProgram = async (req: Request, res: Response) => {
             if (err) {
                 return res.status(400).json({ error: "Error al procesar el formulario" });
             }
+            console.log(files)
             const imageFile = files[''] ? files[''][0].filepath : undefined;
             if (!imageFile) {
                 return res.status(400).json({ error: "No image file provided" });
