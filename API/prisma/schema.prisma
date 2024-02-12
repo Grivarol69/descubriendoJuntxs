@@ -108,10 +108,10 @@ model Donation {
   transactionId BigInt @unique
   programId Int 
   userId Int 
-  amount Float
+  amount? Float
   date DateTime
   type DonationType @default(Recurrente)
-  frequency Frequency @default(Unico)
+  frequency? Frequency @default(Unico)
   message String
   contact_phone String
   contact_email String
