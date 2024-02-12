@@ -4,11 +4,12 @@ import React, { useState, FormEvent, ChangeEvent } from "react";
 import Donaciones from "../../../public/assets/donaciones-icon.svg";
 import axios from "axios";
 import ProjectsSelect from "@/components/Donaciones/ListaProyectos/SelectProyectos";
+import { useAuthContext } from "@/app/contexto/AuthContext";
 
 interface FormData {
   programId: number;
   amount: number;
-  type: string;
+  // type: string;
   message: string;
   contact_phone: string | null;
   contact_email: string | null;
@@ -16,15 +17,21 @@ interface FormData {
 }
 
 const DonacionesRecurrentesPage: React.FC = () => {
+
+  const { logged, infoUserGlobal } = useAuthContext()
+  const infoUserParsed = JSON.parse(infoUserGlobal ?? '')
+
   const [formData, setFormData] = useState<FormData>({
     programId: 0,
     amount: 0,
-    type: "recurrente",
+    // type: "Recurrente",
     message: "",
-    contact_email: null,
-    contact_phone: null,
-    userId: null,
+    contact_email: logged ? infoUserParsed.email : '',
+    contact_phone: logged ? infoUserParsed.phone : '',
+    userId: logged ? infoUserParsed.id : 1,
   });
+
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -41,20 +48,20 @@ const DonacionesRecurrentesPage: React.FC = () => {
     });
   };
 
-  const handleChangeSelect = (
-    e: ChangeEvent<HTMLSelectElement>
-  ): void => {
-    const value =
-      (e.target.name === "programId" || e.target.name === "amount") &&
-        e.target.value !== ""
-        ? +e.target.value
-        : e.target.value;
+  // const handleChangeSelect = (
+  //   e: ChangeEvent<HTMLSelectElement>
+  // ): void => {
+  //   const value =
+  //     (e.target.name === "programId" || e.target.name === "amount") &&
+  //       e.target.value !== ""
+  //       ? +e.target.value
+  //       : e.target.value;
 
-    setFormData({
-      ...formData,
-      [e.target.name]: value,
-    });
-  };
+  //   setFormData({
+  //     ...formData,
+  //     [e.target.name]: value,
+  //   });
+  // };
 
   const handleProjectChange = (projectId: number) => {
     setFormData({
@@ -63,18 +70,21 @@ const DonacionesRecurrentesPage: React.FC = () => {
     });
   };
 
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(formData);
     try {
       const response = await axios.post<{ mensaje: string, init_point: string }>(
         "https://juntxs.vercel.app/payments",
-        // "https://juntxs.vercel.app/donations",
         formData
       );
       const data = response.data
       console.log("Respuesta del servidor:", data);
-      window.location.href = data.init_point
+      console.log(infoUserGlobal);
+
+      window.open(data.init_point, '_blank');
+      setSuccessMessage("¡Gracias por tu donacion! Por favor completa el pago en la ventana emergente.");
 
     } catch (error: any) {
       console.error("Error al enviar datos al servidor:", error.message);
@@ -131,6 +141,10 @@ const DonacionesRecurrentesPage: React.FC = () => {
                         value={formData.amount}
                         onChange={handleChange}
                       />
+                    </div>
+
+                    <div>
+                      {successMessage && <div>{successMessage}</div>}
                     </div>
 
                     {/* <div className=" ">
