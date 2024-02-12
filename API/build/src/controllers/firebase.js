@@ -22,17 +22,18 @@ const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         console.log(token, name);
         const decodedToken = yield firebase_config_1.default.auth().verifyIdToken(token);
         if (decodedToken) {
-            const email = decodedToken.email || 'null';
-            const createUser = yield prisma.user.create({
+            console.log(decodedToken);
+            const email = decodedToken.email || 'null@gmail.com';
+            const createUserFinal = yield prisma.user.create({
                 data: {
                     email: email,
-                    name: name
+                    name: name,
                 }
             });
-            if (createUser) {
+            if (createUserFinal) {
                 return res.status(200).json({
                     status: true,
-                    createUser
+                    createUserFinal
                 });
             }
             else {

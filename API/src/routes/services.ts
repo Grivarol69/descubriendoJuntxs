@@ -2,7 +2,8 @@ import { Router } from "express";
 import {
     getServices,
     getServiceById,
-    getServiceByType,
+    getServicesByType,
+    getServicesByUser,
     postService,
     updateService,
     paginationService,
@@ -13,7 +14,8 @@ const router = Router();
 router.get("/pagination", paginationService);
 
 router.get("/", getServices);
-router.get("/type/:type", getServiceByType);
+router.get("/:type", getServicesByType);
+router.get("/:userId", getServicesByUser);
 router.get("/:id", getServiceById);
 router.post("/", postService);
 router.put("/:id", updateService);

@@ -17,11 +17,12 @@ const getCategory = async (req: Request, res: Response) => {
                 id: Number(id)
             },
             include: {
-                project: true
+                program: true
             }
         });
         res.json(category)
     } catch (error) {
+        console.log(error)
         handleHttp(res, 'ERROR_GET_CATEGORY')
     }
 }
@@ -37,8 +38,10 @@ const getCategories = async (_req: Request, res: Response) => {
     }
 }
 
+
 const postCategory = async ({ body }: Request, res: Response) => {
-    const { name } = body;
+    const { name, type } = body;
+
     console.log(body)
     if (!name) {
         res.status(400).json({ error: "El nombre de la categoría es requerido" });
@@ -48,6 +51,7 @@ const postCategory = async ({ body }: Request, res: Response) => {
         const newCategory = await prisma.category.create({
             data: {
                 name: name,
+                type: type
             }
         });
         res.json(newCategory)
@@ -60,15 +64,20 @@ const postCategory = async ({ body }: Request, res: Response) => {
 
 const updateCategory = async (req: Request, res: Response) => {
     try {
+
         const { id } = req.params;
-        const { name } = req.body;
+        const { name, type } = req.body;
+
         console.log(id, name)
         const updatedCategory = await prisma.category.update({
             where: {
                 id: Number(id)
             },
+
             data: {
-                name: name
+                name: name && name,
+                type: type && type
+
             }
         });
         res.json(updatedCategory)
@@ -78,14 +87,6 @@ const updateCategory = async (req: Request, res: Response) => {
     }
 }
 
-// const deleteCategory = (_req:Request, res:Response) => {
-//     try {
-
-//     } catch (error) {
-//         handleHttp(res, 'ERROR_DELETE_CATEGORY')
-//     }
-
-// }
 
 export {
     getCategory,

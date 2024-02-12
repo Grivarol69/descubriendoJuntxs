@@ -23,7 +23,7 @@ const navLinks = [
 ];
 
 const Navbar = () => {
-  const { logged, logoutReal }: any = useAuthContext()
+  const { logged, logoutReal, infoUserGlobal }: any = useAuthContext()
   const [toggle, setToggle] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const path = usePathname()
@@ -36,7 +36,8 @@ const Navbar = () => {
     }
   }
 
-
+  const infoUserParse = JSON.parse(infoUserGlobal)
+  const typeUser: string = infoUserParse?.role
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside)
@@ -51,14 +52,13 @@ const Navbar = () => {
   const handlerMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-  const router = useRouter()
 
   console.log(logged);
 
   return (
 
 
-    <nav className={path.includes('/pages/user') ? 'flex w-full bg-white items-center justify-between px-[20px] py-[16px]  lg:mx-auto lg:px-15 shadow-custom fixed z-[1000]' : "flex w-full bg-white items-center justify-between px-[20px] py-[16px] lg:mx-auto lg:px-15"} >
+    <nav className={path.includes('/pages/user') || path.includes('/pages/admin') ? 'flex w-full bg-white items-center justify-between px-[20px] py-[16px]  lg:mx-auto lg:px-15 shadow-custom fixed z-[1000]' : "flex w-full bg-white items-center justify-between px-[20px] py-[16px] lg:mx-auto lg:px-15"} >
       <div className="flex items-center">
         <Image src={Logo} alt="Logo" />
 
@@ -74,7 +74,7 @@ const Navbar = () => {
       </div>
 
       <div className="flex items-center gap-x-5 justify-center">
-        {logged[0] === 'false' && <div className="flex items-center gap-x-5">
+        {logged === 'false' && <div className="flex items-center gap-x-5">
           <p className="hidden lg:block font-medium text-[#36485C] pr-[10px]">
             <Link href="/pages/signin">Ingreso</Link>
           </p>
@@ -87,7 +87,7 @@ const Navbar = () => {
             </span>
           </div>
         </div>}
-        {logged[0] === 'true' &&
+        {logged === 'true' &&
           <div className="flex items-center gap-x-2 justify-center">
             {/* <div>{user.displayname}</div> */}
             <div
@@ -107,6 +107,7 @@ const Navbar = () => {
                     logoutReal()
                   }}
                   closeToggle={() => setToggle(false)}
+                  userType={typeUser}
                 />
               </div>
             </div>

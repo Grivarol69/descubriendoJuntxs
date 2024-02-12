@@ -56,15 +56,14 @@ const postCreatePayment = async (req: Request, res: Response) => {
                 ],
                 purpose: "wallet_purchase",
                 back_urls: {
-                    success: "http://localhost:3000",
+                    success: "https://client-gamma-three-32.vercel.app/",
 
-                    failure: "http://localhost:3000",
-                    pending: "http://localhost:3000",
+                    failure: "https://client-gamma-three-32.vercel.app/",
+                    pending: "https://client-gamma-three-32.vercel.app/",
 
                 },
                 auto_return: "approved",
-                notification_url: "https://juntxs.vercel.app//payments/webhook",
-
+                notification_url: "https://juntxs.vercel.app/webhook",
                 metadata: {
                     programId: programId,
                     userId: infoUser.userId,

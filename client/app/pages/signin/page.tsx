@@ -10,7 +10,9 @@ import ResetPassword from "@/components/ResetPassword/ResetPassword";
 import { userInfo } from 'os';
 import axios from "axios";
 import { useAuthContext } from "@/app/contexto/AuthContext";
-import { urlGlobal } from "../signup/page";
+import deleteUserCurrent from "@/app/firebase/auth/deleteUser";
+import { logout } from "@/app/firebase/auth/signOut";
+
 
 const SignInPage = () => {
     const [infoUser, setInfoUser] = useState({
@@ -25,6 +27,7 @@ const SignInPage = () => {
     });
     const { persistirSesion } = useAuthContext()
 
+    const urlGlobal = 'https://juntxs.vercel.app/' 
     const [errorMessage, setErrorMessage] = useState('');
 
     const router = useRouter()
@@ -72,12 +75,16 @@ const SignInPage = () => {
                 setErrorMessage('Usuario o contraseña incorrectos');
                 return console.log(error);
             }
-            const token = result?.user.accessToken
-            const userInfoCreate = (await axios.post(`${urlGlobal}users/authToken`, { token })).data
-            if (userInfoCreate.status) {
-                console.log(userInfoCreate);
-                persistirSesion(userInfoCreate.user)
-                return router.push('/userIn')
+
+            const token = await result?.user.getIdToken();
+            if (token) {
+                const userInfoCreate = (await axios.post(`${urlGlobal}users/authToken`, { token })).data
+                if (userInfoCreate.status) {
+                    console.log(userInfoCreate);
+                    persistirSesion(userInfoCreate.user)
+                    return router.push('/userIn')
+                }
+
             }
             return console.log(
                 'error amigo'
@@ -96,12 +103,21 @@ const SignInPage = () => {
                 setErrorMessage('Error iniciando sesión con Google');
                 return console.log(error);
             }
-            const token = result?.user.accessToken
-            const userInfoCreate = (await axios.post(`${urlGlobal}users/authToken`, { token })).data
-            if (userInfoCreate.status) {
-                console.log(userInfoCreate);
-                persistirSesion(userInfoCreate.user)
-                return router.push('/userIn')
+
+            const token = await result?.user.getIdToken();
+            if (token) {
+                const userInfoCreate = (await axios.post(`${urlGlobal}users/authToken`, { token })).data
+
+                if (userInfoCreate.status) {
+                    console.log(userInfoCreate);
+                    persistirSesion(userInfoCreate.user)
+                    return router.push('/userIn')
+                }
+                else {
+                    logout()
+                    deleteUserCurrent()
+                    alert('El usuario no se ha registrado')
+                }
             }
             return console.log(
                 'error amigo'
@@ -129,6 +145,7 @@ const SignInPage = () => {
                                 />
                             }
                         </div>
+
                         {!heOlvidado &&
                             <form onSubmit={handleSubmit} className={style.formDesign}>
                                 <div className={style.labelAndInput}>
@@ -157,6 +174,7 @@ const SignInPage = () => {
                                 </div>
                             </form>
                         }
+
                     </div>
                 </div>
             </div>

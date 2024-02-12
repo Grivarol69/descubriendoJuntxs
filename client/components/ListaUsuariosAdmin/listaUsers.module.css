@@ -1,0 +1,40 @@
+
+
+.container {
+    box-sizing: border-box;
+    align-self: center;
+    justify-self: center;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 4rem;
+    height: fit-content;
+    width: 100%;
+    overflow-x: hidden;
+    padding-bottom: 10rem;
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: 3;
+}
+
+.buttonFull {
+    display: flex;
+    justify-content: center;
+    width: 20vw;
+    min-width: 5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    align-items: center;
+    height: 3.5rem;
+    border-radius: 1rem;
+    background: #7286FF;
+    color: white;
+    transition: 100ms;
+}
+
+.buttonFull:hover {
+    background: #5063ce;
+}

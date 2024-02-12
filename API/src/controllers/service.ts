@@ -1,21 +1,32 @@
 import { Request, Response } from "express";
 import { handleHttp } from "../utils/error.handler";
 import { ServiceType, PrismaClient, ServiceState } from "@prisma/client";
+import { ZodError } from "zod"
+import { serviceSchema } from "../schemas/service.schema"
 
 const prisma = new PrismaClient();
 
-const getServices = async (_req: Request, res: Response) => {
-      
+const getServices = async (req: Request, res: Response) => {
+  const { name } = req.query;
+
     try {
-      const service = await prisma.service.findMany({
+      const services = await prisma.service.findMany({
         where: {
           state: "Activo",
         },
       });
+
+
+      const names = name
+            ? services.filter((service) => {
+                return service.name.toLowerCase().includes(name.toString().toLowerCase());
+            })
+            : services
   
-      res.status(200).json(service);
+      res.status(200).json(names);
+
     } catch (error) {
-      handleHttp(res, "ERROR_GET_SERVICE_BY_ID");
+      handleHttp(res, "ERROR_GET_SERVICES");
     }
   };
 
@@ -35,95 +46,142 @@ const getServiceById = async (req: Request, res: Response) => {
   }
 };
 
-const getServiceByType = async (req: Request, res: Response) => {
+const getServicesByType = async (req: Request, res: Response) => {
   const { type } = req.params;
   
   try {
-    const event = await prisma.service.findMany({
+    const service = await prisma.service.findMany({
       where: {
         type: type as ServiceType,
         state: "Activo",
       },
     });
-    res.status(200).json(event);
+    res.status(200).json(service);
   } catch (error) {
     handleHttp(res, "ERROR_GET_SERVICES_BY_TYPE");
   }
 };
 
+const getServicesByUser = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+  
+  try {
+    const service = await prisma.service.findMany({
+      where: {
+        userId: userId as unknown as number,
+        state: "Activo",
+      },
+    });
+    res.status(200).json(service);
+  } catch (error) {
+    handleHttp(res, "ERROR_GET_SERVICES_BY_TYPE");
+  }
+};
 
 const postService = async (req: Request, res: Response) => {
-  const {
-    name,
-    userId,
-    dateIn,
-    dateOut,
-    hourIn,
-    duration,
-    amount,
-    objective,
-    syllabus,
-  } = req.body;
-
+  
   try {
-    const newEvent = await prisma.service.create({
+    const { type } = req.body;
+    const result = serviceSchema.parse(req.body);
+    //* Datos validados por Zod
+
+    const {
+      name,
+      description,
+      userId,
+      categoryId,
+      dateIn,
+      dateOut,
+      hourIn,
+      hourOut,
+      amount,
+      objective,
+      syllabus,
+      
+    } = result;
+    const newService = await prisma.service.create({
       data: {
-        userId: userId && (userId as number),
         name: name && (name as string),
+        description: description && (description as string),
         dateIn: dateIn && (dateIn as Date),
         dateOut: dateOut && (dateOut as Date),
         hourIn: hourIn && (hourIn as Date),
-        duration: duration && (duration as string),
+        hourOut: hourOut && (hourOut as Date),
         amount: amount && (amount as number),
         objective: objective && (objective as string),
         syllabus: syllabus && (syllabus as string),
+        userId: userId && (userId as number),
+        categoryId: categoryId && (categoryId as number),
+        type: type && (type as ServiceType),
         state: "Activo"
       },
     });
 
-    res.status(200).json(newEvent);
+    return res.status(200).json(newService);
   } catch (error) {
-    handleHttp(res, "ERROR_POST_SERVICE");
+    if (error instanceof ZodError) {
+      return res
+        .status(400)
+        .json(error.issues.map((issue) => ({ message: `${issue.path}: ${issue.message}` })));
+    }
+
+    return res.status(400).json({ error: "Bad request" });
   }
 };
 
 const updateService = async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  const {
-    name,
-    dateIn,
-    dateOut,
-    hourIn,
-    duration,
-    amount,
-    objective,
-    syllabus,
-    type,
-    state
-  } = req.body;
-
   try {
-    const updatedEvent = await prisma.service.update({
+
+    const { type, state } = req.body;
+    const result = serviceSchema.parse(req.body);
+    //* Datos validados por Zod
+
+    const {
+      name,
+      description,
+      userId,
+      categoryId,
+      dateIn,
+      dateOut,
+      hourIn,
+      hourOut,
+      amount,
+      objective,
+      syllabus,
+      
+    } = result;
+
+    const updatedService = await prisma.service.update({
       where: { id: Number(id) },
 
       data: {
         name: name && (name as string),
+        description: description && (description as string),
         dateIn: dateIn && (dateIn as Date),
         dateOut: dateOut && (dateOut as Date),
         hourIn: hourIn && (hourIn as Date),
-        duration: duration && (duration as string),
+        hourOut: hourOut && (hourOut as Date),
         amount: amount && (amount as number),
         objective: objective && (objective as string),
         syllabus: syllabus && (syllabus as string),
+        userId: userId && (userId as number),
+        categoryId: categoryId && (categoryId as number),
         type: type && (type as ServiceType),
-        state: state && (state as ServiceState)
+        state: state && (state as ServiceState),
       },
     });
 
-    res.status(200).json(updatedEvent);
+    return res.status(200).json(updatedService);
   } catch (error) {
-    return handleHttp(res, "ERROR_UPDATE_SERVICE");
+    if (error instanceof ZodError) {
+      return res
+        .status(400)
+        .json(error.issues.map((issue) => ({ message: `${issue.path}: ${issue.message}` })));
+    }
+
+    return res.status(400).json({ error: "Bad request" });
   }
 };
 
@@ -135,12 +193,12 @@ const paginationService = async (req: Request, res: Response) => {
     //* calcular el indice de inicio y limitar la consulta a la página
     const startIndex = (page - 1) * pageSize;
 
-    const events = await prisma.service.findMany({
+    const services = await prisma.service.findMany({
       skip: startIndex,
       take: pageSize,
     });
 
-    res.status(200).json(events);
+    res.status(200).json(services);
   } catch (error) {
     res.status(500).json({ error: "error interno del servidor" });
   }
@@ -149,7 +207,8 @@ const paginationService = async (req: Request, res: Response) => {
 export {
     getServices,
     getServiceById,
-    getServiceByType,
+    getServicesByType,
+    getServicesByUser,
     postService,
     updateService,
     paginationService,

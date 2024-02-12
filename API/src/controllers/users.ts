@@ -6,29 +6,38 @@ import admin from "../../firebase/firebase-config"
 const prisma = new PrismaClient();
 
 const postUser = async ({ body }: Request, res: Response) => {
-    const { email, name, surName, identification, phone, dateIn, dateOut, description, linkedin, languaje, position, role } = body;
+    const { email, name, surName, identification, phone, dateIn, dateOut, description, linkedin, languaje, position, role, token } = body;
     if (!email || !name) {
         handleHttp(res, 'EMAIL_AND_NAME_REQUIRED');
         return;
     }
+
     try {
-        const newUser = await prisma.user.create({
-            data: {
-                email: email,
-                name: name,
-                surName: surName,
-                identification: identification,
-                phone: phone,
-                dateIn: dateIn,
-                dateOut: dateOut,
-                description: description,
-                linkedin: linkedin,
-                languaje: languaje,
-                position: position,
-                role: role
-            }
-        })
-        res.status(200).json(newUser);
+        const decodedToken = await admin.auth().verifyIdToken(token)
+        if (decodedToken) {
+            const newUser = await prisma.user.create({
+                data: {
+                    email: email,
+                    name: name,
+                    surName: surName,
+                    identification: identification,
+                    phone: phone,
+                    dateIn: dateIn,
+                    dateOut: dateOut,
+                    description: description,
+                    linkedin: linkedin,
+                    languaje: languaje,
+                    position: position,
+                    role: role
+                }
+            })
+            res.status(200).json(newUser);
+        } else 
+        res.status(400).json({
+            status: false,
+            message: 'No se pudo crear el usuario'
+        });
+
     } catch (error) {
         console.error('Error creating user:', error);
         handleHttp(res, 'ERROR_POST_USER')
@@ -54,14 +63,23 @@ const getUserByEmail = async (req: Request, res: Response) => {
     try {
         const { token } = req.body
         const decodedToken = await admin.auth().verifyIdToken(token);
+        console.log(decodedToken);
         if (decodedToken) {
             const email = decodedToken.email
             const user = await prisma.user.findUnique({
                 where: { email: email } // Filtrar por ID
             });
-            res.status(200).json({
-                status: true,
-                user}); // Devolver el usuario
+            if (user) {
+                res.status(200).json({
+                    status: true,
+                    user
+                }); // Devolver el usuario
+            } else {
+                res.status(200).json({
+                    status: false,
+                    message: 'el usuario no está logeado'
+                }); // Devolver el usuario
+            }
         }
     } catch (error) {
         console.error('Error fetching user by ID:', error);

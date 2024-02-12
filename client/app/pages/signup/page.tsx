@@ -10,21 +10,23 @@ import { ValidateForm } from "@/app/firebase/validation";
 import style from './signup.module.css'
 import googleLogo from '../../../public/googleLogo.png'
 import { useAuthContext } from "@/app/contexto/AuthContext";
-export const urlGlobal = 'https://juntxs.vercel.app/' 
 
 const SignUpPage = () => {
     const [infoUser, setInfoUser] = useState({
         name: '',
         email: '',
-        password: ''
+        password: '',
+        confirmPassword: ''
     })
 
     const [errors, setErrors] = useState({
         name: '',
         email: '',
-        password: ''
+        password: '',
+        confirmPassword: ''
     });
 
+    const urlGlobal = 'https://juntxs.vercel.app/'
     const { persistirSesion } = useAuthContext()
     const [errorMessage, setErrorMessage] = useState('');
     const router = useRouter()
@@ -57,6 +59,13 @@ const SignUpPage = () => {
                     error = 'La contraseña debe tener al menos 7 caracteres, un numero y una letra';
                 }
                 break;
+            case 'confirmPassword':
+                if (!value) {
+                    error = 'La confirmación de la contraseña es obligatoria';
+                } else if (value !== infoUser.password) {
+                    error = 'Las contraseñas no coinciden';
+                }
+                break;
         }
 
         setErrors(prevState => ({
@@ -84,17 +93,20 @@ const SignUpPage = () => {
                 return console.log(error);
             }
             else {
-                const token = result?.user.accessToken
-                console.log(token);
-                const userInfoCreate = (await axios.post(`${urlGlobal}auth`, { token, name: infoUser.name })).data
-                if (userInfoCreate.status) {
-                    alert('Todo bien')
-                    persistirSesion(userInfoCreate.createUserFinal)
-                    return router.push('/userIn')
+                const token = await result?.user.getIdToken();
+                if (token) {
+                    console.log(token);
+                    const userInfoCreate = (await axios.post(`${urlGlobal}auth`, { token, name: infoUser.name })).data
+                    if (userInfoCreate.status) {
+                        console.log(userInfoCreate);
+                        alert('Todo bien')
+                        persistirSesion(userInfoCreate.createUserFinal)
+                        return router.push('/userIn')
+                    }
+                    return console.log(
+                        'error al logearse'
+                    );
                 }
-                return console.log(
-                    'error al logearse'
-                );
             }
         } catch (error) {
             alert(error)
@@ -111,17 +123,22 @@ const SignUpPage = () => {
                 return console.log(error);
             }
             else {
-                const token = result?.user.accessToken
-                const name = result?.user.displayName
-                const userInfoCreate = (await axios.post(`${urlGlobal}auth`, { token, name })).data
-                if (userInfoCreate.status) {
-                    alert('Todo bien')
-                    persistirSesion(userInfoCreate.createUserFinal)
-                    return router.push('/userIn')
+
+                const token = await result?.user.getIdToken();
+                if (token) {
+                    const name = result?.user.displayName
+                    const userInfoCreate = (await axios.post(`${urlGlobal}auth`, { token, name })).data
+                    if (userInfoCreate.status) {
+                        alert('Todo bien')
+                        persistirSesion(userInfoCreate.createUserFinal)
+                        return router.push('/userIn')
+                    }
+                    return console.log(
+                        'error amigo'
+                    );
+
                 }
-                return console.log(
-                    'error amigo'
-                );
+
             }
         } catch (error: any) {
             alert('ya estás registrado con este correo')
@@ -158,10 +175,18 @@ const SignUpPage = () => {
                                 <input className={style.input} type="password" name="password" value={infoUser.password} placeholder="Contraseña segura" onChange={handleChange} />
                                 {errors.password && <p>{errors.password}</p>}
                             </div>
+                            <div className={style.labelAndInput}>
+                                <label>
+                                    Confirmar Contraseña
+                                </label>
+                                <input className={style.input} type="password" name="confirmPassword" value={infoUser.confirmPassword} placeholder="Confirma tu contraseña" onChange={handleChange} />
+                                {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
+                            </div>
+
                             {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
                             <div className={style.buttons}>
                                 <button
-                                    disabled={Object.values(errors).some(error => error !== '') || !infoUser.name || !infoUser.email || !infoUser.password}
+                                    disabled={Object.values(errors).some(error => error !== '') || !infoUser.name || !infoUser.email || !infoUser.password || !infoUser.confirmPassword}
                                     type="submit" className={style.buttonFull}>Registrarse</button>
                                 <button className={style.buttonGoogle}
                                     onClick={handleGoogleSignUp}>

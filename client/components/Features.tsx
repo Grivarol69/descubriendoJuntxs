@@ -24,8 +24,8 @@ const Features = () => {
          
         />
         <div className="sm:w-1/2 lg:py-[56px] lg:pr-[56px]">
-          <h3 className="font-medium text-[#7286ff] lg:text-[18px] ">
-            Proyectos de Ayuda
+          <h3 className='font-medium text-[#7286ff] lg:text-[18px] '>
+          Proyectos de Ayuda
           </h3>
           <h1 className="pt-[12px] text-2xl font-medium text-[#0085FF] lg:text-[42px] lg:leading-[58px]">
             Simplifica tu vida Apoya
@@ -98,8 +98,8 @@ const Features = () => {
             className="pt-[24px] sm:hidden"
           />
           <p className="py-[24px] text-[#36485C] lg:text-[18px]">
-            "Ayuda a crear un cambio positivo. Tu generosidad cuenta. Dona hoy y
-            contribuye a hacer del mundo un lugar mejor. Toda ayuda es aceptada"
+            Ayuda a crear un cambio positivo. Tu generosidad cuenta. Dona hoy y
+            contribuye a hacer del mundo un lugar mejor. Toda ayuda es aceptada
           </p>
 
           <ul className="flex flex-col gap-y-3 lg:text-[18px]">

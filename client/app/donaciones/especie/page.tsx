@@ -54,7 +54,7 @@ const DonacionesEspeciePage: React.FC = () => {
     console.log(formData);
     try {
       const response = await axios.post<{ mensaje: string }>(
-        "http://localhost:3000/payments",
+        "http://localhost:3002/payments",
         formData
       );
       console.log("Respuesta del servidor:", response.data);

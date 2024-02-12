@@ -1,8 +1,6 @@
-import server from "./app"
+import serverSocket from "./app"
 const PORT = process.env.PORT || 3002
 
-
-
-server.listen(PORT, () => {
+serverSocket.listen(PORT, () => {
      console.log(`Server running on port ${PORT}`)
 })
