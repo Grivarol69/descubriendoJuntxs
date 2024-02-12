@@ -110,7 +110,7 @@ const DonacionesEspeciePage: React.FC = () => {
               <div className="w-full flex justify-center ">
                 <div className=" w-2/3  flex flex-col justify-center">
                   <div className="w-full flex flex-col justify-center gap-7">
-                    <div className="text-3xl">Donaciones Especie</div>
+                    <div className="text-3xl">Donaciones Especies</div>
 
                     <div className="flex flex-col">
                       <div className="flex flex-col gap-2">
@@ -123,9 +123,22 @@ const DonacionesEspeciePage: React.FC = () => {
                       </div>
                     </div>
                     <div>
-                      <label htmlFor="">Contacto</label>
-                      <input type="text" placeholder="Numero de telefono" name="contact_phone" onChange={handleChange} value={formData.contact_phone} />
-                      <input type="text" placeholder="Email" name="contact_email" onChange={handleChange} value={formData.contact_email} />
+                      <label htmlFor="">Contacto: </label>
+                      <input type="text"
+                        placeholder="Numero de telefono"
+                        name="contact_phone"
+                        onChange={handleChange}
+                        value={formData.contact_phone}
+                        className="w-full p-2 border border-gray-300 rounded resize-none"
+                      />
+                      <input
+                        type="text"
+                        placeholder="Email"
+                        name="contact_email"
+                        onChange={handleChange}
+                        value={formData.contact_email}
+                        className="w-full p-2 border border-gray-300 rounded mt-4 resize-none"
+                      />
                     </div>
 
                     <div className=" ">
@@ -134,7 +147,7 @@ const DonacionesEspeciePage: React.FC = () => {
                         name="message"
                         value={formData.message}
                         onChange={handleChange}
-                        className="w-full h-16 rounded-lg bg-blue-50"
+                        className="w-full p-2 border border-gray-300 rounded resize-none"
                         placeholder="Deja tu mensaje"
                       />
                     </div>

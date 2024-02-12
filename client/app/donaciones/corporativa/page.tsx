@@ -117,9 +117,23 @@ const DonacionesCorporativasPage: React.FC = () => {
                       </div>
                     </div>
                     <div>
-                      <label htmlFor="">Contacto</label>
-                      <input type="text" placeholder="Numero de telefono" name="contact_phone" onChange={handleChange} value={formData.contact_phone} />
-                      <input type="text" placeholder="Email" name="contact_email" onChange={handleChange} value={formData.contact_email} />
+                      <label htmlFor="">Contacto: </label>
+                      <input
+                        type="text"
+                        placeholder="Numero de telefono"
+                        name="contact_phone"
+                        onChange={handleChange}
+                        value={formData.contact_phone}
+                        className="w-full p-2 border border-gray-300 rounded resize-none"
+                      />
+                      <input
+                        type="text"
+                        placeholder="Email"
+                        name="contact_email"
+                        onChange={handleChange}
+                        value={formData.contact_email}
+                        className="w-full p-2 border border-gray-300 rounded mt-4 resize-none"
+                      />
                     </div>
 
                     <div className=" ">
@@ -128,7 +142,7 @@ const DonacionesCorporativasPage: React.FC = () => {
                         name="message"
                         value={formData.message}
                         onChange={handleChange}
-                        className="w-full h-16 rounded-lg bg-blue-50"
+                        className="w-full p-2 border border-gray-300 rounded resize-none"
                         placeholder="Deja tu mensaje"
                       />
                     </div>
