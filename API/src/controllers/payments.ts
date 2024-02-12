@@ -63,7 +63,7 @@ const postCreatePayment = async (req: Request, res: Response) => {
 
                 },
                 auto_return: "approved",
-                notification_url: "https://juntxs.vercel.app/webhook",
+                notification_url: "https://juntxs.vercel.app/payments/webhook",
                 metadata: {
                     programId: programId,
                     userId: infoUser.userId,
@@ -90,46 +90,46 @@ const reciveWebhook = async (req: Request, res: Response) => {
     try {
         if (req.query.topic === 'payment') {
             const paymentId = req.query.id as string;
-            console.log('paymentId', req.query);
 
+            console.log(paymentId);
             const paymentInfo = await (payment as any).get({ id: paymentId });
-            console.log('meta', paymentInfo);
-            if (paymentInfo.status === 'approved') {
+            console.log(paymentInfo);
 
-                const donation = await prisma.donation.findUnique({
+            if (paymentInfo.status === 'approved') {
+                // Convertir paymentInfo.id a BigInt
+                const transactionId = BigInt(paymentInfo.id);
+
+                // Buscar un pago con el mismo transactionId
+                const payment = await prisma.payment.findFirst({
                     where: {
-                        transactionId: Number(paymentId)
-                    },
+                        transactionId: transactionId.toString()
+                    }
                 });
 
-                if (!donation) {
+                // Si no se encontró ningún pago (es decir, payment es null), crear un nuevo pago
+                if (!payment) {
                     await prisma.donation.create({
                         data: {
-                            transactionId: Number(paymentId),
-                            programId: Number(paymentInfo.metadata.program_id),
+                            programId: paymentInfo.metadata.program_id,
                             userId: paymentInfo.metadata.user_id,
                             amount: paymentInfo.transaction_amount,
-                            date: paymentInfo.date_created,
+                            type: paymentInfo.metadata.type,
                             message: paymentInfo.metadata.message,
-                            contact_email: paymentInfo.metadata.contact_email,
                             contact_phone: paymentInfo.metadata.contact_phone,
-                        },
+                            contact_email: paymentInfo.metadata.contact_email,
+                            transactionId: transactionId.toString(),
+                            date: new Date(),
+                        }
                     });
+                    res.status(200).json("Payment created");
                 }
-
             }
-
-
 
         }
 
 
-
-        res.status(400).send('No es un pago');
     } catch (error) {
-        console.log('Error al obtener el pago:', error);
-        res.status(500).send('Error al obtener el pago');
-
+        console.log(error);
     }
 }
 

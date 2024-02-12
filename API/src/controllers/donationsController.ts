@@ -87,17 +87,16 @@ const getDonationsByUserAndProgram = async (req: Request, res: Response) => {
 }
 
 const postDonation = async (req: Request, res: Response) => {
-
     const { programId, userId, amount, date, type, frequency, message, contact_phone, contact_email, state, transactionId } = req.body;
 
     try {
         const newDonation = await prisma.donation.create({
             data: {
                 programId: programId && programId,
-                transactionId: transactionId ? Number(transactionId) : 0,
+                transactionId: transactionId ? transactionId : "0",
                 userId: userId && userId,
                 amount: amount && amount as number,
-                date: date && date as Date,
+                date: date ? new Date(date) : new Date(),
                 type: type && type as string,
                 frequency: frequency && frequency as string,
                 message: message && message as string,
@@ -107,10 +106,11 @@ const postDonation = async (req: Request, res: Response) => {
             }
         });
 
-
-        res.status(200).json(newDonation);
+        const donationResponse = { ...newDonation, transactionId: newDonation.transactionId.toString() };
+        res.status(200).json(donationResponse);
 
     } catch (error: any) {
+        console.log(error)
         res.status(500).json({ error: error.message });
     }
 }
