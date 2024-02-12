@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -105,13 +102,13 @@ model Participant {
 
 model Donation {
   id Int @id @default(autoincrement())
-  transactionId String 
+  transactionId BigInt @unique
   programId Int 
   userId Int 
-  amount Float?
+  amount Float
   date DateTime
   type DonationType @default(Recurrente)
-  frequency Frequency? @default(Unico)
+  frequency Frequency @default(Unico)
   message String
   contact_phone String
   contact_email String

@@ -186,11 +186,75 @@ const paginationProgram = async (req: Request, res: Response) => {
     }
 };
 
+const paginationProgramWithName = async (req: Request, res: Response) => {
+  try {
+    const page = Number(req.query.page) || 1; //*Número de página
+    const pageSize = Number(req.query.pageSize) || 10; //* Tamaño de la página
+    const name = req.query.name ? String(req.query.name) : null; //* Nombre del programa
+
+    console.log("page: " + page);
+    console.log("pageSize: " + pageSize);
+    console.log("name: " + name);
+
+    //* Calcular el índice de inicio y limitar la consulta a la página
+    const startIndex = (page - 1) * pageSize;
+
+    let programs;
+    let totalPrograms;
+
+    if (name) {
+      //* Si se proporciona un nombre, buscar programas por nombre y contar el total
+      programs = await prisma.program.findMany({
+        where: {
+          name: {
+            contains: name,
+            mode: 'insensitive', //* Case-insensitive search
+          },
+        },
+        skip: startIndex,
+        take: pageSize,
+        include: {
+          commentary: true,
+        }
+      });
+
+      totalPrograms = await prisma.program.count({
+        where: {
+          name: {
+            contains: name,
+            mode: 'insensitive', //* Case-insensitive search
+          },
+        },
+      });
+    } else {
+      //* Si no se proporciona un nombre, simplemente paginar los programas
+      programs = await prisma.program.findMany({
+        skip: startIndex,
+        take: pageSize,
+        include: {
+          commentary: true,
+        }
+      });
+
+      totalPrograms = await prisma.program.count();
+    }
+
+    res.status(200).json({ programs, totalPrograms });
+  } catch (error) {
+    console.log("Error al obtener programas ", error);
+    res.status(500).json({ error: "error interno del servidor" });
+  }
+};
+
+
 export {
-    getPrograms,
-    getProgramById,
-    postProgram,
-    updateProgram,
-    getProgramsByCategory,
-    paginationProgram,
+
+  getPrograms,
+  getProgramById,
+  postProgram,
+  updateProgram,
+  getProgramsByCategory,
+  paginationProgram,
+  paginationProgramWithName
+
 };

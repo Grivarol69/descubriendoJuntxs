@@ -14,7 +14,7 @@ import { CldImage } from "next-cloudinary";
 
 const Hero = () => {
   return (
-    <div className="relative flex h-full w-screen justify-center ">
+    <div className="relative flex h-full w-screen justify-center z-0">
       <Image
         src={descubriendoImage}
         alt="descubriendoJuntxs"

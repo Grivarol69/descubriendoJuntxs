@@ -99,7 +99,7 @@ const Navbar = () => {
                 className="flex w-8 h-8 bg-slate-600 rounded-[100%] cursor-pointer">
               </div>
               <div
-                className="w-fit h-fit">
+                className="w-fit h-fit z-20">
                 <PerfilTogle
                   toggle={toggle}
                   logOut={() => {

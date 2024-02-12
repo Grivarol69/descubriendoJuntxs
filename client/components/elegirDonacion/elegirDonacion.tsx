@@ -20,8 +20,8 @@ const RedirectPage: React.FC = () => {
   useEffect(() => {
     setNextButtonDisabled(
       selectedDonationType !== "recurrente" &&
-        selectedDonationType !== "en_especie" &&
-        selectedDonationType !== "corporativa"
+      selectedDonationType !== "en_especie" &&
+      selectedDonationType !== "corporativa"
     );
   }, [selectedDonationType]);
 
@@ -29,8 +29,8 @@ const RedirectPage: React.FC = () => {
     if (selectedDonationType === "corporativa")
       return "/donaciones/corporativa";
     if (selectedDonationType === "en_especie") return "/donaciones/especie";
-    if (selectedDonationType === "recurrente") return "/donaciones/recurrente";
-    return "/donaciones/recurrente";
+    if (selectedDonationType === "recurrente") return "/donaciones/unica";
+    return "/donaciones/unica";
   };
 
   const finalUrl = linkPage();
@@ -68,7 +68,7 @@ const RedirectPage: React.FC = () => {
           <form className=" flex flex-col gap-2">
             <div>
               <label>
-                <strong className="text-lg">Recurrente</strong>
+                <strong className="text-lg">Única</strong>
                 <input
                   type="checkbox"
                   value="recurrente"
@@ -80,8 +80,7 @@ const RedirectPage: React.FC = () => {
                 style={{ color: "#555", textAlign: "left" }}
                 className="text-lg"
               >
-                Podrás pagar como si fuera una suscripción, eligiendo la
-                frecuencia mensual.
+                Podrás realizar una donación mediante un único pago.
               </p>
             </div>
             <div>
@@ -126,7 +125,7 @@ const RedirectPage: React.FC = () => {
                 style={buttonStyle}
                 className={buttonClasses}
               >
-            
+
                 {nextButtonDisabled
                   ? "Seleccione al menos una opción"
                   : "Siguiente"}
