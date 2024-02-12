@@ -2,7 +2,6 @@ import { useState } from 'react'
 import style from './CreateProject.module.css'
 import { ProyectTypes } from '@/app/proyectos/page'
 import axios from 'axios'
-import { CldUploadWidget } from 'next-cloudinary'
 
 
 interface CreateProjectProps {
@@ -18,6 +17,7 @@ const CreateProject: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
     const URL_BASE = "https://juntxs.vercel.app/"
 
     const [input, setInput] = useState({
+        image: null as File | null,
         // id: "",
         name: "",
         description: "",
@@ -27,10 +27,16 @@ const CreateProject: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
         urlYoutube: "",
         objective: "",
         syllabus: "",
-        categoryId: 1,
-        image: "",
+        categoryId: 2,
+        
     })
-
+const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+        setInput({ ...input, image: e.target.files[0] });
+    } else {
+        setInput({ ...input, image: null });
+    }
+};
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault()
         setInput({
@@ -39,30 +45,35 @@ const CreateProject: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
         })
     }
 
-    const handleSubmit = async () => {
-        try {
-            const response = true
-            await axios.post('https://juntxs.vercel.app/programs', {
-                // id: input.id,
-                name: input.name,
-                description: input.description,
-                objective: input.objective,
-                dateIn: input.dateIn,
-                dateOut: input.dateOut,
-                state: input.state,
-                syllabus: input.syllabus,
-                urlYoutube: input.urlYoutube,
-                categoryId: input.categoryId,
-                image: input.image,
-            })
-            if (response) {
-                location.reload();
-                closeModal()
-            }
-        } catch (error) {
-            console.log(error)
+const handleSubmit = async () => {
+    try {
+        const formData = new FormData();
+        formData.append('name', input.name);
+        formData.append('description', input.description);
+        formData.append('objective', input.objective);
+        formData.append('dateIn', input.dateIn);
+        formData.append('dateOut', input.dateOut);
+        formData.append('state', input.state);
+        formData.append('syllabus', input.syllabus);
+        formData.append('urlYoutube', input.urlYoutube);
+        formData.append('categoryId', String(input.categoryId));
+
+        if (input.image) {
+            formData.append('', input.image);
         }
+        const response = await axios.post('https://juntxs.vercel.app/programs', formData, {
+    headers: {
+        'Content-Type': 'multipart/form-data'
     }
+});
+        if (response) {
+            location.reload();
+            closeModal();
+        }
+    } catch (error) {
+        console.log(error);
+    }
+};
 
     return (
         <div className={style.background}>
@@ -100,19 +111,11 @@ const CreateProject: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
                             </div>
                             <div className={style.labelInput}>
                                 <label htmlFor="" >Imagen</label>
-                                <input className={style.input} type="text" name="image" value={input.image} onChange={handleChange} />
+                                <input type="file" onChange={handleFileChange} />
                             </div>
                         </div>
                     </form>
-                    <CldUploadWidget signatureEndpoint="project_ong">
-                     {({ open }) => {
-                         return (
-                             <button onClick={() => open()}>
-                     Upload an Image
-                     </button>
-                        );
-                     }}
-                            </CldUploadWidget>
+
                 <button onClick={() => handleSubmit()}>Crear Proyecto</button>
                 </div>
             </div>
