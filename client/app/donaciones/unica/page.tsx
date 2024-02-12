@@ -28,7 +28,7 @@ const DonacionesRecurrentesPage: React.FC = () => {
     message: "",
     contact_email: logged ? infoUserParsed.email : '',
     contact_phone: logged ? infoUserParsed.phone : '',
-    userId: logged ? infoUserParsed.id : 1,
+    userId: logged ? infoUserParsed.id : null,
   });
 
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
