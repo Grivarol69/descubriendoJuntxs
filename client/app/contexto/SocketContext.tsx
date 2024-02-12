@@ -20,7 +20,6 @@ export const SocketContextProvider = ({ children }: { children: any }) => {
 
 
     const socket = io('https://juntxsdepfull-e9e6a5fd047a.herokuapp.com/', { transports: ['websocket'] });
-
     return (
         <SocketContext.Provider value={{ socket }}>
             {children}

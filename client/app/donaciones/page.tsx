@@ -29,10 +29,9 @@ const DonacionesPage: React.FC = () => {
                 <div className=" w-3/4 h-full  flex flex-col justify-center gap-14">
                   <div className="text-4xl ">Donaciones</div>
                   <div className="text-lg">
-                    Gracias por decidir dar tu granito de arena, podrás hacerlo
-                    de forma anónima, así podrás tener un historial de tus
-                    aportes, o si prefieres puedes{" "}
-                    <Link href="/pages/user" className="text-[#7286FF]">
+                    Gracias por tu granito de arena, podrás hacerlo
+                    de forma anónima, o si prefieres puedes{" "}
+                    <Link href="/pages/signup" className="text-[#7286FF]">
                       registrarte
                     </Link>{" "}
                     o{" "}
