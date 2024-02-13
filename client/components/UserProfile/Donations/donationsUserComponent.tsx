@@ -9,8 +9,6 @@ import axios from 'axios'
 
 
 
-
-
 interface donation {
     amount: number;
     date: string;
@@ -68,14 +66,14 @@ const DonationsUserComponent = () => {
         fetchDonations()
     }, [])
 
-    const proyecto = {
-        nombre: 'Mujeres',
-        tipoDonacion: '1092012746',
-        monto: '$82',
-        frecuencia: 'Mensual',
-        fechaInicial: '27/12/24',
-        proximaDonacion: '28/12/24'
-    }
+    // const proyecto = {
+    //     nombre: 'Mujeres',
+    //     tipoDonacion: '1092012746',
+    //     monto: '$82',
+    //     frecuencia: 'Mensual',
+    //     fechaInicial: '27/12/24',
+    //     proximaDonacion: '28/12/24'
+    // }
 
     // const handleSubmit = (e) => {
     //     e.
@@ -84,11 +82,11 @@ const DonationsUserComponent = () => {
 
     return (
         <div className={style.gridContainer}>
-            <ProyectDetail
+            {/* <ProyectDetail
                 project={proyecto}
                 closeModal={() => setModal(false)}
                 openModal={modal}
-            />
+            /> */}
             {/* <DonationsByUser
                 closeModal={() => setModal(false)}
                 openModal={modal}

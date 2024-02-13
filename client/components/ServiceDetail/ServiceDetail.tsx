@@ -1,34 +1,26 @@
 'use client'
-import style from './pDetail.module.css'
+import style from './serviceDetail.module.css'
 
-
-interface donation {
-    amount: number;
-    date: string;
-    type: string;
-    program: program;
-}
-
-interface program {
-    description: string;
+interface ServiceUser {
     name: string;
-    image: string;
+    description: string;
+    dateIn: string;
+    hourIn: string;
+    amount: number;
+    type: string;
+    payment: string;
 }
 
-interface ProjectReady {
-    donation: donation;
+interface services {
+    serviceUser: ServiceUser;
     closeModal: () => void;
     openModal: boolean
 }
 
 
-
-const ProyectDetail: React.FC<ProjectReady> = ({ donation
-    , openModal, closeModal, }) => {
+const ServiceDetail: React.FC<services> = ({ serviceUser, openModal, closeModal }) => {
 
     if (!openModal) return null
-
-
 
     return (
         <>
@@ -45,15 +37,15 @@ const ProyectDetail: React.FC<ProjectReady> = ({ donation
                     <div className={style.bodyWhite}>
                         <div className={style.containerTitleButton}>
                             <div className={style.titleAndValue}>
-                                <div className={style.title}> Nombre del proyecto </div>
-                                <div className={style.value}> {donation.program.name} </div>
+                                <div className={style.title}> Nombre del servicio </div>
+                                <div className={style.value}> {serviceUser.name} </div>
                             </div>
                             <button className={style.buttonProjectDetail}> Ver Proyecto </button>
                         </div>
                         <div className={style.containerTitleButton}>
                             <div className={style.titleAndValue}>
                                 <div className={style.title}> Tipo de donación </div>
-                                <div className={style.value}> {donation.type} </div>
+                                <div className={style.value}> {serviceUser.type} </div>
                             </div>
                             {/* <button className={style.buttonCancel}> Cancelar Suscripción </button> */}
                         </div>
@@ -61,7 +53,7 @@ const ProyectDetail: React.FC<ProjectReady> = ({ donation
                             <div className={style.titleAndValue}>
                                 <div className={style.title}>  Monto </div>
                                 <div className={style.value}>
-                                    {donation.amount}
+                                    {serviceUser.amount}
                                 </div>
                             </div>
                         </div>
@@ -73,7 +65,7 @@ const ProyectDetail: React.FC<ProjectReady> = ({ donation
                             <div className={style.containerFechas}>
                                 <div className={style.titleAndValue2}>
                                     <div className={style.title}> Fecha Inicial </div>
-                                    <div className={style.value}> {donation.date.substring(0, 10)} </div>
+                                    <div className={style.value}> {serviceUser.dateIn.substring(0, 10)} </div>
                                 </div>
                                 {/* <div className={style.titleAndValue2}>
                                     <div className={style.title}> Proxima donación </div>
@@ -89,4 +81,5 @@ const ProyectDetail: React.FC<ProjectReady> = ({ donation
     )
 }
 
-export default ProyectDetail;
+export default ServiceDetail;
+
