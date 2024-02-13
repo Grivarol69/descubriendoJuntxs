@@ -1,16 +1,17 @@
 'use client'
-import React from 'react';
-import DonacionesServer from '../../../serverC/serverDonaciones/page';
-import DashDonaciones from '../../../../components/DashboardAdmin/DashDonaciones/DashDonaciones';
+import React, { useEffect, useState } from 'react';
+import Axios from 'axios';
+import CardDonaciones from '@/components/CardDonaciones/CardDonaciones';
+import ServerComponent from '@/app/serverC/serverDonaciones/server.component'
 
-interface UserData {
+export interface UserData {
   dateIn: string;
   dateOut: string | null;
   description: string | null;
   email: string;
   id: number;
   identification: string | null;
-  language: string | null;  
+  languaje: string | null;
   linkedin: string | null;
   name: string;
   phone: string | null;
@@ -18,24 +19,116 @@ interface UserData {
   role: string;
   state: string;
   surName: string | null;
+  projects?: ProjectData[];
 }
 
-interface Donation {
+export interface DonationResponse {
   id: number;
   amount: number;
   type: string;
   userId: number;
-  user: UserData;
+  user: UserData | UserData[];
+  date?: string | number;
+  projectId?: number; // Añade esta línea
+  project?: ProjectData; // Y esta línea
+  programId: number;
 }
 
+export interface FormattedDonation {
+  id: number;
+  amount: number;
+  type: string;
+  userId: number;
+  user: UserData | UserData[]; // Modificado aquí
+}
+
+export interface ProjectData {
+  id: number;
+  name: string;
+  description: string;
+  amount: number;
+  objective: string;
+  syllabus: string;
+  state: string;
+  categoryId: number;
+  type: string;
+  image: string;
+  donation: any[];
+  commentary: any[];
+  favorite: any[];
+}
+
+export interface Donation {
+  id: number;
+  amount: number;
+  type: string;
+  userId: number;
+  user: UserData | UserData[];
+  projectId?: number; // Añade esta línea
+  project: ProjectData; 
+}
+
+
 const DonacionesPage: React.FC = () => {
+  const [selectedDonation, setSelectedDonation] = useState<DonationResponse | null>(null);
+  const [donations, setDonations] = useState<DonationResponse[]>([]);
+
+  useEffect(() => {
+    Axios.get('https://juntxs.vercel.app/donations')
+      .then((response) => {
+        const donationData: DonationResponse[] = response.data;
+        setDonations(donationData);
+      })
+      .catch((error) => console.error('Error al obtener donaciones:', error));
+  }, []);
+
+  const handleDonationClick = async (donation: Donation) => {
+    try {
+      // Verifica si donation.projectId está presente antes de hacer la solicitud
+      if (donation.projectId) {
+        const response = await fetch(`https://juntxs.vercel.app/projects/${donation.projectId}`);
+        const projectDetails = await response.json();
+  
+        // Actualiza las donaciones, reemplazando la donación actual con los detalles del proyecto
+        setDonations(donations.map(d => d.id === donation.id ? { ...d, project: projectDetails } : d));
+      } else {
+        console.warn('donation.projectId no está presente en los datos de donación.');
+      }
+    } catch (error) {
+      console.error('Error al obtener detalles del proyecto:', error);
+    }
+  };
+
+  const handleCloseDetail = () => {
+    console.log('Closing detail');
+    setSelectedDonation(null);
+  };
+
+  const handleUserClick = async (userId: number) => {
+    try {
+      const userResponse = await Axios.get(`https://juntxs.vercel.app/users/${userId}`);
+      const userData: UserData = userResponse.data;
+
+      const selectedDonation = donations.find((donation) => donation.userId === userId);
+
+      if (selectedDonation) {
+        console.log('User clicked:', selectedDonation);
+        setSelectedDonation({ ...selectedDonation, user: userData });
+      }
+    } catch (error) {
+      console.error('Error al obtener información del usuario:', error);
+    }
+  };
+
+  console.log('Selected donation:', selectedDonation);
+  console.log('All donations:', donations);
+
   return (
     <div>
-      <DonacionesServer>
-        {(donations) => <DashDonaciones donations={donations as unknown as Donation[]} />}
-      </DonacionesServer>
+      <h1>Donaciones</h1>
+      <ServerComponent donations={donations} onUserClick={handleUserClick} onCloseDetail={handleCloseDetail} />
     </div>
   );
-};
+}
 
 export default DonacionesPage;
