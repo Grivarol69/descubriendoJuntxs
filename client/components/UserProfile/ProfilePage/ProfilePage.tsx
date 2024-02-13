@@ -4,9 +4,10 @@ import style from './profilePage.module.css'
 import PasswordChange from '@/components/CambiarContraseña/ChangePassword';
 import { useAuthContext } from '@/app/contexto/AuthContext';
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
 
-const ProfilePage = () => {
+const ProfilePage = (): React.ReactNode => {
     const [vistaDeComponente, setVistaDeComponente] = useState('')
     const vistaComponente = (name: string) => {
         if (name === 'datos') return setVistaDeComponente('datos')
@@ -15,13 +16,33 @@ const ProfilePage = () => {
     }
     const { infoUserGlobal } = useAuthContext()
     const infoUserGlobalParse = infoUserGlobal && JSON.parse(infoUserGlobal)
+    const userId = infoUserGlobalParse.id
+
+    const [input, setInput] = useState({
+        name: "",
+        apellido: "",
+        identifiacion: "",
+        fecha_nacimiento: "",
+        idiomas: "",
+        telefono: "",
+        email: "",
+        linkedin: ""
+    })
 
     const router = useRouter()
     if (infoUserGlobalParse?.role === 'Admin') return router.push('/pages/admin')
 
     console.log('me gusta comer' + infoUserGlobalParse);
     console.log(infoUserGlobalParse);
-    
+
+    const handleChanges = async (e: any) => {
+        e.preventDefault()
+        const URL_BASE = "https://juntxs.vercel.app/users/";
+        await axios.put(`${URL_BASE}${userId}`, {
+
+        });
+    }
+
     const estiloTransition = () => {
         const datos = {
             width: '55vw',
