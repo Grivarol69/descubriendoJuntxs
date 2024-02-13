@@ -4,6 +4,7 @@ import AllCards from "@/components/allCardsComponent/allCards";
 
 
 export interface ProyectTypes {
+    id: number;
     nombre: string,
     descripcion: string,
     amount: number,
@@ -14,8 +15,12 @@ export interface ProyectTypes {
     type: string,
     donation: [],
     commentary: [],
-    favorite: []
-}
+    favorite: {
+        userId: number;
+        programId: number
+        },
+    }
+
 
 const Proyectos = async () => {
     const urlGlobal = 'https://juntxs.vercel.app/'

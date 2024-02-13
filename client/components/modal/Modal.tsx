@@ -10,6 +10,7 @@ interface ModalProjectProps {
     openModal: boolean;
     closeModal: () => void;
     project: {
+        id: number,
         name: string,
         description: string,
         dateIn: string,
@@ -21,7 +22,11 @@ interface ModalProjectProps {
         categoryId: number,
         type: string,
         image: string,
-        commentary: []
+        commentary: [],
+        favorite:{
+            userId: number,
+            programId: number
+        }
     }
 }
 

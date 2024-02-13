@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from "react"
+import  {  useState } from "react"
 import style from './card.module.css'
 import ModalProject from "../modal/Modal"
 import { useAuthContext } from "@/app/contexto/AuthContext"
@@ -33,17 +33,18 @@ const CardProyect: React.FC<Proyect> = ({ project }) => {
     const { name, description, image, objective, favorite} = project
     const [modal, setModal] = useState(false)
     const {infoUserGlobal}: any = useAuthContext()
-    const [favorited, setFavorited] = useState(false)
     const parseinfo = JSON.parse(infoUserGlobal)
-    console.log("parse", parseinfo);
-
+    
+    
+    const [favorited, setFavorited] = useState(false)
+   
 
     const favoriteHandler = async () => {
         try {
-            if (!favorited) {
+            if (!favorite) {
                 
                 
-                const programId = parseinfo.id;
+                const programId = project.id;
                 const  userId = parseinfo.id;
                 
                 // Realiza la solicitud al servidor para añadir a favoritos
@@ -89,7 +90,7 @@ const CardProyect: React.FC<Proyect> = ({ project }) => {
                             Donar Proyecto
                         </button>
                         <button onClick={favoriteHandler}>
-                            {favorite ? '🤍' : '❤'}
+                            {favorited ? '🤍' : '❤'}
                         </button>
                     </div>
                 </div>

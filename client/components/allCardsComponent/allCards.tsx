@@ -3,6 +3,7 @@ import CardProyect from "../CardProyecto/cardProyecto"
 
 export interface ProyectTypes {
     projects: {
+        id: number,
         name: string,
         description: string,
         dateIn: string,
@@ -15,6 +16,10 @@ export interface ProyectTypes {
         type: string,
         image: string,
         commentary: [],
+        favorite: {
+            userId: number,
+            programId: number
+        }
     }[]
 }
 
