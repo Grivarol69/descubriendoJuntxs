@@ -1,6 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
+import { useAuthContext } from '@/app/contexto/AuthContext';
 
 interface UserData {
   dateIn: string;
@@ -40,10 +41,16 @@ interface Donation {
 }
 
 const DonacionesServer: React.FC<DonacionesServerProps> = ({ children }) => {
+
+  const { infoUserGlobal } = useAuthContext()
+  const infoUserParsed = JSON.parse(infoUserGlobal ?? '')
+  const userId = infoUserParsed.id
+
+  const URL_BASE = 'https://juntxs.vercel.app/users/donations/'
   const [donations, setDonations] = useState<Donation[]>([]);
 
   useEffect(() => {
-    Axios.get('https://juntxs.vercel.app/donations')
+    Axios.get(`${URL_BASE}${userId}`)
       .then((response) => {
         const donationData: DonationResponse[] = response.data;
 
@@ -54,7 +61,7 @@ const DonacionesServer: React.FC<DonacionesServerProps> = ({ children }) => {
             amount: donationResponse.amount,
             type: donationResponse.type,
             userId: donationResponse.userId,
-            user: user as UserData, 
+            user: user as UserData,
           };
         });
 

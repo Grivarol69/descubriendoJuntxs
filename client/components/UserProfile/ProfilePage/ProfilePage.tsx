@@ -6,7 +6,7 @@ import { useAuthContext } from '@/app/contexto/AuthContext';
 import { useRouter } from 'next/navigation';
 
 
-const ProfilePage = () => {
+const ProfilePage = (): React.ReactNode => {
     const [vistaDeComponente, setVistaDeComponente] = useState('')
     const vistaComponente = (name: string) => {
         if (name === 'datos') return setVistaDeComponente('datos')
@@ -21,7 +21,7 @@ const ProfilePage = () => {
 
     console.log('me gusta comer' + infoUserGlobalParse);
     console.log(infoUserGlobalParse);
-    
+
     const estiloTransition = () => {
         const datos = {
             width: '55vw',
