@@ -1,24 +1,65 @@
 'use client'
 import style from './serviceDetail.module.css'
 
-interface ServiceUser {
+// interface ServiceUser {
+//     name: string;
+//     description: string;
+//     dateIn: string;
+//     hourIn: string;
+//     amount: number;
+//     type: string;
+//     payment: string;
+// }
+
+// interface services {
+//     serviceUser: ServiceUser;
+//     closeModal: () => void;
+//     openModal: boolean
+// }
+
+interface Service {
+    id: number;
     name: string;
     description: string;
+    userId: number;
+    categoryId: number;
     dateIn: string;
+    dateOut: string;
     hourIn: string;
+    hourOut: string;
     amount: number;
+    objective: string;
+    syllabus: string;
     type: string;
-    payment: string;
+    state: string;
+}
+
+interface User {
+    id: number;
+    email: string;
+    name: string;
+    surName: string | null;
+    identification: string | null;
+    phone: string | null;
+    dateIn: string;
+    dateOut: string | null;
+    description: string | null;
+    linkedin: string | null;
+    languaje: string | null;
+    position: string | null;
+    state: string;
+    role: string;
+    service: Service;
 }
 
 interface services {
-    serviceUser: ServiceUser;
+    service: Service;
     closeModal: () => void;
     openModal: boolean
 }
 
 
-const ServiceDetail: React.FC<services> = ({ serviceUser, openModal, closeModal }) => {
+const ServiceDetail: React.FC<services> = ({ service, openModal, closeModal }) => {
 
     if (!openModal) return null
 
@@ -38,14 +79,14 @@ const ServiceDetail: React.FC<services> = ({ serviceUser, openModal, closeModal 
                         <div className={style.containerTitleButton}>
                             <div className={style.titleAndValue}>
                                 <div className={style.title}> Nombre del servicio </div>
-                                <div className={style.value}> {serviceUser.name} </div>
+                                <div className={style.value}> {service.name} </div>
                             </div>
                             <button className={style.buttonProjectDetail}> Ver Proyecto </button>
                         </div>
                         <div className={style.containerTitleButton}>
                             <div className={style.titleAndValue}>
-                                <div className={style.title}> Tipo de donación </div>
-                                <div className={style.value}> {serviceUser.type} </div>
+                                <div className={style.title}> Tipo de servicio </div>
+                                <div className={style.value}> {service.type} </div>
                             </div>
                             {/* <button className={style.buttonCancel}> Cancelar Suscripción </button> */}
                         </div>
@@ -53,7 +94,7 @@ const ServiceDetail: React.FC<services> = ({ serviceUser, openModal, closeModal 
                             <div className={style.titleAndValue}>
                                 <div className={style.title}>  Monto </div>
                                 <div className={style.value}>
-                                    {serviceUser.amount}
+                                    {service.amount}
                                 </div>
                             </div>
                         </div>
@@ -64,8 +105,8 @@ const ServiceDetail: React.FC<services> = ({ serviceUser, openModal, closeModal 
                             </div> */}
                             <div className={style.containerFechas}>
                                 <div className={style.titleAndValue2}>
-                                    <div className={style.title}> Fecha Inicial </div>
-                                    <div className={style.value}> {serviceUser.dateIn.substring(0, 10)} </div>
+                                    <div className={style.title}> Fecha </div>
+                                    <div className={style.value}> {service.dateIn.substring(0, 10)} </div>
                                 </div>
                                 {/* <div className={style.titleAndValue2}>
                                     <div className={style.title}> Proxima donación </div>

@@ -1,25 +1,38 @@
 import ServiceDetail from "@/components/ServiceDetail/ServiceDetail";
 import { useState } from "react";
 
-
-
-interface ServiceUser {
+interface Service {
+    id: number;
     name: string;
     description: string;
+    userId: number;
+    categoryId: number;
     dateIn: string;
+    dateOut: string;
     hourIn: string;
+    hourOut: string;
     amount: number;
+    objective: string;
+    syllabus: string;
     type: string;
-    payment: string;
+    state: string;
 }
+
+// interface ServiceUser {
+//     name: string;
+//     description: string;
+//     dateIn: string;
+//     hourIn: string;
+//     amount: number;
+//     type: string;
+//     payment: string;
+// }
 
 interface services {
-    serviceUser: ServiceUser;
-    closeModal: () => void;
-    openModal: boolean
+    service: Service;
 }
 
-const ServicesUser: React.FC<services> = ({ serviceUser }) => {
+const ServicesUser: React.FC<services> = ({ service }) => {
     const [modal, setModal] = useState(false)
 
     return (
@@ -28,7 +41,7 @@ const ServicesUser: React.FC<services> = ({ serviceUser }) => {
                 Ver detalle de servicio
             </div>
             <ServiceDetail
-                serviceUser={serviceUser}
+                service={service}
                 closeModal={() => setModal(false)}
                 openModal={modal}
             />

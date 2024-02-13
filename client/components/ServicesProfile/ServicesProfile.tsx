@@ -51,7 +51,6 @@ interface User {
 }
 
 interface services {
-    serviceUser: User;
     closeModal: () => void;
     openModal: boolean
 }
@@ -62,10 +61,10 @@ const ServicesProfile = () => {
     const infoUserParsed = JSON.parse(infoUserGlobal ?? '')
     const userId = infoUserParsed.id
 
-    const [services, setServices] = useState<services | null>(null)
+    const [services, setServices] = useState<User | null>(null)
 
     const servicesByUser = async (userId: number) => {
-        const URL_BASE = 'https://juntxs.vercel.app/users/services/'
+        const URL_BASE = 'https://juntxs.vercel.app/users/service/'
         const info = await axios.get(`${URL_BASE}${userId}`)
         console.log('Services by user:', info.data);
 
@@ -87,7 +86,6 @@ const ServicesProfile = () => {
                 <div className={style.titlePage}>
                     Participación de Servicios
                 </div>
-                {/* <input className={style.buscarInput} placeholder='Buscar Servicio' /> */}
                 <div className={style.cardContainerServices}>
                     <div className={style.titleServices}>
                         <div className={style.titleService}>Nombre del Servicio</div>
@@ -98,15 +96,14 @@ const ServicesProfile = () => {
                             <div className={style.imageAndTitle}>
                                 <div className={style.image}></div>
                                 <div>
-                                    {services?.serviceUser.service.map((service: Service, index) => {
+                                    {services?.service.map((service: Service, index) => {
                                         return (
                                             <div className={style.cardDonation} key={index}>
                                                 <div className={style.imageAndTitle}>
                                                     <div className={style.imageProject}></div>
                                                     <div className={style.titleAndButton}>
-                                                        <div className={style.titleProyect}> {donation.program.name} </div>
+                                                        <div className={style.titleProyect}> {service.name} </div>
                                                         <ServicesUser
-                                                            key={index}
                                                             service={service}
                                                         />
                                                     </div>
@@ -115,53 +112,8 @@ const ServicesProfile = () => {
                                         )
                                     })}
                                 </div>
-                                {/* <div className={style.titleServiceAndButton}>
-                                    <div className={style.title}> Salud Mental </div>
-                                    <div className={style.buttonAgenda}> Ver Agenda </div>
-                                </div> */}
                             </div>
-                            {/* <div className={style.serviceType}> Coaching </div> */}
                         </div>
-                        {/* <div className={style.cardServices}>
-                            <div className={style.imageAndTitle}>
-                                <div className={style.image}></div>
-                                <div className={style.titleServiceAndButton}>
-                                    <div className={style.title}> Salud Mental </div>
-                                    <div className={style.buttonAgenda}> Ver Agenda </div>
-                                </div>
-                            </div>
-                            <div className={style.serviceType}> Coaching </div>
-                        </div> */}
-                        {/* <div className={style.cardServices}>
-                            <div className={style.imageAndTitle}>
-                                <div className={style.image}></div>
-                                <div className={style.titleServiceAndButton}>
-                                    <div className={style.title}> Salud Mental </div>
-                                    <div className={style.buttonAgenda}> Ver Agenda </div>
-                                </div>
-                            </div>
-                            <div className={style.serviceType}> Coaching </div>
-                        </div> */}
-                        {/* <div className={style.cardServices}>
-                            <div className={style.imageAndTitle}>
-                                <div className={style.image}></div>
-                                <div className={style.titleServiceAndButton}>
-                                    <div className={style.title}> Salud Mental </div>
-                                    <div className={style.buttonAgenda}> Ver Agenda </div>
-                                </div>
-                            </div>
-                            <div className={style.serviceType}> Coaching </div>
-                        </div> */}
-                        {/* <div className={style.cardServices}>
-                            <div className={style.imageAndTitle}>
-                                <div className={style.image}></div>
-                                <div className={style.titleServiceAndButton}>
-                                    <div className={style.title}> Salud Mental </div>
-                                    <div className={style.buttonAgenda}> Ver Agenda </div>
-                                </div>
-                            </div>
-                            <div className={style.serviceType}> Coaching </div>
-                        </div> */}
                     </div>
                 </div>
             </div>
