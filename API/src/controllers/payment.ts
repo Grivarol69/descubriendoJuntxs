@@ -35,11 +35,17 @@ const postPayment = async (req: Request, res: Response) => {
           serviceId: serviceId,
           userId: userId,
         }
+        
       }
+
     });
+
     res.send(response)
+
   } catch (error) {
+
     console.log(error);
+
   }
 
 

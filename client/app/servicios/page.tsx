@@ -4,6 +4,10 @@ import React, { useState } from 'react';
 import CardServicios, { ServicioTypes } from '@/components/CardServicios/CardServicios';
 import style from './servicios.module.css';
 import Filter from '@/components/filters/Filter';
+import coachingImage from '../../components/Icons/images/Coaching.png'
+import TallerImage from '../../components/Icons/images/Taller.png'
+import retirosImage from '../../components/Icons/images/Retiro.png'
+import AgendarComponente from '@/components/CardServicios/AgendarComponent/AgendarComponent';
 
 const ServiciosPage: React.FC = () => {
   const serviciosData: ServicioTypes[] = [
@@ -13,7 +17,7 @@ const ServiciosPage: React.FC = () => {
       descripcion: 'Servicio de coaching personalizado para alcanzar tus metas.',
       ruta: '/servicios/coaching',
       comentarios: [],
-      imagen: '',
+      imagen: coachingImage.src,
     },
     {
       id: 2,
@@ -21,7 +25,7 @@ const ServiciosPage: React.FC = () => {
       descripcion: 'Participa en nuestros talleres para adquirir nuevas habilidades.',
       ruta: '/servicios/talleres',
       comentarios: [],
-      imagen: '',
+      imagen: TallerImage.src,
     },
     {
       id: 3,
@@ -29,7 +33,7 @@ const ServiciosPage: React.FC = () => {
       descripcion: 'Experimenta la tranquilidad en nuestros retiros.',
       ruta: '/servicios/retiros',
       comentarios: [],
-      imagen: '',
+      imagen: retirosImage.src,
     }
   ];
 
@@ -40,11 +44,11 @@ const ServiciosPage: React.FC = () => {
   };
 
   return (
-    <div className={style.backgroundServicio}>
+    <div className={style.backgroundServicios}>
       <Filter onFilter={handleFilter}></Filter>
       {serviciosFinales.map((servicio) => (
         <CardServicios key={servicio.nombre} servicio={servicio} />
-      ))}
+        ))}
     </div>
   );
 };

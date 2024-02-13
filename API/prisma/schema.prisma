@@ -59,7 +59,6 @@ model Program {
   favorite Favorite[]
 }
 
-
 model Service {
   id Int @id @default(autoincrement())
   name String
