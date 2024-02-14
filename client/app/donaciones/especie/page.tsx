@@ -98,17 +98,19 @@ const DonacionesEspeciePage: React.FC = () => {
   initMercadoPago("APP_USR-91c35bb4-a98b-4c8a-b4a7-acf55e1bb8e3");
 
   return (
-    <div className="w-screen h-[80vh]  flex justify-center items-center">
-      <div className="w-11/12 h-5/6 border border-blue-400 rounded-2xl shadow-2xl flex justify-center">
+    <div className="w-screen h-[80vh]  flex justify-center items-center md:h-600">
+      {/* <div className="w-11/12 h-5/6 border border-blue-400 rounded-2xl shadow-2xl flex justify-center"> */}
+      <div className="w-11/12 h-11/12 border border-blue-400 py-2 mt-8 rounded-2xl shadow-2xl flex justify-center md:h-4/5 ">
         <div className="w-full h-full flex justify-center">
           <form
             action=""
-            className="w-full h-full  flex"
+            // className="w-full h-full flex"
+            className="w-full h-full flex flex-col items-center md:flex-row gap-4 md:justify-center"
             onSubmit={handleSubmit}
           >
-            <div className=" w-4/6 h-full  flex flex-col justify-center">
+            <div className=" w-5/6 h-full  flex flex-col justify-center">
               <div className="w-full flex justify-center ">
-                <div className=" w-2/3  flex flex-col justify-center">
+                <div className=" w-11/12  flex flex-col items-center md:w-4/5">
                   <div className="w-full flex flex-col justify-center gap-7">
                     <div className="text-3xl">Donaciones Especies</div>
 
