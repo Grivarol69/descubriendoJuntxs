@@ -57,6 +57,7 @@ const Proyectos = () => {
     let projectsToFilter = allProjects.length > 0 ? allProjects : projects;
     let filteredProjects = [];
 
+
     if (selectedFilter === "Activo") {
       filteredProjects = projectsToFilter.filter(
         (project) => project.state === "Activo"

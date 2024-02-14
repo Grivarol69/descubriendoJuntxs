@@ -14,12 +14,11 @@ import { CldImage } from "next-cloudinary";
 
 const Hero = () => {
   return (
-    <div className="relative flex h-full w-screen justify-center z-0">
+    <div className="relative flex h-full w-full justify-center ">
       <Image
         src={descubriendoImage}
         alt="descubriendoJuntxs"
         className="min-h-[500px] w-full object-cover lg:h-auto"
-        width="1440"
         height="757"
       />
 

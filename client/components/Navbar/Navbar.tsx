@@ -40,6 +40,7 @@ const Navbar = () => {
   const typeUser: string = infoUserParse?.role
 
   useEffect(() => {
+
     document.addEventListener('mousedown', handleClickOutside)
 
     return () => {
@@ -56,8 +57,6 @@ const Navbar = () => {
   console.log(logged);
 
   return (
-
-
     <nav className={path.includes('/pages/user') || path.includes('/pages/admin') ? 'flex w-full bg-white items-center justify-between px-[20px] py-[16px]  lg:mx-auto lg:px-15 shadow-custom fixed z-[1000]' : "flex w-full bg-white items-center justify-between px-[20px] py-[16px] lg:mx-auto lg:px-15"} >
       <div className="flex items-center">
         <Image src={Logo} alt="Logo" />
