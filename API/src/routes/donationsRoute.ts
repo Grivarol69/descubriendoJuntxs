@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getDonations, getDonationsByProgram, getDonationsByUser, getDonationsByUserAndProgram, postDonation} from "../controllers/donationsController";
+import { getDonations, getDonationsByProgram, getDonationsByUser, getDonationsByUserAndProgram, postDonation } from "../controllers/donationsController";
 
 const router = Router()
 

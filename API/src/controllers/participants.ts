@@ -7,38 +7,42 @@ const prisma = new PrismaClient();
 const getParticipantsByService = async (req: Request, res: Response) => {
   const { serviceId } = req.params;
 
-    try {
-      const participants = await prisma.participant.findMany({
-        where: {
-          id: Number(serviceId),
-          state: "Activo",
-        },
-      });
-
-      res.status(200).json(participants);
-
-    } catch (error) {
-      handleHttp(res, "ERROR_GET_PARTICIPANTS_BY_SERVICE");
-    }
-  };
-
-  const getParticipantByUser = async (req: Request, res: Response) => {
-    const { userId } = req.params;
-  
-      try {
-        const participants = await prisma.participant.findMany({
-          where: {
-            id: Number(userId),
-            state: "Activo",
-          },
-        });
-  
-        res.status(200).json(participants);
-  
-      } catch (error) {
-        handleHttp(res, "ERROR_GET_PARTICIPANTS_BY_USER");
+  try {
+    const participants = await prisma.participant.findMany({
+      where: {
+        serviceId: Number(serviceId),
+        state: "Activo",
+      },
+      include: {
+        service: true,
+        user: true
       }
-    };
+    });
+
+    res.status(200).json(participants);
+
+  } catch (error) {
+    handleHttp(res, "ERROR_GET_PARTICIPANTS_BY_SERVICE");
+  }
+};
+
+const getParticipantByUser = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+
+  try {
+    const participants = await prisma.participant.findMany({
+      where: {
+        id: Number(userId),
+        state: "Activo",
+      },
+    });
+
+    res.status(200).json(participants);
+
+  } catch (error) {
+    handleHttp(res, "ERROR_GET_PARTICIPANTS_BY_USER");
+  }
+};
 
 
 const postParticipant = async (req: Request, res: Response) => {

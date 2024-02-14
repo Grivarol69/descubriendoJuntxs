@@ -27,7 +27,7 @@ const CreateProject: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
         urlYoutube: "",
         objective: "",
         syllabus: "",
-        categoryId: 2,
+        categoryId: 1,
         
     })
 const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,9 +62,9 @@ const handleSubmit = async () => {
             formData.append('', input.image);
         }
         const response = await axios.post('https://juntxs.vercel.app/programs', formData, {
-            headers: {
+    headers: {
         'Content-Type': 'multipart/form-data'
-            }
+    }
 });
         if (response) {
             location.reload();

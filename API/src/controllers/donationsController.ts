@@ -23,31 +23,20 @@ const getDonations = async (_req: Request, res: Response) => {
 }
 
 const getDonationsByProgram = async (req: Request, res: Response) => {
-
     try {
-        // Obtener programId del query string y convertirlo a número
-        const programId = req.query.programId;
-        if (!programId || typeof programId !== 'string') {
-            throw new Error('programId is missing or invalid');
-        }
-        const programIdNumber = Number(programId);
-        if (isNaN(programIdNumber)) {
-            throw new Error('programId is not a valid number');
-        }
-
-        // Buscar donaciones por programId
-        const donations = await prisma.donation.findMany({
+        const { id } = req.params;
+        const donations = await prisma.donation.findUnique({
             where: {
-                programId: programIdNumber
-
+                id: Number(id)
+            },
+            include: {
+                program: true
             }
         });
 
-        // Enviar respuesta con las donaciones encontradas
         res.status(200).json(donations);
-    } catch (error: any) {
-        // Manejar errores
-        res.status(500).json({ error: error.message });
+    } catch (error) {
+        console.log(error);
     }
 }
 
@@ -55,18 +44,17 @@ const getDonationsByProgram = async (req: Request, res: Response) => {
 
 const getDonationsByUser = async (req: Request, res: Response) => {
 
-    const { userId } = req.query;
-
     try {
-        const donation = await prisma.donation.findMany({
+        const { id } = req.params;
+        const category = await prisma.donation.findUnique({
             where: {
-                userId: Number(userId)
-            }
+                id: Number(id)
+            },
         });
-
-        res.status(200).json(donation);
+        res.json(category)
     } catch (error) {
-        handleHttp(res, 'ERROR_GET_DonationsByUser')
+        console.log(error)
+        handleHttp(res, 'ERROR_GET_CATEGORY')
     }
 }
 

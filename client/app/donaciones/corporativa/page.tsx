@@ -55,7 +55,7 @@ const DonacionesCorporativasPage: React.FC = () => {
         amount: formData.amount,
         type: formData.type,
         message: formData.message,
-        userId: logged ? infoUserParsed.id : 5,
+        userId: logged ? infoUserParsed.id : null,
         date: formData.date,
         frequency: formData.frequency,
         contact_phone: formData.contact_phone,

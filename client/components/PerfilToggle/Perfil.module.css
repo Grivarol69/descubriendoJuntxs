@@ -12,8 +12,10 @@
     flex-direction: column;
     box-shadow: 2px 1px 40px 5px rgba(170, 170, 170, 0.2);
     transition: 200ms;
-    pointer-events: 'visible'
+    pointer-events: 'visible';
+    z-index: 10;
 }
+
 .logOut{
     display: flex;
     justify-content: center;
@@ -25,6 +27,7 @@
     cursor: pointer;
     transition: 200ms;
 }
+
 .logOut:hover{
     color: #ffa7e6;
     background: rgb(240, 240, 240);

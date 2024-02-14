@@ -11,7 +11,7 @@ CREATE TYPE "ProgramType" AS ENUM ('Proyecto', 'Servicio');
 CREATE TYPE "DonationType" AS ENUM ('Recurrente', 'Especies', 'Corporativo');
 
 -- CreateEnum
-CREATE TYPE "ServiceType" AS ENUM ('Coaching', 'Taller', 'Retiro');
+CREATE TYPE "ServiceType" AS ENUM ('coaching', 'taller', 'retiro');
 
 -- CreateEnum
 CREATE TYPE "ServiceState" AS ENUM ('Activo', 'Inactivo', 'Finalizado');
@@ -78,14 +78,14 @@ CREATE TABLE "Service" (
     "description" TEXT NOT NULL,
     "userId" INTEGER NOT NULL,
     "categoryId" INTEGER NOT NULL,
-    "dateIn" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
+    "dateIn" TIMESTAMP(3),
     "dateOut" TIMESTAMP(3),
-    "hourIn" TIMESTAMP(3),
-    "hourOut" TIMESTAMP(3),
+    "hourIn" TEXT NOT NULL,
+    "hourOut" TEXT NOT NULL,
     "amount" DOUBLE PRECISION NOT NULL,
     "objective" TEXT,
     "syllabus" TEXT,
-    "type" "ServiceType" NOT NULL DEFAULT 'Coaching',
+    "type" "ServiceType" NOT NULL,
     "state" "ServiceState" NOT NULL DEFAULT 'Activo',
 
     CONSTRAINT "Service_pkey" PRIMARY KEY ("id")

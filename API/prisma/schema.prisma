@@ -59,21 +59,20 @@ model Program {
   favorite Favorite[]
 }
 
-
 model Service {
   id Int @id @default(autoincrement())
   name String
   description String
   userId Int
   categoryId Int
-  dateIn DateTime? @default(now())
+  dateIn DateTime? 
   dateOut DateTime?
-  hourIn DateTime?
-  hourOut DateTime?
+  hourIn String
+  hourOut String
   amount Float
   objective String?
   syllabus String?
-  type ServiceType @default(Coaching)
+  type ServiceType 
   state ServiceState @default(Activo)
   user User @relation(fields: [userId], references: [id])
   category Category @relation(fields: [categoryId], references: [id])
@@ -108,6 +107,7 @@ model Donation {
   transactionId String 
   programId Int 
   userId Int 
+
   amount Float?
   date DateTime
   type DonationType @default(Recurrente)
@@ -162,9 +162,9 @@ enum DonationType {
 }
 
 enum ServiceType {
-  Coaching
-  Taller
-  Retiro
+  coaching
+  taller
+  retiro
 }
 
 enum ServiceState {
