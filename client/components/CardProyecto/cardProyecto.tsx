@@ -1,8 +1,10 @@
 'use client'
-import React, { useState } from "react"
+import  {  useState } from "react"
 import style from './card.module.css'
 import ModalProject from "../modal/Modal"
 import { useSocketContext } from "@/app/contexto/SocketContext";
+import { useAuthContext } from "@/app/contexto/AuthContext"
+import axios from 'axios'
 
 export interface Proyect {
     project: {
@@ -19,16 +21,49 @@ export interface Proyect {
         type: string,
         image: string,
         commentary: [],
+        favorite: {
+            userId: number,
+            programId: number  
+        }
     }
 }
 
 
 const CardProyect: React.FC<Proyect> = ({ project }) => {
 
+    const { name, description, image, objective, favorite} = project
     const { socket } = useSocketContext()
-    const { name, description, image, objective} = project
-    const [modal, setModal] = useState(false)
 
+    const [modal, setModal] = useState(false)
+    const {infoUserGlobal}: any = useAuthContext()
+    const parseinfo = JSON.parse(infoUserGlobal)
+    
+    
+    const [favorited, setFavorited] = useState(false)
+   
+
+    const favoriteHandler = async () => {
+        try {
+            if (!favorite) {
+                
+                
+                const programId = project.id;
+                const  userId = parseinfo.id;
+                
+                // Realiza la solicitud al servidor para añadir a favoritos
+                const { data } = await axios.post('https://juntxs.vercel.app/favorites', {
+                    userId: userId,
+                    programId: programId
+                });
+                console.log("Proyecto añadido a favoritos:", data);
+                setFavorited(true);
+                }
+
+        } catch (error) {
+            console.error("Error al añadir a favoritos:", error);
+        }
+    };
+   
 
     return (
         <>
@@ -57,6 +92,9 @@ const CardProyect: React.FC<Proyect> = ({ project }) => {
                         </button>
                         <button className={style.buttonFull}>
                             Donar Proyecto
+                        </button>
+                        <button onClick={favoriteHandler}>
+                            {favorited ? '🤍' : '❤'}
                         </button>
                     </div>
                 </div>

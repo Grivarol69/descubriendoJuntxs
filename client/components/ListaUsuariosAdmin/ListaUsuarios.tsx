@@ -35,22 +35,32 @@ const ListUsers: React.FC<useInfoType> = ({ users }) => {
                 closeModal={() => setModal(false)}
             />
             <div className={style.container}>
-                <h1>List Of Users</h1>
-                <div>
-                    {users.map((user) => {
-                        return (
-                            <>
-                                <div>
-                                    {user.name}
-                                </div>
-                            </>
-                        )
-                    })}
-                </div>
-                <div>
-                    <button className={style.buttonFull} onClick={() => setModal(true)}>Create User +</button>
+                <div className={style.cardContainer}>
+                    <div className={style.usersList}>
+                        <h1>List Of Users</h1>
+                        <div className={style.containerUsers}>
+                            {users.map((user) => {
+                                return (
+                                    <>
+                                        <div className={style.cardUser}>
+                                            <div>
+                                                {user.name}
+                                            </div>
+                                            <div className={style.role}>
+                                                {user.role}
+                                            </div>
+                                        </div>
+                                    </>
+                                )
+                            })}
+                        </div>
+                    </div>
+                    <div className='w-full'>
+                        <button className={style.buttonFull} onClick={() => setModal(true)}>Create User +</button>
+                    </div>
                 </div>
             </div>
+
         </>
     )
 }

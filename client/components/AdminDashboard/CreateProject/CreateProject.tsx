@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import {  useState } from 'react'
 import style from './CreateProject.module.css'
-// import { ProyectTypes } from '@/app/proyectos/page'
+
 import axios from 'axios'
+
 
 
 interface CreateProjectProps {
@@ -28,6 +29,12 @@ const CreateProject: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
         objective: "",
         syllabus: "",
         categoryId: 1,
+        image: null,
+    })
+    
+    
+
+        
 
     })
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,6 +51,8 @@ const CreateProject: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
             [e.target.name]: e.target.value
         })
     }
+   
+    const [file, setFile] = useState({});
 
     const handleSubmit = async () => {
         try {
@@ -73,7 +82,20 @@ const CreateProject: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
         } catch (error) {
             console.log(error);
         }
-    };
+
+        const response = await axios.post('https://juntxs.vercel.app/programs', formData, {
+    headers: {
+        'Content-Type': 'multipart/form-data'
+    }
+});
+        if (response) {
+            location.reload();
+            closeModal();
+        }
+    } catch (error) {
+        console.log(error);
+    }
+};
 
     return (
         <div className={style.background}>
@@ -110,13 +132,25 @@ const CreateProject: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
                                 <input className={style.input} type="text" name="urlYoutube" value={input.urlYoutube} onChange={handleChange} />
                             </div>
                             <div className={style.labelInput}>
-                                <label htmlFor="" >Imagen</label>
-                                <input type="file" onChange={handleFileChange} />
+                            <div className={style.labelInput}>
+                            <label htmlFor="">Imagen</label>
+                            <input
+                                className={style.input}
+                                type="file"
+                                accept="image/*"
+                                onChange={handleFileChange}
+                            />
+                        </div>
+                        {input.image && (
+                            <img src={input.image} alt="Uploaded" />
+                        )}
+
                             </div>
                         </div>
+                    
                     </form>
+                <button onClick={ handleSubmit}>Crear Proyecto</button>
 
-                    <button onClick={() => handleSubmit()}>Crear Proyecto</button>
                 </div>
             </div>
         </div>
@@ -124,3 +158,4 @@ const CreateProject: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
 }
 
 export default CreateProject
+
