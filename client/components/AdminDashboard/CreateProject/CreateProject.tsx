@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import {  useState } from 'react'
 import style from './CreateProject.module.css'
 
 import axios from 'axios'
+
 
 
 interface CreateProjectProps {
@@ -22,6 +23,11 @@ const CreateProject: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
         objective: "",
         syllabus: "",
         categoryId: 1,
+        image: null,
+    })
+    
+    
+
         
     })
     if (!modal) {
@@ -45,6 +51,8 @@ const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             [e.target.name]: e.target.value
         })
     }
+   
+    const [file, setFile] = useState({});
 
 const handleSubmit = async () => {
     try {
@@ -75,7 +83,6 @@ const handleSubmit = async () => {
         console.log(error);
     }
 };
-
     return (
         <div className={style.background}>
             <div className={style.container}>
@@ -111,13 +118,25 @@ const handleSubmit = async () => {
                                 <input className={style.input} type="text" name="urlYoutube" value={input.urlYoutube} onChange={handleChange} />
                             </div>
                             <div className={style.labelInput}>
-                                <label htmlFor="" >Imagen</label>
-                                <input type="file" onChange={handleFileChange} />
+                            <div className={style.labelInput}>
+                            <label htmlFor="">Imagen</label>
+                            <input
+                                className={style.input}
+                                type="file"
+                                accept="image/*"
+                                onChange={handleFileChange}
+                            />
+                        </div>
+                        {input.image && (
+                            <img src={input.image} alt="Uploaded" />
+                        )}
+
                             </div>
                         </div>
+                    
                     </form>
+                <button onClick={ handleSubmit}>Crear Proyecto</button>
 
-                <button onClick={() => handleSubmit()}>Crear Proyecto</button>
                 </div>
             </div>
         </div>
@@ -125,3 +144,4 @@ const handleSubmit = async () => {
 }
 
 export default CreateProject
+

@@ -3,6 +3,7 @@ import { useState } from "react"
 import CardProyect from "@/components/CardProyecto/cardProyecto"
 import SearchBar from "@/components/searchbar/SearchBar"
 import style from './projects.module.css'
+import FavoriteProject from "@/components/Favorite/Favorite"
 
 
 interface ProyectTypes {
@@ -27,7 +28,6 @@ const UserProjectsPage = () => {
     
 
     const [projects, setProjects] = useState<ProyectTypes[]>([...proyecto])
-
     return (
         <>
             <div className={style.gridContainer}>
@@ -38,14 +38,15 @@ const UserProjectsPage = () => {
                             <SearchBar
                                 seteador={setProjects}
                                 proyectos={proyecto}
-                            />
+                                />
                         </div>
                         {projects.map((proyecto) => {
                             return (
                                 <>
+                                <FavoriteProject  />
                                     <CardProyect
                                         project={proyecto}
-                                    />
+                                        />
                                 </>
                             )
                         })}
