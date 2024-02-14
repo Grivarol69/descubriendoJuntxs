@@ -1,48 +1,49 @@
 'use client'
-import { useState } from "react"
+
+import { useEffect, useState } from "react"
 import CardProyect from "@/components/CardProyecto/cardProyecto"
 import SearchBar from "@/components/searchbar/SearchBar"
 import style from './projects.module.css'
+import axios from "axios"
+import { useAuthContext } from "@/app/contexto/AuthContext"
 
 
 export interface ProyectTypes {
-    nombre: string,
-    descripcion: string,
-    meta: string,
-    comentarios: string[]
-    imagen: string,
-    rating: string
+    id: number,
+    name: string,
+    description: string,
+    dateIn: string,
+    dateOut: string,
+    urlYoutube: string,
+    objective: string,
+    syllabus: string,
+    state: string,
+    categoryId: number,
+    type: string,
+    image: string,
+    commentary: [],
 }
 
 const UserProjectsPage = () => {
 
-    const proyecto = [{
-        nombre: 'Luis',
-        descripcion: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et doloredsadas magnadasdasdsadsadsadsadsadsadas',
-        meta: 'Meta 200.000 - 300.000',
-        imagen: 'https://www.cajasietecontunegocio.com/images/recursos-humanos/rrhh-large.jpg',
-        comentarios: ['Hola', 'Adios'],
-        rating: '5'
-    },
-    {
-        nombre: 'Brigitte',
-        descripcion: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et doloredsadas magnadasdasdsadsadsadsadsadsadas',
-        meta: 'Meta 200.000 - 300.000',
-        imagen: 'https://s1.abcstatics.com/media/bienestar/2021/02/04/risa-k60E--1248x698@abc.jpg',
-        comentarios: ['Hola', 'Adios'],
-        rating: '5'
-    },
-    {
-        nombre: 'Luci',
-        descripcion: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et doloredsadas magnadasdasdsadsadsadsadsadsadas',
-        meta: 'Meta 200.000 - 300.000',
-        imagen: 'https://previews.123rf.com/images/leventegyori/leventegyori1506/leventegyori150600375/41665806-retrato-mayor-de-la-se%C3%B1ora.jpg',
-        comentarios: ['Hola', 'Adios'],
-        rating: '5'
-    }
-    ]
+    const { infoUserGlobal } = useAuthContext()
+    const [projects, setProjects] = useState<ProyectTypes[]>([]) 
+    const infoParseada = JSON.parse(infoUserGlobal ?? '')
 
-    const [projects, setProjects] = useState<ProyectTypes[]>([...proyecto])
+    const fetcheoFavoritos = async () => {
+        try {
+            const userId: number = infoParseada.id ?? ''
+            
+            const projectsFetch: ProyectTypes[] = (await axios(`https://juntxs.vercel.app/users/favorites/${userId}`)).data
+            if(projectsFetch) return setProjects(projectsFetch)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    
+    useEffect(() => {
+        fetcheoFavoritos()
+    }, [])
 
     return (
         <>
@@ -51,12 +52,8 @@ const UserProjectsPage = () => {
                     <div className={style.container}>
                         <div className={style.topInfoContainer}>
                             <div className={style.titlePage}>Proyectos Favoritos</div>
-                            <SearchBar
-                                seteador={setProjects}
-                                proyectos={proyecto}
-                            />
                         </div>
-                        {projects.map((proyecto) => {
+                        {projects?.map((proyecto) => {
                             return (
                                 <>
                                     <CardProyect
