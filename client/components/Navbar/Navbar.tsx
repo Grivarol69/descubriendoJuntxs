@@ -40,6 +40,7 @@ const Navbar = () => {
   const typeUser: string = infoUserParse?.role
 
   useEffect(() => {
+
     document.addEventListener('mousedown', handleClickOutside)
 
     return () => {
@@ -56,8 +57,6 @@ const Navbar = () => {
   console.log(logged);
 
   return (
-
-
     <nav className={path.includes('/pages/user') || path.includes('/pages/admin') ? 'flex w-full bg-white items-center justify-between px-[20px] py-[16px]  lg:mx-auto lg:px-15 shadow-custom fixed z-[1000]' : "flex w-full bg-white items-center justify-between px-[20px] py-[16px] lg:mx-auto lg:px-15"} >
       <div className="flex items-center">
         <Image src={Logo} alt="Logo" />
@@ -76,7 +75,7 @@ const Navbar = () => {
       <div className="flex items-center gap-x-5 justify-center">
         {logged === 'false' && <div className="flex items-center gap-x-5">
           <p className="hidden lg:block font-medium text-[#36485C] pr-[10px]">
-            <Link href="/pages/signin">Ingreso</Link>
+                <Link href="/pages/signin">Ingreso</Link>
           </p>
 
           <div className="flex items-center gap-x-2 justify-center">
@@ -94,12 +93,14 @@ const Navbar = () => {
               ref={componentRef}
 
               className="flex max-h-4 w-10 h-10 max-w-10 justify-center items-center">
+              
               <div
                 onClick={() => !toggle ? setToggle(true) : setToggle(false)}
                 className="flex w-8 h-8 bg-slate-600 rounded-[100%] cursor-pointer">
+    
               </div>
               <div
-                className="w-fit h-fit">
+                className="w-fit h-fit z-20">
                 <PerfilTogle
                   toggle={toggle}
                   logOut={() => {

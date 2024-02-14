@@ -17,6 +17,7 @@ const CreateProject: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
     const URL_BASE = "https://juntxs.vercel.app/"
 
     const [input, setInput] = useState({
+        image: null as File | null,
         // id: "",
         name: "",
         description: "",
@@ -32,6 +33,15 @@ const CreateProject: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
     
     
 
+        
+    })
+const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+        setInput({ ...input, image: e.target.files[0] });
+    } else {
+        setInput({ ...input, image: null });
+    }
+};
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault()
         setInput({
@@ -42,41 +52,35 @@ const CreateProject: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
    
     const [file, setFile] = useState({});
 
-    const handleSubmit = async (event: any) => {
-        event.preventDefault();
-        try {
-            const formData = new FormData();
-            formData.append('name', input.name);
-            formData.append('description', input.description);
-            formData.append('urlYoutube', input.urlYoutube);
-            formData.append('objective', input.objective);
-            formData.append('syllabus', input.syllabus);
-            formData.append( 'categoryId' , String(input.categoryId));
-            formData.append('state', input.state);
-            formData.append('image', file.File);
+const handleSubmit = async () => {
+    try {
+        const formData = new FormData();
+        formData.append('name', input.name);
+        formData.append('description', input.description);
+        formData.append('objective', input.objective);
+        formData.append('dateIn', input.dateIn);
+        formData.append('dateOut', input.dateOut);
+        formData.append('state', input.state);
+        formData.append('syllabus', input.syllabus);
+        formData.append('urlYoutube', input.urlYoutube);
+        formData.append('categoryId', String(input.categoryId));
 
-            
-            // Asegúrate de tener el archivo adjunto en la variable `file`
-            
-            
-            
-            console.log('FormData:', formData.get('image', file));
-            
-            const response = await axios.post('https://juntxs.vercel.app/programs', {formData});
-            console.log('Response:', response);
-        } catch (error) {
-            console.log('Error:', error);
+        if (input.image) {
+            formData.append('', input.image);
         }
-    };
-       
-        
-    const handleFileChange = (event: any) => {
-        console.log('holi', event.target.files[0]);
-        
-        setFile(event.target.files[0]);
-        
-        
+        const response = await axios.post('https://juntxs.vercel.app/programs', formData, {
+    headers: {
+        'Content-Type': 'multipart/form-data'
     }
+});
+        if (response) {
+            location.reload();
+            closeModal();
+        }
+    } catch (error) {
+        console.log(error);
+    }
+};
     return (
         <div className={style.background}>
             <div className={style.container}>
@@ -124,11 +128,13 @@ const CreateProject: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
                         {input.image && (
                             <img src={input.image} alt="Uploaded" />
                         )}
+
                             </div>
                         </div>
                     
                     </form>
                 <button onClick={ handleSubmit}>Crear Proyecto</button>
+
                 </div>
             </div>
         </div>

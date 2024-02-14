@@ -6,7 +6,11 @@ const prisma = new PrismaClient();
 
 const getDonations = async (_req: Request, res: Response) => {
     try {
-        const donations = await prisma.donation.findMany();
+        const donations = await prisma.donation.findMany({
+            include: {
+                user: true,
+            },
+        });
         const donationsWithTransactionIdAsString = donations.map(donation => {
             const { transactionId, ...otherProps } = donation;
             return { ...otherProps, transactionId: transactionId.toString() };
@@ -19,31 +23,20 @@ const getDonations = async (_req: Request, res: Response) => {
 }
 
 const getDonationsByProgram = async (req: Request, res: Response) => {
-
     try {
-        // Obtener programId del query string y convertirlo a número
-        const programId = req.query.programId;
-        if (!programId || typeof programId !== 'string') {
-            throw new Error('programId is missing or invalid');
-        }
-        const programIdNumber = Number(programId);
-        if (isNaN(programIdNumber)) {
-            throw new Error('programId is not a valid number');
-        }
-
-        // Buscar donaciones por programId
-        const donations = await prisma.donation.findMany({
+        const { id } = req.params;
+        const donations = await prisma.donation.findUnique({
             where: {
-                programId: programIdNumber
-
+                id: Number(id)
+            },
+            include: {
+                program: true
             }
         });
 
-        // Enviar respuesta con las donaciones encontradas
         res.status(200).json(donations);
-    } catch (error: any) {
-        // Manejar errores
-        res.status(500).json({ error: error.message });
+    } catch (error) {
+        console.log(error);
     }
 }
 
@@ -51,18 +44,17 @@ const getDonationsByProgram = async (req: Request, res: Response) => {
 
 const getDonationsByUser = async (req: Request, res: Response) => {
 
-    const { userId } = req.query;
-
     try {
-        const donation = await prisma.donation.findMany({
+        const { id } = req.params;
+        const category = await prisma.donation.findUnique({
             where: {
-                userId: Number(userId)
-            }
+                id: Number(id)
+            },
         });
-
-        res.status(200).json(donation);
+        res.json(category)
     } catch (error) {
-        handleHttp(res, 'ERROR_GET_DonationsByUser')
+        console.log(error)
+        handleHttp(res, 'ERROR_GET_CATEGORY')
     }
 }
 
@@ -83,17 +75,16 @@ const getDonationsByUserAndProgram = async (req: Request, res: Response) => {
 }
 
 const postDonation = async (req: Request, res: Response) => {
-
     const { programId, userId, amount, date, type, frequency, message, contact_phone, contact_email, state, transactionId } = req.body;
 
     try {
         const newDonation = await prisma.donation.create({
             data: {
                 programId: programId && programId,
-                transactionId: transactionId ? Number(transactionId) : 0,
+                transactionId: transactionId ? transactionId : "0",
                 userId: userId && userId,
                 amount: amount && amount as number,
-                date: date && date as Date,
+                date: date ? new Date(date) : new Date(),
                 type: type && type as string,
                 frequency: frequency && frequency as string,
                 message: message && message as string,
@@ -103,10 +94,11 @@ const postDonation = async (req: Request, res: Response) => {
             }
         });
 
-
-        res.status(200).json(newDonation);
+        const donationResponse = { ...newDonation, transactionId: newDonation.transactionId.toString() };
+        res.status(200).json(donationResponse);
 
     } catch (error: any) {
+        console.log(error)
         res.status(500).json({ error: error.message });
     }
 }

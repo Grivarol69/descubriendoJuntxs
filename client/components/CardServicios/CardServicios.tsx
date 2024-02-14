@@ -1,74 +1,107 @@
-import React, { useState } from 'react';
+'use client'
+import React, { useEffect, useRef, useState } from 'react';
 import style from './CardServicios.module.css';
-import Link from 'next/link';
-import ModalServicio from './Modal/ModalServicio';
+import AgendarComponente from './AgendarComponent/TallerModal';
+import axios from 'axios';
+import CoachingComponent from './AgendarComponent/CoachingModal';
+import TallerModal from './AgendarComponent/TallerModal';
+import RetiroModal from './AgendarComponent/RetiroModal';
 
-export interface Servicio {
+export interface ServicioTypes {
   nombre: string;
   descripcion: string;
   comentarios: string[];
-  imagen: string; // Agregar la propiedad imagen
+  imagen: string;
   id?: number;
   ruta?: string;
 }
 
 interface CardServiciosProps {
-  servicios: Servicio[];
+  servicio: ServicioTypes;
 }
 
-const CardServicios: React.FC<CardServiciosProps> = ({ servicios }) => {
-  const [selectedService, setSelectedService] = useState<Servicio | null>(null);
+const CardServicios: React.FC<CardServiciosProps> = ({ servicio }) => {
 
-  const openModal = (servicio: Servicio) => {
-    setSelectedService(servicio);
-  };
+  const [modal, setModal] = useState(false)
+  const [modalTaller, setModalTaller] = useState(false)
+  const [modalRetiros, setModalRetiros] = useState(false)
+  const [coaches, setCoaches] = useState([])
+  const [services, setServices] = useState([])
+  const [retiros, setRetiros] = useState([])
 
-  const closeModal = () => {
-    setSelectedService(null);
-  };
+  const getUser = 'https://juntxs.vercel.app/users/Coach'
 
+
+  useEffect(() => {
+
+    //Fetcheadores
+    const getRetiros = async () => {
+      try {
+        setRetiros(await (await axios('https://juntxs.vercel.app/services/retiro')).data)
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    const getServices = async () => {
+      try {
+        setServices(await (await axios('https://juntxs.vercel.app/services/taller')).data)
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    const getCoaches = async () => {
+      try {
+        const getUserCoaches: any = (await axios(getUser)).data
+        if (getUserCoaches) {
+          setCoaches(getUserCoaches)
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    //Ejecuciones
+    getRetiros()
+    getServices()
+    getCoaches()
+  }, [])
   return (
-    <>
-      {selectedService && (
-        <div className={style.ModalView}>
-          <ModalServicio
-            openModal={true}
-            closeModal={closeModal}
-            servicio={selectedService}
-          />
-        </div>
-      )}
-      <div className={style.cardContainer}>
-        {servicios.map((servicio) => (
-          <div key={servicio.id} className={style.card}>
-            <h3>{servicio.nombre}</h3>
-            <div className={style.infoContainer}>
-              <p>{servicio.descripcion}</p>
-              <div className={style.buttonContainer}>
-                <button className={style.buttonText} onClick={() => openModal(servicio)}>
-                  Realizar Donación
-                </button>
-                <Link href={servicio.ruta || ''}>
-                  <button className={style.buttonFull}>
-                    Agendar
-                  </button>
-                </Link>
-              </div>
+    <div>
+      <RetiroModal
+        modal={modalRetiros}
+        closeModal={() => setModalRetiros(false)}
+        retiros={retiros}
+      />
+      <TallerModal
+        modal={modalTaller}
+        closeModal={() => setModalTaller(false)}
+        talleres={services}
+      />
+      <CoachingComponent
+        modal={modal}
+        closeModal={() => setModal(false)}
+        coaches={coaches}
+      />
+      <div className={style.cardContainer} key={servicio.nombre}>
+        <div className={style.infoContainer}>
+          <div className={style.titleAndDescription}>
+            <h1 className={style.title}>{servicio.nombre}</h1>
+            <div className={style.containerDesc}>
+              <p className={style.description}>{servicio.descripcion}</p>
             </div>
-            {servicio.comentarios && (
-              <div>
-                <h4>Comentarios:</h4>
-                <ul>
-                  {servicio.comentarios.map((comentario, commentIndex) => (
-                    <li key={commentIndex}>{comentario}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
           </div>
-        ))}
+          <div className={style.buttonContainer}>
+            <button onClick={() => {
+              if (servicio.nombre === 'Coaching') return setModal(true)
+              if (servicio.nombre === 'Talleres') return setModalTaller(true)
+              if (servicio.nombre === 'Retiros') return setModalRetiros(true)
+            }} className={style.buttonFull}>Agendar</button>
+          </div>
+        </div>
+        <div className={style.imageContainer}>
+          <img className={style.image} src={servicio.imagen} alt="no se pudo" />
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 

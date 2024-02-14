@@ -1,10 +1,11 @@
-
-import React, { useEffect } from "react";
+'use client'
 import "./modal.css"
-import { useState } from "react"
-
 import Link from "next/link";
+import React, { useContext, useEffect } from "react";
+import { useState } from "react"
 import { icons } from '../Icons/Icons';
+import { useAuthContext } from "@/app/contexto/AuthContext";
+
 
 interface ModalProjectProps {
     openModal: boolean;
@@ -22,30 +23,70 @@ interface ModalProjectProps {
         categoryId: number,
         type: string,
         image: string,
-        commentary: [],
         favorite:{
             userId: number,
             programId: number
         }
-    }
+
+        donation: [],
+        commentary: Comment[],
+    },
+    socket: any
 }
 
-const ModalProject: React.FC<ModalProjectProps> = ({ openModal, closeModal, project }) => {
-    if (!openModal) return null
-    const { name, description, image, objective, commentary } = project;
-    const [MostrarComentario, setMostrarComentario] = useState(false)
+type Comment = {
+    userId: number,
+    programId: number,
+    commentary: string
+}
 
+const ModalProject: React.FC<ModalProjectProps> = ({ openModal, closeModal, project, socket }) => {
+    const { name, description, image, objective, commentary, id } = project;
+    const { infoUserGlobal } = useAuthContext()
+    const [MostrarComentario, setMostrarComentario] = useState(false)
+    const [newCommentary, setNewCommentary] = useState('')
+    const [allCommentaries, setAllCommentaries] = useState(commentary)
+    //importación del usuario con el auth context
+    const parseInfo = JSON.parse(infoUserGlobal ?? '')
+    //importación del socket con SocketContext
+    socket.on('newCommentary', (newComment: Comment) => {
+        setAllCommentaries([...allCommentaries, newComment])
+    })
+    socket.on('commentaryError', ({ error }: { error: any }) => {
+        alert(error)
+    })
     useEffect(() => {
         document.body.style.overflow = 'hidden';
-
         return () => {
             document.body.style.overflow = 'visible';
         };
     }, [])
+
+    // tamaño de los comentarios
+    let totalCommentaries = allCommentaries.length
+    //Función para enviar comentarios con socket
+    const sendMessage = () => {
+        try {
+            const data = {
+                programId: id,
+                userId: parseInfo.id,
+                commentary: newCommentary
+            }
+            socket.emit('commentary', data)
+            setNewCommentary('')
+
+        } catch (error) {
+            alert(error);
+        }
+    }
+
+    //Función que captura la info del text área del comentario
+    const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setNewCommentary(event.target.value)
+    }
+    
     if (!openModal) return null
-
     return (
-
         <>
             <div className="padreProyect">
                 <div className="proyectLetra">
@@ -56,7 +97,10 @@ const ModalProject: React.FC<ModalProjectProps> = ({ openModal, closeModal, proj
                         <div className="closeModal">
                             <button
                                 className="closeModalTransition"
-                                onClick={() => closeModal()}>
+                                onClick={() => {
+                                    closeModal()
+                                    location.reload();
+                                    }}>
                                 <img src={icons.close.src} alt="" />
                             </button>
                         </div>
@@ -79,36 +123,39 @@ const ModalProject: React.FC<ModalProjectProps> = ({ openModal, closeModal, proj
                                     }
                                     {MostrarComentario && (
                                         <>
-                                            <h2 className="titleComments" >30 Comentarios</h2>
+                                            <h2 className="titleComments" >{totalCommentaries} {Number(totalCommentaries) === 1 ? 'comentario' : 'comentarios'}</h2>
                                             <ul className="commentsStyle">
-                                                {commentary && commentary.map((comentario, index) => (
-                                                    <div>
-
-                                                        <div className="titleComment">
-                                                            nombre user
-                                                            <div className="likeDislike">
-                                                                <div>Like</div>
-                                                                <div>Dislike</div>
+                                                {allCommentaries.map((comentario: any, index) => {
+                                                    return (
+                                                        <div key={index}>
+                                                            <div className="titleComment">
+                                                                {comentario.userId}
                                                             </div>
+                                                            <li className="commentBox">{comentario.commentary}</li>
                                                         </div>
-                                                        <li className="commentBox" key={index}>{comentario}</li>
-                                                    </div>
-                                                ))}
+                                                    )
+                                                })}
                                             </ul>
+                                            <div className="flex w-full h-150 items-center justify-center gap-4" >
+                                                <textarea className="messageTextSend" style={{ maxHeight: '10rem' }} value={newCommentary} onChange={handleChange}></textarea>
+                                                <button className="flex min-w-8 justify-center align-middle" onClick={() => sendMessage()}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#131142"><path d="M0 0h24v24H0V0z" fill="none" /><path d="M4.01 6.03l7.51 3.22-7.52-1 .01-2.22m7.5 8.72L4 17.97v-2.22l7.51-1M2.01 3L2 10l15 2-15 2 .01 7L23 12 2.01 3z" /></svg>
+                                                </button>
+                                            </div>
                                         </>
                                     )}
                                 </div>
-                                <div className="buttonsContainer">
-                                    <p className="meta">{objective}</p>
-                                    <Link href="/donaciones">
-                                        <button className="buttonFull"> Donar Proyecto </button>
-                                    </Link>
-                                </div>
+                                {!MostrarComentario &&
+                                    <div className="buttonsContainer">
+                                        <p className="meta">{objective}</p>
+                                        <Link href="/donaciones">
+                                            <button className="buttonFull"> Donar Proyecto </button>
+                                        </Link>
+                                    </div>}
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
         </>
     )

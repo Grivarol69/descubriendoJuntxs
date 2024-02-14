@@ -16,7 +16,6 @@
     transform: scale(1.05);
 }
 
-
 .infoContainer {
     display: flex;
     justify-content: center;
@@ -185,3 +184,27 @@
     }
     
 }
+
+@media (max-width: 768px) {
+    .cardContainer {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+        width: 90vw;
+        height: auto;
+    }
+
+    .imageContainer {
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 1;
+        grid-row-end: 2;
+    }
+
+    .infoContainer {
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 2;
+        grid-row-end: 3;
+    }
+}
+

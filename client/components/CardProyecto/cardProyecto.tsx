@@ -2,12 +2,13 @@
 import  {  useState } from "react"
 import style from './card.module.css'
 import ModalProject from "../modal/Modal"
+import { useSocketContext } from "@/app/contexto/SocketContext";
 import { useAuthContext } from "@/app/contexto/AuthContext"
 import axios from 'axios'
 
 export interface Proyect {
     project: {
-        id: number
+        id: number,
         name: string,
         description: string,
         dateIn: string,
@@ -31,6 +32,8 @@ export interface Proyect {
 const CardProyect: React.FC<Proyect> = ({ project }) => {
 
     const { name, description, image, objective, favorite} = project
+    const { socket } = useSocketContext()
+
     const [modal, setModal] = useState(false)
     const {infoUserGlobal}: any = useAuthContext()
     const parseinfo = JSON.parse(infoUserGlobal)
@@ -69,6 +72,7 @@ const CardProyect: React.FC<Proyect> = ({ project }) => {
                     openModal={modal}
                     closeModal={() => setModal(false)}
                     project={project}
+                    socket={socket}
                 />
             </div>}
             <div className={style.cardContainer}>

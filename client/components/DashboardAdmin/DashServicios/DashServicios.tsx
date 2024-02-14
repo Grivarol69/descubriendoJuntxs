@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 import style from './DashServicios.module.css';
 
 export interface Servicio {
@@ -13,19 +12,16 @@ export interface Servicio {
 
 interface DashServiciosProps {
   servicios: Servicio[];
-  openModal: (servicio: Servicio) => void;
 }
 
-const DashServicios: React.FC<DashServiciosProps> = ({ servicios, openModal }) => {
+const DashServicios: React.FC<DashServiciosProps> = ({ servicios }) => {
   return (
-    <div className={style.dashboardContainer}>
-      <div className={style.servicesContainer}>
+    <div>
+      <div>
         <ul>
           {servicios.map((servicio, index) => (
             <li key={index}>
-              <button onClick={() => openModal(servicio)}>
-                {servicio.nombre}
-              </button>
+              <button>{servicio.nombre}</button>
             </li>
           ))}
         </ul>

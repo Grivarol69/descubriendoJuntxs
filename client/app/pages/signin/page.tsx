@@ -26,6 +26,7 @@ const SignInPage = () => {
         password: ''
     });
     const { persistirSesion } = useAuthContext()
+
     const urlGlobal = 'https://juntxs.vercel.app/'
     const [errorMessage, setErrorMessage] = useState('');
 

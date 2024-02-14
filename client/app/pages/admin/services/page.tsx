@@ -1,90 +1,70 @@
 'use client'
-import React, { useState } from 'react';
-import DashServicios, { Servicio } from '../../../../components/DashboardAdmin/DashServicios/DashServicios';
-import ModalServicio from '../../../../components/CardServicios/Modal/ModalServicio';
-import style from './ServiciosPage.module.css';
-import Link from 'next/link';
+import React, { useEffect, useState } from 'react';
+import Axios from 'axios';
+import ServiciosServer from '@/app/serverC/serverServicios/server.component';
 
-const ServiciosPage: React.FC = () => {
-  const talleres: Servicio[] = [
-    {
-      nombre: 'Taller A',
-      descripcion: 'Descripción del Taller A',
-      imagen: 'URL de la imagen del Taller A',
-      comentarios: ['Comentario Taller A'],
-    },
-    {
-      nombre: 'Taller B',
-      descripcion: 'Descripción del Taller B',
-      imagen: 'URL de la imagen del Taller B',
-      comentarios: ['Comentario Taller B'],
-    },
-  ];
+export interface Servicio {
+  name: string;
+  description: string;
+  comentarios: string[];
+  imagen: string;
+  id?: number;
+  ruta?: string;
+}
 
-  const retiros: Servicio[] = [
-    {
-      nombre: 'Retiro X',
-      descripcion: 'Descripción del Retiro X',
-      imagen: 'URL de la imagen del Retiro X',
-      comentarios: ['Comentario Retiro X'],
-    },
-    {
-      nombre: 'Retiro Y',
-      descripcion: 'Descripción del Retiro Y',
-      imagen: 'URL de la imagen del Retiro Y',
-      comentarios: ['Comentario Retiro Y'],
-    },
-  ];
+export interface ServicioTypes {
+  name: string;
+  description: string;
+  comentarios: string[];
+  imagen: string;
+  id?: number;
+  ruta?: string;
+  date: string | number;
+  dateIn: string | number;
+  dateOut: string | number;
+  type: string;
+}
 
-  const coaching: Servicio = {
-    nombre: 'Coaching',
-    descripcion: 'Descripción del servicio de Coaching Personalizado',
-    imagen: 'URL de la imagen del coaching',
-    comentarios: ['Comentario 1', 'Comentario 2'],
+const ServicesPage: React.FC = () => {
+  const [servicios, setServicios] = useState<Servicio[]>([]);
+
+  useEffect(() => {
+    Axios.get('https://juntxs.vercel.app/services')
+      .then(response => {
+        const data = response.data.map((servicioFromServer: any) => {
+          return {
+            ...servicioFromServer,
+            name: servicioFromServer.name,
+            date: servicioFromServer.date,
+          };
+        });
+        setServicios(data);
+        console.log('Data from API:', data);
+      })
+      .catch(error => console.error('Error fetching services:', error));
+  }, []);
+
+  const newService = {
+    name: 'Nuevo servicio',
+    description: 'Descripción del nuevo servicio',
+    userId: 1,
+    categoryId: 1,
+    dateIn: new Date("2024-02-13T00:00:00").toISOString(),
+    dateOut: new Date("2024-02-13T23:59:59").toISOString(),
+    hourIn: "11",
+    hourOut: "10",
+    amount: 100,
+    objective: "Objetivo del servicio",
+    syllabus: "Sílabo del servicio",
+    type: "coaching",
+    state: "Estado del servicio",
   };
-
-  const [selectedService, setSelectedService] = useState<Servicio | null>(null);
-
-  const openModal = (servicio: Servicio) => {
-    setSelectedService(servicio);
-  };
-
-  const closeModal = () => {
-    setSelectedService(null);
-  };
-
-  const [modal, setModal] = useState(false);
 
   return (
     <>
-      <DashServicios servicios={talleres} openModal={openModal} />
-      <div className={style.container}>
-        {/* Render talleres */}
-        {talleres.map((servicio, index) => (
-          <DashServicios key={index} servicios={[servicio]} openModal={() => openModal(servicio)} />
-        ))}
-
-        {/* Render retiros */}
-        {retiros.map((servicio, index) => (
-          <DashServicios key={index} servicios={[servicio]} openModal={() => openModal(servicio)} />
-        ))}
-
-        {/* Render coaching */}
-        <DashServicios servicios={[coaching]} openModal={() => openModal(coaching)} />
-
-        <Link href="/admin/services">
-          <button className={style.buttonFull} onClick={() => setModal(true)}>
-            Open Modal
-          </button>
-        </Link>
-      </div>
-
-      {/* Render ModalServicio with selectedService if it exists */}
-      {selectedService && (
-        <ModalServicio openModal={modal} closeModal={closeModal} servicio={selectedService} />
-      )}
+      <ServiciosServer servicios={servicios} />
     </>
   );
 };
 
-export default ServiciosPage;
+export default ServicesPage;

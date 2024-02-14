@@ -11,6 +11,7 @@ import favorites from "./favorites";
 import commentaries from "./commentaries";
 import createUser from "./auth";
 import nodemailer from "./mail";
+import upload from "./upload";
 
 
 import donations from "./donationsRoute";
@@ -56,9 +57,7 @@ router.use('/payments', payments);
 router.use('/favorites', favorites);
 router.use('/commentaries', commentaries);
 router.use('/donations', donations);
-
-
-router.use('/payments', payments);
+router.use('/upload', upload)
 router.use('/nodemailer', nodemailer);
 
 

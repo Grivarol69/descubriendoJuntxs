@@ -20,8 +20,8 @@ const RedirectPage: React.FC = () => {
   useEffect(() => {
     setNextButtonDisabled(
       selectedDonationType !== "recurrente" &&
-        selectedDonationType !== "en_especie" &&
-        selectedDonationType !== "corporativa"
+      selectedDonationType !== "en_especie" &&
+      selectedDonationType !== "corporativa"
     );
   }, [selectedDonationType]);
 
@@ -29,8 +29,8 @@ const RedirectPage: React.FC = () => {
     if (selectedDonationType === "corporativa")
       return "/donaciones/corporativa";
     if (selectedDonationType === "en_especie") return "/donaciones/especie";
-    if (selectedDonationType === "recurrente") return "/donaciones/recurrente";
-    return "/donaciones/recurrente";
+    if (selectedDonationType === "recurrente") return "/donaciones/unica";
+    return "/donaciones/unica";
   };
 
   const finalUrl = linkPage();
@@ -48,9 +48,10 @@ const RedirectPage: React.FC = () => {
 
 
   return (
-    <div className="w-11/12 h-5/6 border-2 border-blue-400 rounded-2xl shadow-2xl flex">
+    // <div className="w-11/12 h-5/6 border-2 border-blue-400 rounded-2xl shadow-2xl flex flex-col items-center text-center py-4 md:py-8 lg:py-12 md:flex-row">
+    <div className="w-11/12 h-5/6 border-2 border-blue-400 rounded-2xl shadow-2xl flex flex-col items-center text-center py-4 md:py-8 lg:py-12 md:flex-row">
       <div className=" w-1/3 h-full overflow-hidden flex justify-center items-center ">
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center md:justify-items-start">
           <div className="flex justify-center items-center object-contain h-full w-full">
             <Image
               src={Donaciones}
@@ -62,13 +63,14 @@ const RedirectPage: React.FC = () => {
         </div>
       </div>
 
+
       <div className="w-2/3 h-full flex justify-center">
         <div className=" w-3/4 h-full  flex flex-col justify-center gap-10">
           <h1 className="text-3xl">Tipo de Donaciones</h1>
           <form className=" flex flex-col gap-2">
-            <div>
+            <div className="flex flex-col items-start">
               <label>
-                <strong className="text-lg">Recurrente</strong>
+                <strong className="text-lg">Única</strong>
                 <input
                   type="checkbox"
                   value="recurrente"
@@ -80,11 +82,10 @@ const RedirectPage: React.FC = () => {
                 style={{ color: "#555", textAlign: "left" }}
                 className="text-lg"
               >
-                Podrás pagar como si fuera una suscripción, eligiendo la
-                frecuencia mensual.
+                Podrás realizar una donación mediante un único pago.
               </p>
             </div>
-            <div>
+            <div className="flex flex-col items-start">
               <label>
                 <strong className="text-lg">En Especie</strong>
                 <input
@@ -101,7 +102,7 @@ const RedirectPage: React.FC = () => {
                 Puedes donar con bienes físicos o servicios en lugar de dinero.
               </p>
             </div>
-            <div>
+            <div className="flex flex-col items-start">
               <label>
                 <strong className="text-lg">Corporativa</strong>
                 <input
@@ -126,7 +127,7 @@ const RedirectPage: React.FC = () => {
                 style={buttonStyle}
                 className={buttonClasses}
               >
-            
+
                 {nextButtonDisabled
                   ? "Seleccione al menos una opción"
                   : "Siguiente"}
