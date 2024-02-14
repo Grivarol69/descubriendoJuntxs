@@ -1,5 +1,6 @@
 import {  useState } from 'react'
 import style from './CreateProject.module.css'
+
 import axios from 'axios'
 
 
@@ -34,14 +35,15 @@ const CreateProject: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
     
 
         
+
     })
-const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-        setInput({ ...input, image: e.target.files[0] });
-    } else {
-        setInput({ ...input, image: null });
-    }
-};
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files.length > 0) {
+            setInput({ ...input, image: e.target.files[0] });
+        } else {
+            setInput({ ...input, image: null });
+        }
+    };
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault()
         setInput({
@@ -52,22 +54,35 @@ const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
    
     const [file, setFile] = useState({});
 
-const handleSubmit = async () => {
-    try {
-        const formData = new FormData();
-        formData.append('name', input.name);
-        formData.append('description', input.description);
-        formData.append('objective', input.objective);
-        formData.append('dateIn', input.dateIn);
-        formData.append('dateOut', input.dateOut);
-        formData.append('state', input.state);
-        formData.append('syllabus', input.syllabus);
-        formData.append('urlYoutube', input.urlYoutube);
-        formData.append('categoryId', String(input.categoryId));
+    const handleSubmit = async () => {
+        try {
+            const formData = new FormData();
+            formData.append('name', input.name);
+            formData.append('description', input.description);
+            formData.append('objective', input.objective);
+            formData.append('dateIn', input.dateIn);
+            formData.append('dateOut', input.dateOut);
+            formData.append('state', input.state);
+            formData.append('syllabus', input.syllabus);
+            formData.append('urlYoutube', input.urlYoutube);
+            formData.append('categoryId', String(input.categoryId));
 
-        if (input.image) {
-            formData.append('', input.image);
+            if (input.image) {
+                formData.append('', input.image);
+            }
+            const response = await axios.post('https://juntxs.vercel.app/programs', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            if (response) {
+                location.reload();
+                closeModal();
+            }
+        } catch (error) {
+            console.log(error);
         }
+
         const response = await axios.post('https://juntxs.vercel.app/programs', formData, {
     headers: {
         'Content-Type': 'multipart/form-data'
@@ -81,6 +96,7 @@ const handleSubmit = async () => {
         console.log(error);
     }
 };
+
     return (
         <div className={style.background}>
             <div className={style.container}>
