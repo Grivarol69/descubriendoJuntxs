@@ -74,6 +74,9 @@ const getProgramById = async (req: Request, res: Response) => {
         const program = await prisma.program.findUnique({
             where: {
                 id: Number(id)
+            },
+            include: {
+                donation: true,
             }
         });
 

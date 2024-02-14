@@ -32,11 +32,11 @@ const postUser = async ({ body }: Request, res: Response) => {
                 }
             })
             res.status(200).json(newUser);
-        } else 
-        res.status(400).json({
-            status: false,
-            message: 'No se pudo crear el usuario'
-        });
+        } else
+            res.status(400).json({
+                status: false,
+                message: 'No se pudo crear el usuario'
+            });
 
     } catch (error) {
         console.error('Error creating user:', error);
@@ -113,10 +113,73 @@ const getAllUsers = async (_req: Request, res: Response) => {
         handleHttp(res, 'ERROR_GET_ALL_USERS');
     }
 }
+
+const getUserByDonations = async (_req: Request, _res: Response) => {
+    try {
+        const { id } = _req.params
+        const response = await prisma.user.findUnique({
+            where: {
+                id: Number(id)
+            },
+            include: {
+                donation: {
+                    include: {
+                        program: true
+                    }
+                }
+            }
+        })
+        _res.json(response)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const getUserFavorites = async (_req: Request, _res: Response) => {
+    try {
+        const { id } = _req.params
+        const response = await prisma.user.findUnique({
+            where: {
+                id: Number(id)
+            },
+            include: {
+                favorite: {
+                    include: {
+                        program: true
+                    }
+                }
+            }
+        })
+        _res.json(response)
+    } catch (error) {
+        // manejar el error
+    }
+}
+
+const getUserService = async (_req: Request, _res: Response) => {
+    try {
+        const { id } = _req.params
+        const response = await prisma.user.findUnique({
+            where: {
+                id: Number(id)
+            },
+            include: {
+                service: true
+            }
+        })
+        _res.json(response)
+    } catch (error) {
+        // manejar el error
+    }
+
+}
 export {
     postUser,
     updateUserById,
     getUsersByRole,
     getAllUsers,
-    getUserByEmail
+    getUserByEmail,
+    getUserByDonations,
+    getUserFavorites,
+    getUserService
 }

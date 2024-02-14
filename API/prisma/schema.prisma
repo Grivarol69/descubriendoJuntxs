@@ -66,14 +66,14 @@ model Service {
   description String
   userId Int
   categoryId Int
-  dateIn DateTime? @default(now())
+  dateIn DateTime? 
   dateOut DateTime?
-  hourIn DateTime?
-  hourOut DateTime?
+  hourIn String
+  hourOut String
   amount Float
   objective String?
   syllabus String?
-  type ServiceType @default(Coaching)
+  type ServiceType 
   state ServiceState @default(Activo)
   user User @relation(fields: [userId], references: [id])
   category Category @relation(fields: [categoryId], references: [id])
@@ -162,9 +162,9 @@ enum DonationType {
 }
 
 enum ServiceType {
-  Coaching
-  Taller
-  Retiro
+  coaching
+  taller
+  retiro
 }
 
 enum ServiceState {
