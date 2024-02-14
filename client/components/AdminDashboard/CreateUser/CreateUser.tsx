@@ -9,12 +9,12 @@ interface CreateProjectProps {
     closeModal: () => void
 }
 
+const URL_BASE = "https://juntxs.vercel.app/"
+
 const CreateUser: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
     if (!modal) {
         return null
     }
-
-    const URL_BASE = "https://juntxs.vercel.app/"
 
     const [input, setInput] = useState({
         email: "",
@@ -31,13 +31,42 @@ const CreateUser: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
         password: ""
     })
 
+    const [errors, setErrors] = useState({
+        email: '',
+        password: ''
+    })
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
         e.preventDefault()
         setInput({
             ...input,
             [e.target.name]: e.target.value
         })
+        let error = '';
+
+        switch (name) {
+            case 'email':
+                if (!value) {
+                    error = 'El correo electrónico es obligatorio';
+                } else if (!/\S+@\S+\.\S+/.test(value)) {
+                    error = 'El correo electrónico no es válido';
+                }
+                break;
+            case 'password':
+                if (!value) {
+                    error = 'La contraseña es obligatoria';
+                } else {
+                    if (value.length < 7 || !/[A-Za-z]/.test(value) || !/\d/.test(value)) {
+                        error = 'La contraseña debe tener al menos 7 caracteres, un numero y una letra';
+                    }
+                }
+                break;
+        }
+        setErrors(prevState => ({
+            ...prevState,
+            [name]: error
+        }));
     }
 
     const handleSubmit = async () => {
@@ -132,10 +161,12 @@ const CreateUser: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
                                 <div className={style.labelInput}>
                                     <label htmlFor="" >Email</label>
                                     <input className={style.input} type="text" name="email" value={input.email} onChange={handleChange} />
+                                    {errors.email && <p style={{ color: 'red' }}>{errors.email}</p>}
                                 </div>
                                 <div className={style.labelInput}>
                                     <label htmlFor="" >Password</label>
-                                    <input className={style.input} type="text" name="password" value={input.password} onChange={handleChange} />
+                                    <input className={style.input} type="password" name="password" value={input.password} onChange={handleChange} />
+                                    {errors.password && <p style={{ color: 'red' }}>{errors.password}</p>}
                                 </div>
                             </div>
                         </form>

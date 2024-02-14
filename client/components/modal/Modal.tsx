@@ -5,6 +5,8 @@ import React, { useContext, useEffect } from "react";
 import { useState } from "react"
 import { icons } from '../Icons/Icons';
 import { useAuthContext } from "@/app/contexto/AuthContext";
+// import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 
 interface ModalProjectProps {
@@ -46,6 +48,9 @@ const ModalProject: React.FC<ModalProjectProps> = ({ openModal, closeModal, proj
     //importación del usuario con el auth context
     const parseInfo = JSON.parse(infoUserGlobal ?? '')
     //importación del socket con SocketContext
+
+    const router = useRouter()
+
     socket.on('newCommentary', (newComment: Comment) => {
         setAllCommentaries([...allCommentaries, newComment])
     })
@@ -81,7 +86,7 @@ const ModalProject: React.FC<ModalProjectProps> = ({ openModal, closeModal, proj
     const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setNewCommentary(event.target.value)
     }
-    
+
     if (!openModal) return null
     return (
         <>
@@ -96,8 +101,9 @@ const ModalProject: React.FC<ModalProjectProps> = ({ openModal, closeModal, proj
                                 className="closeModalTransition"
                                 onClick={() => {
                                     closeModal()
-                                    location.reload();
-                                    }}>
+                                    // location.reload()
+                                    router.refresh()
+                                }}>
                                 <img src={icons.close.src} alt="" />
                             </button>
                         </div>
