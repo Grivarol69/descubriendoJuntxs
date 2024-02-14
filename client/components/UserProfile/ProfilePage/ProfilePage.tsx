@@ -18,15 +18,15 @@ const ProfilePage = (): React.ReactNode => {
     const infoUserGlobalParse = infoUserGlobal && JSON.parse(infoUserGlobal)
     const userId = infoUserGlobalParse.id
 
-    const [input, setInput] = useState({
-        name: "",
-        apellido: "",
-        identifiacion: "",
-        fecha_nacimiento: "",
-        idiomas: "",
-        telefono: "",
+    const [isEditing, setIsEditing] = useState(false);
+    const [userInfo, setUserInfo] = useState({
+        // name: "",
+        // surName: "",
+        identification: "",
+        phone: "",
         email: "",
-        linkedin: ""
+        linkedin: "",
+        languaje: ""
     })
 
     const router = useRouter()
@@ -35,28 +35,50 @@ const ProfilePage = (): React.ReactNode => {
     console.log('me gusta comer' + infoUserGlobalParse);
     console.log(infoUserGlobalParse);
 
-    const handleChanges = async (e: any) => {
-        e.preventDefault()
-        const URL_BASE = "https://juntxs.vercel.app/users/";
-        await axios.put(`${URL_BASE}${userId}`, {
+    const handleEditClick = () => {
+        setIsEditing(true);
+    };
 
+    const handleInputChange = (event) => {
+        setUserInfo({
+            ...userInfo,
+            [event.target.name]: event.target.value,
         });
+    };
+
+    const handleDoneClick = async (e: any) => {
+        setIsEditing(false);
+        try {
+            const URL_BASE = "https://juntxs.vercel.app/users/";
+            await axios.put(`${URL_BASE}${userId}`, {
+                // name: userInfo.name,
+                // surName: userInfo.surName,
+                identification: userInfo.identification,
+                phone: userInfo.phone,
+                email: userInfo.email,
+                linkedin: userInfo.linkedin,
+                languaje: userInfo.languaje,
+            });
+        } catch (error) {
+            console.error('Failed to update user information:', error);
+        }
+
     }
 
     const estiloTransition = () => {
         const datos = {
             width: '55vw',
-            height: '70vh',
+            height: 'fit-content',
             gridTemplateRows: '0.1fr 0.7fr 0.7fr 1fr 1fr'
         }
         const seguridad = {
             width: '55vw',
-            height: '40vh',
+            height: '70vh',
             gridTemplateRows: '0.5fr 0.8fr 0.8fr 1fr 1fr'
         }
         const condiciones = {
             width: '55vw',
-            height: '70h',
+            height: '70vh',
             gridTemplateRows: '0.1fr 0.5fr 0.5fr 1fr 1fr'
         }
         const normal = {
@@ -69,7 +91,7 @@ const ProfilePage = (): React.ReactNode => {
     }
     const estilo = estiloTransition()
     const userName = infoUserGlobalParse?.name
-    const userNameLast = infoUserGlobalParse?.surName
+    const userNameLast = !infoUserGlobalParse.surName ? '' : infoUserGlobalParse.surName
     console.log();
 
     return (
@@ -190,7 +212,11 @@ const ProfilePage = (): React.ReactNode => {
                                     </div>
                                 </div>
                             </div>
+                            {/* <div>
+                                <button>Editar Información</button>
+                            </div> */}
                         </div>
+
                         <div className={style.profilePhoto}>
                             <div className={style.profilePhotoCircle}> LG </div>
                             <button className={style.addAPhoto}>
