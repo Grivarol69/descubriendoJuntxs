@@ -81,6 +81,7 @@ const DonacionesPage: React.FC = () => {
       .catch((error) => console.error('Error al obtener donaciones:', error));
   }, []);
 
+
   const handleCloseDetail = () => {
     console.log('Closing detail');
     setSelectedDonation(null);
