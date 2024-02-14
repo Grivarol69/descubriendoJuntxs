@@ -1,7 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
-import CardDonaciones from '@/components/CardDonaciones/CardDonaciones';
 import ServerComponent from '@/app/serverC/serverDonaciones/server.component'
 
 export interface UserData {
@@ -29,8 +28,8 @@ export interface DonationResponse {
   userId: number;
   user: UserData | UserData[];
   date?: string | number;
-  projectId?: number; // Añade esta línea
-  project?: ProjectData; // Y esta línea
+  projectId?: number; 
+  project?: ProjectData; 
   programId: number;
 }
 
@@ -39,7 +38,7 @@ export interface FormattedDonation {
   amount: number;
   type: string;
   userId: number;
-  user: UserData | UserData[]; // Modificado aquí
+  user: UserData | UserData[]; 
 }
 
 export interface ProjectData {
@@ -64,7 +63,7 @@ export interface Donation {
   type: string;
   userId: number;
   user: UserData | UserData[];
-  projectId?: number; // Añade esta línea
+  projectId?: number; 
   project: ProjectData; 
 }
 
@@ -84,12 +83,10 @@ const DonacionesPage: React.FC = () => {
 
   const handleDonationClick = async (donation: Donation) => {
     try {
-      // Verifica si donation.projectId está presente antes de hacer la solicitud
       if (donation.projectId) {
         const response = await fetch(`https://juntxs.vercel.app/projects/${donation.projectId}`);
         const projectDetails = await response.json();
   
-        // Actualiza las donaciones, reemplazando la donación actual con los detalles del proyecto
         setDonations(donations.map(d => d.id === donation.id ? { ...d, project: projectDetails } : d));
       } else {
         console.warn('donation.projectId no está presente en los datos de donación.');

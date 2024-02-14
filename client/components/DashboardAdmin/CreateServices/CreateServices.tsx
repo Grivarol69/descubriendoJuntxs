@@ -91,8 +91,8 @@ const CreateServices: React.FC<CreateServicesProps> = ({ modal, closeModal }) =>
     }
   };
 
-  
-  
+
+
 
   return (
     <>
@@ -106,65 +106,65 @@ const CreateServices: React.FC<CreateServicesProps> = ({ modal, closeModal }) =>
             <div className={style.inputsContainer}>
               <div className={style.labelInput}>
                 <label htmlFor="">Nombre del servicio</label>
-                <input className={style.input} type="text" name="name" value={input.name} onChange={handleChange} placeholder="Nombre del servicio"/>
+                <input className={style.input} type="text" name="name" value={input.name} onChange={handleChange} placeholder="Nombre del servicio" />
               </div>
               <div className={style.labelInput}>
                 <label htmlFor="">Descripción del servicio</label>
-                <input className={style.input} type="text" name="description" value={input.description} onChange={handleChange} placeholder=""/>
+                <input className={style.input} type="text" name="description" value={input.description} onChange={handleChange} placeholder="" />
               </div>
             </div>
             <div className={style.inputsContainer}>
               <div className={style.labelInput}>
                 <label htmlFor="">Fecha de inicio</label>
-                <input className={style.input} type="date" name="dateIn" value={input.dateIn} onChange={handleChange} placeholder=""/>
+                <input className={style.input} type="date" name="dateIn" value={input.dateIn} onChange={handleChange} placeholder="" />
               </div>
               <div className={style.labelInput}>
                 <label htmlFor="">Fecha de finalización</label>
-                <input className={style.input} type="date" name="dateOut" value={input.dateOut} onChange={handleChange} placeholder=""/>
+                <input className={style.input} type="date" name="dateOut" value={input.dateOut} onChange={handleChange} placeholder="" />
               </div>
             </div>
             <div className={style.inputsContainer}>
               <div className={style.labelInput}>
                 <label htmlFor="">Hora de inicio</label>
-                <input className={style.input} type="time" name="hourIn" value={input.hourIn} onChange={handleChange} placeholder=""/>
+                <input className={style.input} type="time" name="hourIn" value={input.hourIn} onChange={handleChange} placeholder="" />
               </div>
               <div className={style.labelInput}>
                 <label htmlFor="">Hora de finalización</label>
-                <input className={style.input} type="time" name="hourOut" value={input.hourOut} onChange={handleChange} placeholder=""/>
+                <input className={style.input} type="time" name="hourOut" value={input.hourOut} onChange={handleChange} placeholder="" />
               </div>
             </div>
             <div className={style.inputsContainer}>
               <div className={style.labelInput}>
                 <label htmlFor="">Cantidad</label>
-                <input className={style.input} type="number" name="amount" value={input.amount} onChange={handleChange} placeholder=""/>
+                <input className={style.input} type="number" name="amount" value={input.amount} onChange={handleChange} placeholder="" />
               </div>
               <div className={style.labelInput}>
                 <label htmlFor="">Objetivo</label>
-                <input className={style.input} type="text" name="objective" value={input.objective} onChange={handleChange} placeholder=""/>
+                <input className={style.input} type="text" name="objective" value={input.objective} onChange={handleChange} placeholder="" />
               </div>
             </div>
             <div className={style.inputsContainer}>
               <div className={style.labelInput}>
                 <label htmlFor="">Sílabo</label>
-                <input className={style.input} type="text" name="syllabus" value={input.syllabus} onChange={handleChange} placeholder=""/>
+                <input className={style.input} type="text" name="syllabus" value={input.syllabus} onChange={handleChange} placeholder="" />
               </div>
               <div className={style.labelInput}>
                 <label htmlFor="">Tipo</label>
-                <input className={style.input} type="text" name="type" value={input.type} onChange={handleChange} placeholder="Coachin, Talleres o Retiros"/>
+                <input className={style.input} type="text" name="type" value={input.type} onChange={handleChange} placeholder="Coachin, Talleres o Retiros" />
               </div>
             </div>
             <div className={style.inputsContainer}>
               <div className={style.labelInput}>
                 <label htmlFor="">Estado</label>
-                <input className={style.input} type="text" name="state" value={input.state} onChange={handleChange} placeholder=""/>
+                <input className={style.input} type="text" name="state" value={input.state} onChange={handleChange} placeholder="" />
+                <button onClick={(e) => handleSubmit(e)}>Crear Servicio</button>
               </div>
             </div>
           </form>
-          <button onClick={(e) => handleSubmit(e)}>Crear Servicio</button>
         </div>
       </div>
     </>
   );
-  };
-  
-  export default CreateServices;
+};
+
+export default CreateServices;

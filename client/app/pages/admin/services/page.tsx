@@ -68,13 +68,10 @@ const ServicesPage: React.FC = () => {
       .catch(error => {
         console.error('Error creating service:', error);
         if (error.response) {
-          // La solicitud fue hecha y el servidor respondió con un código de estado diferente de 2xx
           console.error('Server responded with:', error.response.data);
         } else if (error.request) {
-          // La solicitud fue hecha pero no se recibió ninguna respuesta
           console.error('No response received from server');
         } else {
-          // Algo sucedió en la configuración de la solicitud que provocó un error
           console.error('Error setting up the request:', error.message);
         }
       });
