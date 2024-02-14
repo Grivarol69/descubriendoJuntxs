@@ -48,7 +48,7 @@ const postCreatePayment = async (req: Request, res: Response) => {
             body: {
                 items: [
                     {
-                        id: 'item_id',
+                        id: programToUse?.id.toString() ?? "0",
                         title: programToUse?.name ?? "Default Program Name",
                         quantity: 1,
                         unit_price: amount
