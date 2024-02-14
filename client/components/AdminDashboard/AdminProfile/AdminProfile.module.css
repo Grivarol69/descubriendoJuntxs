@@ -85,7 +85,6 @@
 
 .profilePhotoCircle {
     display: flex;
-    display: ;
     font-size: 3rem;
     color: white;
     font-weight: 600;
@@ -180,7 +179,6 @@
     cursor: pointer;
     color: #7286FF;
     transition: 200ms;
-    transform: ;
 }
 
 .buttonBack:hover {
