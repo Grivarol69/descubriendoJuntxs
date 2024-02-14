@@ -2,7 +2,7 @@ import { useState } from "react"
 import style from './CreateUser.module.css'
 import axios from "axios"
 import signUp from "@/app/firebase/auth/signup";
-
+import { CldUploadWidget } from 'next-cloudinary';
 
 interface CreateProjectProps {
     modal: boolean,
@@ -77,6 +77,7 @@ const CreateUser: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
             console.log(error)
         }
     }
+    
 
     return (
         <>
@@ -137,6 +138,25 @@ const CreateUser: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
                                     <label htmlFor="" >Password</label>
                                     <input className={style.input} type="text" name="password" value={input.password} onChange={handleChange} />
                                 </div>
+                                <div>
+                                    <section>
+
+                                    <CldUploadWidget uploadPreset="project_ong">
+                                    {({ open }) => {
+                                    function handleOnClick(e: { preventDefault: () => void; }) {
+                                        e.preventDefault();
+                                        open();
+                                    }
+                                    return (
+                                        <button onClick={handleOnClick}>
+                                        Upload an Asset
+                                        </button>
+                                    )
+                                    }}
+                                            </CldUploadWidget>
+
+                                    </section>
+                                </div>
                             </div>
                         </form>
                         <button onClick={() => handleSubmit()}>Crear Usuario</button>
@@ -150,3 +170,4 @@ const CreateUser: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
 
 
 export default CreateUser;
+
