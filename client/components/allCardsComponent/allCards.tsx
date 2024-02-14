@@ -3,6 +3,7 @@ import CardProyect from "../CardProyecto/cardProyecto"
 
 export interface ProyectTypes {
     projects: {
+        id: number,
         name: string,
         description: string,
         dateIn: string,
