@@ -28,7 +28,6 @@ const DashDonaciones: React.FC = () => {
       .then((response) => {
         const donationData: DonationResponse[] = response.data;
         setDonations(donationData);
-        // Actualizar formattedDonations cuando donations cambia
         setFormattedDonations(donationData.map(formatDonation));
       })
       .catch((error) => console.error('Error al obtener donaciones:', error));
@@ -38,7 +37,7 @@ const DashDonaciones: React.FC = () => {
     setSelectedUserId(userId);
 
     try {
-      const userProjectsResponse = await Axios.get(`https://juntxs.vercel.app/projects/${userId}`);
+      const userProjectsResponse = await Axios.get(`https://juntxs.vercel.app/users/donations/1`);
       const userProjects: ProjectData[] = userProjectsResponse.data;
 
       const selectedDonation = donations.find((donation) => donation.userId === userId);

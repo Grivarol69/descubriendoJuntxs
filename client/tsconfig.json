@@ -32,7 +32,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-  ],
+, "app/serverC/serverServicios/serverComponent.js"  ],
   "exclude": [
     "node_modules"
   ]

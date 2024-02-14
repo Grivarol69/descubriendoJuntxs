@@ -1,4 +1,3 @@
-
 import React from 'react';
 import CardDonaciones from '../../../components/CardDonaciones/CardDonaciones';
 import DonacionesDetail from '../../../components/DonacionesDetail/DonacionesDetail';

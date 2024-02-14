@@ -12,6 +12,8 @@ const DonacionesDetail: React.FC<DonacionesDetailProps> = ({ donation, onClose }
   const userName = Array.isArray(donation.user) ? donation.user[0]?.name : donation.user.name;
   const projectName = donation.project ? donation.project.name : 'Sin proyecto';
 
+  
+
  
   let donationDateString = 'Fecha desconocida';
   if (typeof donation.date === 'string' || typeof donation.date === 'number') {

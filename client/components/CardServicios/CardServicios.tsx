@@ -1,37 +1,72 @@
-import React from 'react';
+import React, { useState } from 'react';
 import style from './CardServicios.module.css';
-
-export interface ServicioTypes {
-  nombre: string;
-  descripcion: string;
-  comentarios: string[];
-  imagen: string;
-  id?: number;
-  ruta?: string;
-}
+import { ServicioTypes } from '@/app/pages/admin/services/page';
+import ServiciosDetail from '../ServicesDetail/ServicesDetail';
+import CreateServices from '../DashboardAdmin/CreateServices/CreateServices';
 
 interface CardServiciosProps {
   servicio: ServicioTypes;
 }
 
 const CardServicios: React.FC<CardServiciosProps> = ({ servicio }) => {
+  if (!servicio) {
+    return null; 
+  }
+
+  const [showDetailModal, setShowDetailModal] = useState(false);
+  const [showCreateModal, setShowCreateModal] = useState(false); 
+  const [selectedServicio, setSelectedServicio] = useState<ServicioTypes | null>(null);
+
+  const openDetailModal = (servicio: ServicioTypes) => {
+    setSelectedServicio(servicio); 
+    setShowDetailModal(true);
+  };
+
+  const closeDetailModal = () => {
+    setShowDetailModal(false);
+  };
+
+  const openCreateModal = () => {
+    setShowCreateModal(true);
+  };
+
+  const closeCreateModal = () => { 
+    setShowCreateModal(false);
+  };
+
   return (
-    <div className={style.cardContainer} key={servicio.nombre}>
-      <div className={style.infoContainer}>
-        <div className={style.titleAndDescription}>
-          <h1 className={style.title}>{servicio.nombre}</h1>
-          <div className={style.containerDesc}>
-            <p className={style.description}>{servicio.descripcion}</p>
-          </div>
+    <div className={style.gridContainer}>
+      <div className={style.containerDonations}>
+        <div className={style.titlePage}> Participacion de Servicios </div>
+        <div className={style.allDonations}>
+          {servicio && (
+            <div key={servicio.name} className={style.cardDonation}>
+              <div className={style.projectAndProjectType}>
+                <div className={style.imageAndTitle}>
+                  <div className={style.imageProject}></div>
+                  <div className={style.titleAndButton}>
+                    <div className={style.titleProyect}>{servicio.name}</div>
+                    <button className={style.buttonProyect} onClick={() => openDetailModal(servicio)}>Ver Agenda</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
-        <div className={style.buttonContainer}>
-          <button className={style.buttonText}>Realizar Donacion</button>
-          <button className={style.buttonFull}>Agendar</button>
-        </div>
+          <button className={style.buttonProyect} onClick={openCreateModal}>Crear Servicios</button>
       </div>
-      <div className={style.imageContainer}>
-        <img className={style.image} src={servicio.imagen} alt="no se pudo" />
-      </div>
+      {showDetailModal && selectedServicio && (
+        <ServiciosDetail
+          servicio={selectedServicio}
+          onClose={closeDetailModal}
+        />
+      )}
+      {showCreateModal && (
+  <CreateServices
+    modal={showCreateModal}
+    closeModal={closeCreateModal}
+  />
+)}
     </div>
   );
 };
