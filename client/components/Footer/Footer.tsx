@@ -10,7 +10,7 @@ import Youtube from "../../public/assets/Youtube.svg";
 
 const Footer = () => {
   return (
-    <div className="pt-[80px] pb-[40px]">
+    <div className="pt-[40px] pb-[40px]">
       <div className="flex items-center justify-center gap-x-[12px]">
         <Image src={Logo} alt="Logo" />
         <p className="font-bold text-[#36485C] text-[17px]"></p>
