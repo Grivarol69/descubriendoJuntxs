@@ -7,7 +7,6 @@ import Filter from '@/components/filters/Filter';
 import coachingImage from '../../components/Icons/images/Coaching.png'
 import TallerImage from '../../components/Icons/images/Taller.png'
 import retirosImage from '../../components/Icons/images/Retiro.png'
-import AgendarComponente from '@/components/CardServicios/AgendarComponent/AgendarComponent';
 
 const ServiciosPage: React.FC = () => {
   const serviciosData: ServicioTypes[] = [
@@ -45,6 +44,7 @@ const ServiciosPage: React.FC = () => {
 
   return (
     <div className={style.backgroundServicios}>
+      
       <Filter onFilter={handleFilter}></Filter>
       {serviciosFinales.map((servicio) => (
         <CardServicios key={servicio.nombre} servicio={servicio} />

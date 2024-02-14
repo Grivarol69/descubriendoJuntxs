@@ -19,7 +19,8 @@ const SelectComponent: React.FC<propsRecived> = ({ options, onChange, label, sty
 
     const [openSelect, setOpenSelect] = useState(false)
     const [selected, setSelected] = useState('')
-
+    console.log(options);
+    
     const style = () => {
         const styleSelect = {
            color: '#B8BACE'
@@ -55,20 +56,20 @@ const SelectComponent: React.FC<propsRecived> = ({ options, onChange, label, sty
         <div ref={selectRef} className={styles.labelAndImput}>
             <label className={styles.labelDesign}> {label} </label>
             <div>
-                <div  onClick={() => openSelect ? setOpenSelect(false) : setOpenSelect(true)} className={styles.input} style={styleSelect}> {selected.length !== 0 ? selected : 'Selecciona un Coach'} </div>
+                <div  onClick={() => openSelect ? setOpenSelect(false) : setOpenSelect(true)} className={styles.input} style={styleSelect}> {selected.length !== 0 ? selected : 'Seleccionar...'} </div>
                 {openSelect &&
                     <div className={styles.selectOptions}>
-                        {options.map((options: optionsType) => {
+                        {options.map((option: optionsType) => {
                             return (
                                 <>
                                     <div
                                         className={styles.options}
                                         onClick={() => {
-                                            onChange(options.value)
-                                            setSelected(options.name)
+                                            onChange(option.value)
+                                            setSelected(option.name)
                                             setOpenSelect(false)
                                             }}>
-                                        {options.name}
+                                        {option.name}
                                     </div>
                                 </>
                             )

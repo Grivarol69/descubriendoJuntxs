@@ -1,9 +1,11 @@
 import { useAuthContext } from "@/app/contexto/AuthContext"
 import axios from "axios"
-import { useEffect, useRef, useState } from "react"
+import { useState } from "react"
 import style from './agendar.module.css'
 import Coaching from '@/components/Servicios/Coaching';
 import SelectComponent from "@/components/SelectComponent/SelectComponent";
+import { logout } from '@/app/firebase/auth/signOut';
+import { useRouter } from "next/navigation";
 
 
 interface coach {
@@ -29,47 +31,56 @@ interface service {
     userId: number | null,
     categoryId: number | null,
     amount: number | null,
-    date: string
+    dateIn: Date | null,
+    dateOut: Date | null,
+    hourIn: string,
+    hourOut: string,
+    objective: string,
+    syllabus: string,
+    type: string
 }
 
-const AgendarComponente: React.FC<AgendarTypes> = ({ modal, closeModal, coaches }) => {
-
+const CoachingComponent: React.FC<AgendarTypes> = ({ modal, closeModal, coaches }) => {
     const { infoUserGlobal } = useAuthContext()
     const parseInfoGlobal = JSON.parse(infoUserGlobal ?? '')
+    const router = useRouter()
     const [service, setService] = useState<service>({
         name: 'Coach Personalizado',
         description: '',
         userId: null,
-        categoryId: null,
+        categoryId: 1,
         amount: 200,
-        date: ''
+        dateIn: new Date(),
+        dateOut: new Date(),
+        hourIn: '',
+        hourOut: '',
+        objective: 'coaching',
+        syllabus: 'coaching',
+        type: 'coaching'
     })
-
-   
-
 
     const createServiceCoaching = async () => {
         try {
-            const createCoachService: any = await axios.post('https://juntxs.vercel.app/services', service)
-
+            const createCoachService: any = (await axios.post('https://juntxs.vercel.app/services', service)).data
             if (createCoachService) {
                 const infoService = {
-                    id: createCoachService.id,
-                    title: service.name,
-                    amout: service.amount
-                }
-
-                const userParticipant = {
                     serviceId: createCoachService.id,
+                    name: 'Coach Personalizado',
+                    amount: service.amount,
                     userId: parseInfoGlobal.id
                 }
-
-                const participant = await axios.post('https://juntxs.vercel.app/payments/services', userParticipant)
-
+                console.log(parseInfoGlobal.role);
+                const userParticipant = {
+                    serviceId: createCoachService.id,
+                    userId: parseInfoGlobal.id,
+                    role: parseInfoGlobal.role
+                }
+                const participant = await axios.post('https://juntxs.vercel.app/participants', userParticipant)
                 if (participant) {
                     const data = (await axios.post('https://juntxs.vercel.app/payments/services', infoService)).data
-                    
                     window.open(data.init_point, '_blank');
+                    router.push('/pages/user/donations')
+
                 }
             }
         } catch (error) {
@@ -77,7 +88,19 @@ const AgendarComponente: React.FC<AgendarTypes> = ({ modal, closeModal, coaches 
         }
     }
 
-    const onChange = (e: any) => {
+    const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        if (e.target.name === 'dateIn') {
+            return setService({
+                ...service,
+                dateIn: new Date(e.target.value + 'T00:00:00')
+            })
+        }
+        if (e.target.name === 'hourIn') {
+            return setService({
+                ...service,
+                hourIn: e.target.value
+            })
+        }
         setService({
             ...service,
             [e.target.name]: e.target.value
@@ -109,15 +132,25 @@ const AgendarComponente: React.FC<AgendarTypes> = ({ modal, closeModal, coaches 
 
     return (
         <div className={style.backGround}>
-            <div className={style.cardContainer} >
+            <div className={style.cardContainer}>
                 <div className={style.infoOrder}>
                     <div className={style.labelAndImput}>
                         <label className={style.labelDesign} htmlFor=""> Elige la fecha </label>
                         <input
                             className={style.input}
-                            name="date"
+                            name="dateIn"
                             type="date"
-                            value={service.date}
+                            value={service.dateIn instanceof Date && !isNaN(service.dateIn.getTime()) ? service.dateIn.toISOString().split('T')[0] : ''}
+                            onChange={onChange}
+                        />
+                    </div>
+                    <div className={style.labelAndImput}>
+                        <label className={style.labelDesign} htmlFor=""> Elige la hora </label>
+                        <input
+                            className={style.input}
+                            name="hourIn"
+                            type="time"
+                            value={service.hourIn}
                             onChange={onChange}
                         />
                     </div>
@@ -141,16 +174,17 @@ const AgendarComponente: React.FC<AgendarTypes> = ({ modal, closeModal, coaches 
                     </div>
                 </div>
                 <div className={style.buttons}>
-                    <button className={style.buttonText} onClick={() =>{
-                        setService({...service,
-                        description:'',
-                        categoryId: null,
-                        date: '',
+                    <button className={style.buttonText} onClick={() => {
+                        setService({
+                            ...service,
+                            description: '',
+                            categoryId: null,
+                            dateIn: null,
                         })
                         closeModal()
                     }
                     }> Cancelar </button>
-                    <button className={style.buttonFull} onClick={() => createServiceCoaching()}> Ir a pagar </button>
+                    <button className={style.buttonFull} onClick={() => createServiceCoaching()} disabled={!service.dateIn || !service.hourIn || !service.description || !service.userId}> Ir a pagar </button>
                 </div>
             </div>
 
@@ -159,4 +193,4 @@ const AgendarComponente: React.FC<AgendarTypes> = ({ modal, closeModal, coaches 
 }
 
 
-export default AgendarComponente
+export default CoachingComponent

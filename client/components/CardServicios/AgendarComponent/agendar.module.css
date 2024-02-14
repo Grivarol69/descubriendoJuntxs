@@ -117,8 +117,14 @@
     padding-right: 2rem;
     min-width: 10rem;
     height: 3.5rem;
+    transition: 100ms;
 }
 
+.buttonFull:hover {
+    background: white;
+    color: #7286FF;
+    border: 0.1rem solid #7286FF ;
+}
 .buttonText{
     display: flex;
     justify-content: center;
@@ -129,4 +135,14 @@
     min-width: 10rem;
     height: 3.5rem;
     color: #7286FF;
+    transition: 100ms;
+}
+
+.buttonText:hover{
+    color: #24275A;    
+}
+
+
+.buttonFull:disabled {
+    background: grey;
 }
