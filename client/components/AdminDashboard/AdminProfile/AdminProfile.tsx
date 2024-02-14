@@ -18,19 +18,19 @@ const AdminProfile: FC = (): ReactNode => {
     const infoUserGlobalParse = infoUserGlobal && JSON.parse(infoUserGlobal)
     const router = useRouter()
     if (infoUserGlobalParse?.role !== 'Admin') router.push('/pages/user')
-        console.log('me gusta comer' + infoUserGlobalParse);
+    console.log('me gusta comer' + infoUserGlobalParse);
 
     console.log(infoUserGlobalParse);
 
     const estiloTransition = () => {
         const datos = {
             width: '55vw',
-            height: '70vh',
+            height: 'fit_content',
             gridTemplateRows: '0.1fr 0.7fr 0.7fr 1fr 1fr'
         }
         const seguridad = {
             width: '55vw',
-            height: '40vh',
+            height: '70vh',
             gridTemplateRows: '0.5fr 0.8fr 0.8fr 1fr 1fr'
         }
         const condiciones = {
@@ -48,12 +48,12 @@ const AdminProfile: FC = (): ReactNode => {
     }
     const estilo = estiloTransition()
     const userName = infoUserGlobalParse?.name
-    const userLastName = infoUserGlobalParse?.surName
+    const userLastName = !infoUserGlobalParse.surName ? '' : infoUserGlobalParse.surName
     console.log(userLastName);
 
     return (
-        <> 
-            
+        <>
+
             <div className={infoUserGlobalParse?.role !== 'Admin' ? 'hidden' : style.userProfile} style={estilo}>
                 {
                     vistaDeComponente === '' &&
@@ -61,7 +61,7 @@ const AdminProfile: FC = (): ReactNode => {
                         <div className={style.portadaImage}></div>
                         <div className={style.bodyInfo}>
                             <div className={style.nombreYData}>
-                                <div className={style.nombreCompleto}>{userName + ' ' + userLastName?? ''}</div>
+                                <div className={style.nombreCompleto}>{userName + ' ' + userLastName ?? ''}</div>
                                 <div className={style.optionsContainerOfAll}>
                                     <div className={style.contanerOptions}>
                                         <div className={style.menuDescriptionTitle}>

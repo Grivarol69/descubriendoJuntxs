@@ -57,7 +57,6 @@ const putCommentary = async (req: Request, res: Response) => {
   try {
     const updatedCommentary = await prisma.commentary.update({
       where: {
-
         id: Number(id)
       },
       data: {

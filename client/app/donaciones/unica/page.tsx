@@ -3,52 +3,73 @@ import Image from "next/image";
 import React, { useState, FormEvent, ChangeEvent } from "react";
 import Donaciones from "../../../public/assets/donaciones-icon.svg";
 import axios from "axios";
+import ProjectsSelect from "@/components/Donaciones/ListaProyectos/SelectProyectos";
+import { useAuthContext } from "@/app/contexto/AuthContext";
 
 interface FormData {
   programId: number;
   amount: number;
-  type: string;
+  // type: string;
   message: string;
-  // Agrega más claves según tus campos de formulario
+  contact_phone: string | null;
+  contact_email: string | null;
+  userId: number | null;
 }
 
 const DonacionesRecurrentesPage: React.FC = () => {
+
+  const { logged, infoUserGlobal } = useAuthContext()
+  const infoUserParsed = JSON.parse(infoUserGlobal ?? '')
+
   const [formData, setFormData] = useState<FormData>({
     programId: 0,
     amount: 0,
-    type: "recurrente",
+    // type: "Recurrente",
     message: "",
+    contact_email: logged ? infoUserParsed.email : '',
+    contact_phone: logged ? infoUserParsed.phone : '',
+    userId: logged ? infoUserParsed.id : null,
   });
 
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement >
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const value =
-    (e.target.name === "programId" || e.target.name === "amount") &&
-    e.target.value !== ""
-      ? +e.target.value
-      : e.target.value;
-  
+      (e.target.name === "programId" || e.target.name === "amount") &&
+        e.target.value !== ""
+        ? +e.target.value
+        : e.target.value;
+
     setFormData({
       ...formData,
       [e.target.name]: value,
     });
   };
 
-  const handleChangeSelect = (
-    e: ChangeEvent<HTMLSelectElement>
-  ): void => {
-    const value =
-      (e.target.name === "programId" || e.target.name === "amount") &&
-      e.target.value !== ""
-        ? +e.target.value
-        : e.target.value;
-  
+  // const handleChangeSelect = (
+  //   e: ChangeEvent<HTMLSelectElement>
+  // ): void => {
+  //   const value =
+  //     (e.target.name === "programId" || e.target.name === "amount") &&
+  //       e.target.value !== ""
+  //       ? +e.target.value
+  //       : e.target.value;
+
+  //   setFormData({
+  //     ...formData,
+  //     [e.target.name]: value,
+  //   });
+  // };
+
+  const handleProjectChange = (projectId: number) => {
     setFormData({
       ...formData,
-      [e.target.name]: value,
+      programId: projectId,
     });
   };
+
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -58,13 +79,18 @@ const DonacionesRecurrentesPage: React.FC = () => {
         "https://juntxs.vercel.app/payments",
         formData
       );
-        const data =  response.data
-        window.location.href = data.init_point
+      const data = response.data
+      console.log("Respuesta del servidor:", data);
+      console.log(infoUserGlobal);
+
+      window.open(data.init_point, '_blank');
+      setSuccessMessage("¡Gracias por tu donacion! Por favor completa el pago en la ventana emergente.");
 
     } catch (error: any) {
       console.error("Error al enviar datos al servidor:", error.message);
     }
   };
+
 
   return (
     <div className="w-screen h-[80vh]  flex justify-center items-center">
@@ -79,27 +105,12 @@ const DonacionesRecurrentesPage: React.FC = () => {
               <div className="w-full flex justify-center ">
                 <div className=" w-2/3  flex flex-col justify-center">
                   <div className="w-full flex flex-col justify-center gap-7">
-                    <div className="text-3xl">Donaciones Recurrentes</div>
+                    <div className="text-3xl">Donacion Única</div>
 
                     <div className="flex flex-col">
                       <div className="flex flex-col gap-2">
                         <label className="m-0">Proyecto:</label>
-                        <select
-                          className="bg-blue-50 rounded-lg"
-                          value={formData.programId}
-                          name="programId"
-                          onChange={handleChangeSelect}
-                        >
-                          <option value=""  selected hidden>
-                            Selecciona un proyecto
-                          </option>
-                          <option value="1" id="1">
-                            Proyecto 1
-                          </option>
-                          <option value="2" id="2">
-                            Proyecto 2
-                          </option>
-                        </select>
+                        <ProjectsSelect onProjectChange={handleProjectChange} />
                         <button className="text-xs flex justify-end ">
                           {" "}
                           Ver proyecto{" "}
@@ -107,20 +118,20 @@ const DonacionesRecurrentesPage: React.FC = () => {
                       </div>
                     </div>
 
-                    <div className="w-full h-96 overflow-auto  bg-blue-50 rounded-lg p-4 scrollbar">
+                    {/* <div className="w-full h-96 overflow-auto  bg-blue-50 rounded-lg p-4 scrollbar">
                       Descripción de la donación Aca tengo que agregar el texto
                       de la descripcion de la donacion.
-                      {/* Agrega más contenido según sea necesario y tambien hacer un overflow = scroll */}
+          
                       Beneficios fiscales:
                       <ul>
                         <li>✓ Menos impuestos sobre el empleado</li>
                         <li>✓ Deducciones fiscales...</li>
                       </ul>
-                    </div>
+                    </div> */}
 
                     <div className=" ">
                       <label htmlFor="" className="">
-                        Precio:
+                        Monto:
                       </label>
                       <input
                         type="number"
@@ -132,7 +143,11 @@ const DonacionesRecurrentesPage: React.FC = () => {
                       />
                     </div>
 
-                    <div className=" ">
+                    <div>
+                      {successMessage && <div>{successMessage}</div>}
+                    </div>
+
+                    {/* <div className=" ">
                       <textarea
                         id="message"
                         name="message"
@@ -141,12 +156,12 @@ const DonacionesRecurrentesPage: React.FC = () => {
                         className="w-full h-16 rounded-lg bg-blue-50"
                         placeholder="Deja tu mensaje"
                       />
-                    </div>
+                    </div> */}
 
                     <div>
                       <button className="bg-[#7286FF] rounded-md p-3 text-white">
                         {" "}
-                        Donar con Paypal
+                        Donar con Mercado Pago
                       </button>
                     </div>
                   </div>

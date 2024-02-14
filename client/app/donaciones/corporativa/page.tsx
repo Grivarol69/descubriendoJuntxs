@@ -3,63 +3,92 @@ import Image from "next/image";
 import React, { useState, FormEvent, ChangeEvent } from "react";
 import Donaciones from "../../../public/assets/donaciones-icon.svg";
 import axios from "axios";
+import ProjectsSelect from "@/components/Donaciones/ListaProyectos/SelectProyectos";
+import { useAuthContext } from "@/app/contexto/AuthContext";
 
 interface FormData {
   programId: number;
-  amount: number;
+  amount: number | null;
   type: string;
   message: string;
-  // Agrega más claves según tus campos de formulario
+  userId: number | null;
+  date: string;
+  frequency: string | null;
+  contact_phone: string;
+  contact_email: string;
 }
 
 const DonacionesCorporativasPage: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     programId: 0,
-    amount: 0,
-    type: "recurrente",
+    amount: null,
+    type: "Corporativo",
     message: "",
+    userId: 0,
+    date: new Date().toISOString(),
+    frequency: null,
+    contact_phone: "",
+    contact_email: "",
   });
+
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const value =
-      (e.target.name === "programId" || e.target.name === "amount") &&
-      e.target.value !== ""
-        ? +e.target.value
-        : e.target.value;
-
     setFormData({
       ...formData,
-      [e.target.name]: value,
+      [e.target.name]: e.target.value,
     });
   };
 
-  const handleChangeSelect = (e: ChangeEvent<HTMLSelectElement>): void => {
-    const value =
-      (e.target.name === "programId" || e.target.name === "amount") &&
-      e.target.value !== ""
-        ? +e.target.value
-        : e.target.value;
 
-    setFormData({
-      ...formData,
-      [e.target.name]: value,
-    });
-  };
+  const { logged, infoUserGlobal } = useAuthContext();
+  const infoUserParsed = JSON.parse(infoUserGlobal ?? '')
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(formData);
     try {
+      const infoDonacion = {
+        programId: formData.programId,
+        amount: formData.amount,
+        type: formData.type,
+        message: formData.message,
+        userId: logged ? infoUserParsed.id : null,
+        date: formData.date,
+        frequency: formData.frequency,
+        contact_phone: formData.contact_phone,
+        contact_email: formData.contact_email,
+      }
       const response = await axios.post<{ mensaje: string }>(
-        "http://localhost:3000/payments",
-        formData
+        "https://juntxs.vercel.app/donations",
+        infoDonacion
       );
       console.log("Respuesta del servidor:", response.data);
+      setFormData({
+        programId: 0,
+        amount: null,
+        type: "Corporativo",
+        message: "",
+        userId: 0,
+        date: new Date().toISOString(),
+        frequency: null,
+        contact_phone: "",
+        contact_email: "",
+      })
+
+      setSuccessMessage("¡Gracias por tu mensaje! Nos estaremos contactando contigo muy pronto.");
     } catch (error: any) {
       console.error("Error al enviar datos al servidor:", error.message);
     }
+  };
+
+  const handleProjectChange = (projectId: number) => {
+    setFormData({
+      ...formData,
+      programId: projectId,
+    });
   };
 
   return (
@@ -80,51 +109,30 @@ const DonacionesCorporativasPage: React.FC = () => {
                     <div className="flex flex-col">
                       <div className="flex flex-col gap-2">
                         <label className="m-0">Proyecto:</label>
-                        <select
-                          className="bg-blue-50 rounded-lg"
-                          value={formData.programId}
-                          name="programId"
-                          onChange={handleChangeSelect}
-                        >
-                          <option value="" selected hidden>
-                            Selecciona un proyecto
-                          </option>
-                          <option value="1" id="1">
-                            Proyecto 1
-                          </option>
-                          <option value="2" id="2">
-                            Proyecto 2
-                          </option>
-                        </select>
+                        <ProjectsSelect onProjectChange={handleProjectChange} />
                         <button className="text-xs flex justify-end ">
                           {" "}
                           Ver proyecto{" "}
                         </button>
                       </div>
                     </div>
-
-                    <div className="w-full h-96 overflow-auto  bg-blue-50 rounded-lg p-4 scrollbar">
-                      Descripción de la donación Aca tengo que agregar el texto
-                      de la descripcion de la donacion.
-                      {/* Agrega más contenido según sea necesario y tambien hacer un overflow = scroll */}
-                      Beneficios fiscales:
-                      <ul>
-                        <li>✓ Menos impuestos sobre el empleado</li>
-                        <li>✓ Deducciones fiscales...</li>
-                      </ul>
-                    </div>
-
-                    <div className=" ">
-                      <label htmlFor="" className="">
-                        Precio:
-                      </label>
+                    <div>
+                      <label htmlFor="">Contacto: </label>
                       <input
-                        type="number"
-                        id="amount"
-                        name="amount"
-                        className="bg-blue-50 rounded-lg"
-                        value={formData.amount}
+                        type="text"
+                        placeholder="Numero de telefono"
+                        name="contact_phone"
                         onChange={handleChange}
+                        value={formData.contact_phone}
+                        className="w-full p-2 border border-gray-300 rounded resize-none"
+                      />
+                      <input
+                        type="text"
+                        placeholder="Email"
+                        name="contact_email"
+                        onChange={handleChange}
+                        value={formData.contact_email}
+                        className="w-full p-2 border border-gray-300 rounded mt-4 resize-none"
                       />
                     </div>
 
@@ -134,20 +142,22 @@ const DonacionesCorporativasPage: React.FC = () => {
                         name="message"
                         value={formData.message}
                         onChange={handleChange}
-                        className="w-full h-16 rounded-lg bg-blue-50"
+                        className="w-full p-2 border border-gray-300 rounded resize-none"
                         placeholder="Deja tu mensaje"
                       />
                     </div>
 
                     <div>
-                      <button className="bg-[#7286FF] rounded-md p-3 text-white">
-                        {" "}
-                        Donar con Paypal
+                      <button type="submit" className="bg-[#7286FF] hover:bg-[#92A1FF] text-white py-2 px-4 rounded">
+                        Describe tu donación
                       </button>
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
+            <div>
+              {successMessage && <div>{successMessage}</div>}
             </div>
 
             <div className=" w-2/6 h-full overflow-hidden flex justify-center items-center">

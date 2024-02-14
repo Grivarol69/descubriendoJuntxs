@@ -29,17 +29,16 @@ const DonacionesPage: React.FC = () => {
                 <div className=" w-3/4 h-full  flex flex-col justify-center gap-14">
                   <div className="text-4xl ">Donaciones</div>
                   <div className="text-lg">
-                    Gracias por decidir dar tu granito de arena, podrás hacerlo
-                    de forma anónima, así podrás tener un historial de tus
-                    aportes, o si prefieres puedes{" "}
-                    <Link href="/pages/user" className="text-[#7286FF]">
+                    Gracias por tu granito de arena, podrás hacerlo
+                    de forma anónima, o si prefieres puedes{" "}
+                    <Link href="/pages/signup" className="text-[#7286FF]">
                       registrarte
                     </Link>{" "}
                     o{" "}
                     <Link href="/pages/signin" className="text-[#7286FF]">
                       ingresar
                     </Link>{" "}
-                    primero. Tendrás 3 opciones para donar: recurrente, en
+                    primero. Tendrás 3 opciones para donar: única, en
                     especie y corporativo, elige con el que desees colaborar
                   </div>
                   <div>
@@ -54,7 +53,7 @@ const DonacionesPage: React.FC = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className=" w-1/3 h-full overflow-hidden flex justify-center items-center ">
                 <div className="flex justify-center items-center">
                   <div className="flex justify-center items-center object-contain h-full w-full">
