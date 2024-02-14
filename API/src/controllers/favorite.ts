@@ -77,10 +77,6 @@ const postFavorite = async (req: Request, res: Response) => {
 
 const deleteFavorite = async (req: Request, res: Response) => {
   const { programId, userId } = req.params;
-
-  console.log('Route: ', req.route);
-  console.log(programId, userId)
-
   try {
 
     const favorite = await prisma.favorite.delete({

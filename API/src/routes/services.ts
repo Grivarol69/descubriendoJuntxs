@@ -16,7 +16,7 @@ router.get("/pagination", paginationService);
 router.get("/", getServices);
 router.get("/:type", getServicesByType);
 router.get("/:userId", getServicesByUser);
-router.get("/:id", getServiceById);
+router.get("/user/:id", getServiceById);
 router.post("/", postService);
 router.put("/:id", updateService);
 

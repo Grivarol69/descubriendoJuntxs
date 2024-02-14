@@ -11,7 +11,7 @@ CREATE TYPE "ProgramType" AS ENUM ('Proyecto', 'Servicio');
 CREATE TYPE "DonationType" AS ENUM ('Recurrente', 'Especies', 'Corporativo');
 
 -- CreateEnum
-CREATE TYPE "ServiceType" AS ENUM ('Coaching', 'Taller', 'Retiro');
+CREATE TYPE "ServiceType" AS ENUM ('coaching', 'taller', 'retiro');
 
 -- CreateEnum
 CREATE TYPE "ServiceState" AS ENUM ('Activo', 'Inactivo', 'Finalizado');
@@ -78,14 +78,14 @@ CREATE TABLE "Service" (
     "description" TEXT NOT NULL,
     "userId" INTEGER NOT NULL,
     "categoryId" INTEGER NOT NULL,
-    "dateIn" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
+    "dateIn" TIMESTAMP(3),
     "dateOut" TIMESTAMP(3),
-    "hourIn" TIMESTAMP(3),
-    "hourOut" TIMESTAMP(3),
+    "hourIn" TEXT NOT NULL,
+    "hourOut" TEXT NOT NULL,
     "amount" DOUBLE PRECISION NOT NULL,
     "objective" TEXT,
     "syllabus" TEXT,
-    "type" "ServiceType" NOT NULL DEFAULT 'Coaching',
+    "type" "ServiceType" NOT NULL,
     "state" "ServiceState" NOT NULL DEFAULT 'Activo',
 
     CONSTRAINT "Service_pkey" PRIMARY KEY ("id")
@@ -118,13 +118,13 @@ CREATE TABLE "Participant" (
 -- CreateTable
 CREATE TABLE "Donation" (
     "id" SERIAL NOT NULL,
-    "transactionId" BIGINT NOT NULL,
+    "transactionId" TEXT NOT NULL,
     "programId" INTEGER NOT NULL,
     "userId" INTEGER NOT NULL,
-    "amount" DOUBLE PRECISION NOT NULL,
+    "amount" DOUBLE PRECISION,
     "date" TIMESTAMP(3) NOT NULL,
     "type" "DonationType" NOT NULL DEFAULT 'Recurrente',
-    "frequency" "Frequency" NOT NULL DEFAULT 'Unico',
+    "frequency" "Frequency" DEFAULT 'Unico',
     "message" TEXT NOT NULL,
     "contact_phone" TEXT NOT NULL,
     "contact_email" TEXT NOT NULL,
@@ -157,9 +157,6 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Payment_transactionId_key" ON "Payment"("transactionId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Donation_transactionId_key" ON "Donation"("transactionId");
 
 -- AddForeignKey
 ALTER TABLE "Program" ADD CONSTRAINT "Program_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

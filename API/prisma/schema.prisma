@@ -65,14 +65,14 @@ model Service {
   description String
   userId Int
   categoryId Int
-  dateIn DateTime? @default(now())
+  dateIn DateTime? 
   dateOut DateTime?
-  hourIn DateTime?
-  hourOut DateTime?
+  hourIn String
+  hourOut String
   amount Float
   objective String?
   syllabus String?
-  type ServiceType @default(Coaching)
+  type ServiceType 
   state ServiceState @default(Activo)
   user User @relation(fields: [userId], references: [id])
   category Category @relation(fields: [categoryId], references: [id])
@@ -104,13 +104,14 @@ model Participant {
 
 model Donation {
   id Int @id @default(autoincrement())
-  transactionId BigInt @unique
+  transactionId String 
   programId Int 
   userId Int 
-  amount? Float
+
+  amount Float?
   date DateTime
   type DonationType @default(Recurrente)
-  frequency? Frequency @default(Unico)
+  frequency Frequency? @default(Unico)
   message String
   contact_phone String
   contact_email String
@@ -161,9 +162,9 @@ enum DonationType {
 }
 
 enum ServiceType {
-  Coaching
-  Taller
-  Retiro
+  coaching
+  taller
+  retiro
 }
 
 enum ServiceState {

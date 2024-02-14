@@ -58,9 +58,6 @@ router.use('/favorites', favorites);
 router.use('/commentaries', commentaries);
 router.use('/donations', donations);
 router.use('/upload', upload)
-
-
-router.use('/payments', payments);
 router.use('/nodemailer', nodemailer);
 
 
