@@ -48,9 +48,10 @@ const RedirectPage: React.FC = () => {
 
 
   return (
-    <div className="w-11/12 h-5/6 border-2 border-blue-400 rounded-2xl shadow-2xl flex">
+    // <div className="w-11/12 h-5/6 border-2 border-blue-400 rounded-2xl shadow-2xl flex flex-col items-center text-center py-4 md:py-8 lg:py-12 md:flex-row">
+    <div className="w-11/12 h-5/6 border-2 border-blue-400 rounded-2xl shadow-2xl flex flex-col items-center text-center py-4 md:py-8 lg:py-12 md:flex-row">
       <div className=" w-1/3 h-full overflow-hidden flex justify-center items-center ">
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center md:justify-items-start">
           <div className="flex justify-center items-center object-contain h-full w-full">
             <Image
               src={Donaciones}
@@ -62,11 +63,12 @@ const RedirectPage: React.FC = () => {
         </div>
       </div>
 
+
       <div className="w-2/3 h-full flex justify-center">
         <div className=" w-3/4 h-full  flex flex-col justify-center gap-10">
           <h1 className="text-3xl">Tipo de Donaciones</h1>
           <form className=" flex flex-col gap-2">
-            <div>
+            <div className="flex flex-col items-start">
               <label>
                 <strong className="text-lg">Única</strong>
                 <input
@@ -83,7 +85,7 @@ const RedirectPage: React.FC = () => {
                 Podrás realizar una donación mediante un único pago.
               </p>
             </div>
-            <div>
+            <div className="flex flex-col items-start">
               <label>
                 <strong className="text-lg">En Especie</strong>
                 <input
@@ -100,7 +102,7 @@ const RedirectPage: React.FC = () => {
                 Puedes donar con bienes físicos o servicios en lugar de dinero.
               </p>
             </div>
-            <div>
+            <div className="flex flex-col items-start">
               <label>
                 <strong className="text-lg">Corporativa</strong>
                 <input

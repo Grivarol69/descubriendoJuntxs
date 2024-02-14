@@ -93,15 +93,17 @@ const DonacionesRecurrentesPage: React.FC = () => {
 
 
   return (
-    <div className="w-screen h-[80vh]  flex justify-center items-center">
+    <div className="w-screen h-[80vh] flex justify-center items-center">
       <div className="w-11/12 h-5/6 border border-blue-400 rounded-2xl shadow-2xl flex justify-center">
         <div className="w-full h-full flex justify-center">
           <form
             action=""
-            className="w-full h-full  flex"
+            // className="w-full h-full  flex"
+            className="w-full h-full flex flex-col items-center py-4 md:py-8 lg:py-12 md:flex-row gap-4 md:justify-center"
             onSubmit={handleSubmit}
           >
-            <div className=" w-4/6 h-full  flex flex-col justify-center">
+            {/* <div className=" w-4/6 h-full  flex flex-col justify-center"> */}
+            <div className=" w-11/12 h-full  flex flex-col items-center md:flex-row md:items-center">
               <div className="w-full flex justify-center ">
                 <div className=" w-2/3  flex flex-col justify-center">
                   <div className="w-full flex flex-col justify-center gap-7">

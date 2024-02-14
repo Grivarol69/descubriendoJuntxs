@@ -22,13 +22,14 @@ const DonacionesPage: React.FC = () => {
   return (
     <div>
       <div>
-        <div className="w-screen h-[66.6vh] border-2  flex justify-center items-center">
+        <div className="w-screen h-auto border-2 flex justify-center items-center">
           {!donationStarted ? (
-            <div className="w-11/12 h-5/6 border-2 border-blue-400 rounded-2xl shadow-2xl flex">
+            // <div className="w-11/12 border-2 border-blue-400 rounded-2xl shadow-2xl flex py-4 md:py-8 lg:py-12 bg-blue-600">
+            <div className="w-11/12 border-2 border-blue-400 rounded-2xl shadow-2xl flex flex-col items-center text-center py-4 md:py-8 lg:py-12 md:flex-row">
               <div className="w-2/3 h-full flex justify-center">
-                <div className=" w-3/4 h-full  flex flex-col justify-center gap-14">
+                <div className=" w-3/4 h-full flex flex-col justify-center gap-10">
                   <div className="text-4xl ">Donaciones</div>
-                  <div className="text-lg">
+                  <div className="text-lg sm:text-2xl">
                     Gracias por tu granito de arena, podrás hacerlo
                     de forma anónima, o si prefieres puedes{" "}
                     <Link href="/pages/signup" className="text-[#7286FF]">
@@ -54,7 +55,7 @@ const DonacionesPage: React.FC = () => {
                 </div>
               </div>
 
-              <div className=" w-1/3 h-full overflow-hidden flex justify-center items-center ">
+              <div className=" w-1/3 h-full overflow-hidden flex justify-center items-center">
                 <div className="flex justify-center items-center">
                   <div className="flex justify-center items-center object-contain h-full w-full">
                     <Image
