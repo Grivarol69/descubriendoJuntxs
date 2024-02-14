@@ -1,6 +1,8 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import Axios from 'axios';
-import style from './CreateServices.module.css'
+import style from './CreateServices.module.css';
+import axios from 'axios';
+
 
 interface FormData {
   name: string;
@@ -19,107 +21,150 @@ interface FormData {
 }
 
 interface CreateServicesProps {
-    modal: boolean,
-    closeModal: () => void
+  modal: boolean;
+  closeModal: () => void;
 }
 
-const CreateServices: React.FC<CreateServicesProps> = ({modal, closeModal}) => {
-if(!modal) {
-    return null
-}
+const CreateServices: React.FC<CreateServicesProps> = ({ modal, closeModal }) => {
+  if (!modal) {
+    return null;
+  }
 
-  const [formData, setFormData] = useState<FormData>({
+  const [input, setInput] = useState({
     name: '',
     description: '',
     userId: 1,
     categoryId: 1,
-    dateIn: '',
-    dateOut: '',
+    dateIn: new Date().toISOString().slice(0, 10),
+    dateOut: new Date().toISOString().slice(0, 10),
     hourIn: '',
     hourOut: '',
     amount: 0,
     objective: '',
     syllabus: '',
     type: '',
-    state: '',
+    state: 'Activo',
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    e.preventDefault()
+    setInput({
+      ...input,
+      [e.target.name]: e.target.value,
+    });
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const API_URL = 'https://juntxs.vercel.app';
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    Axios.post('https://juntxs.vercel.app/services', formData, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(response => {
+    if (['coaching', 'taller', 'retiro'].includes(input.type)) {
+      try {
+        const response = await axios.post('https://juntxs.vercel.app/services', {
+          name: input.name,
+          description: input.description,
+          userId: Number(input.userId),
+          categoryId: Number(input.categoryId),
+          dateIn: new Date(input.dateIn).toISOString(),
+          dateOut: new Date(input.dateOut).toISOString(),
+          hourIn: input.hourIn,
+          hourOut: input.hourOut,
+          amount: Number(input.amount),
+          objective: input.objective,
+          syllabus: input.syllabus,
+          type: input.type,
+          state: input.state,
+        });
         console.log('Nuevo servicio creado:', response.data);
-      })
-      .catch(error => console.error('Error creating service:', error));
+      } catch (error: any) {
+        console.error('Error creating service:', error);
+        if (error.response) {
+          console.error('Server responded with:', error.response.data);
+        } else if (error.request) {
+          console.error('No response received from server');
+        } else {
+          console.error('Error setting up the request:', error.message);
+        }
+      }
+    } else {
+      console.error('Invalid type value:', input.type);
+    }
   };
 
   
   
-    return (
+
+  return (
+    <>
       <div className={style.background}>
         <div className={style.container}>
-          <h1>Crear Servicio</h1>
-          <button onClick={closeModal}>X</button>
-          <div>
-            <form onSubmit={handleSubmit}>
-              <div>
-                <label htmlFor="" >Nombre del servicio</label>
-                <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Nombre del servicio"/>
-              </div>
-              <div>
-                <label htmlFor="" >Descripción del servicio</label>
-                <input type="text" name="description" value={formData.description} onChange={handleChange}placeholder="" />
-              </div>
-              <div>
-                <label htmlFor="" >Fecha de inicio</label>
-                <input type="date" name="dateIn" value={formData.dateIn} onChange={handleChange}placeholder="" />
-              </div>
-              <div>
-                <label htmlFor="" >Fecha de finalización</label>
-                <input type="date" name="dateOut" value={formData.dateOut} onChange={handleChange}placeholder="" />
-              </div>
-              <div>
-                <label htmlFor="" >Hora de inicio</label>
-                <input type="time" name="hourIn" value={formData.hourIn} onChange={handleChange}placeholder="" />
-              </div>
-              <div>
-                <label htmlFor="" >Hora de finalización</label>
-                <input type="time" name="hourOut" value={formData.hourOut} onChange={handleChange} placeholder=""/>
-              </div>
-              <div>
-                <label htmlFor="" >Cantidad</label>
-                <input type="number" name="amount" value={formData.amount} onChange={handleChange}placeholder="" />
-              </div>
-              <div>
-                <label htmlFor="" >Objetivo</label>
-                <input type="text" name="objective" value={formData.objective} onChange={handleChange} placeholder="" />
-              </div>
-              <div>
-                <label htmlFor="" >Sílabo</label>
-                <input type="text" name="syllabus" value={formData.syllabus} onChange={handleChange} placeholder=""/>
-              </div>
-              <div>
-                <label htmlFor="" >Tipo</label>
-                <input type="text" name="type" value={formData.type} onChange={handleChange} placeholder=""/>
-              </div>
-              <div>
-                <label htmlFor="" >state</label>
-                <input type="text" name="state" value={formData.state} onChange={handleChange} placeholder=""/>
-              </div>
-              <button type="submit">Crear Servicio</button>
-            </form>
+          <div className={style.createUserAndCloseModal}>
+            <h1>Crear Servicio</h1>
+            <button onClick={closeModal}>X</button>
           </div>
+          <form className={style.form} onSubmit={handleSubmit}>
+            <div className={style.inputsContainer}>
+              <div className={style.labelInput}>
+                <label htmlFor="">Nombre del servicio</label>
+                <input className={style.input} type="text" name="name" value={input.name} onChange={handleChange} placeholder="Nombre del servicio"/>
+              </div>
+              <div className={style.labelInput}>
+                <label htmlFor="">Descripción del servicio</label>
+                <input className={style.input} type="text" name="description" value={input.description} onChange={handleChange} placeholder=""/>
+              </div>
+            </div>
+            <div className={style.inputsContainer}>
+              <div className={style.labelInput}>
+                <label htmlFor="">Fecha de inicio</label>
+                <input className={style.input} type="date" name="dateIn" value={input.dateIn} onChange={handleChange} placeholder=""/>
+              </div>
+              <div className={style.labelInput}>
+                <label htmlFor="">Fecha de finalización</label>
+                <input className={style.input} type="date" name="dateOut" value={input.dateOut} onChange={handleChange} placeholder=""/>
+              </div>
+            </div>
+            <div className={style.inputsContainer}>
+              <div className={style.labelInput}>
+                <label htmlFor="">Hora de inicio</label>
+                <input className={style.input} type="time" name="hourIn" value={input.hourIn} onChange={handleChange} placeholder=""/>
+              </div>
+              <div className={style.labelInput}>
+                <label htmlFor="">Hora de finalización</label>
+                <input className={style.input} type="time" name="hourOut" value={input.hourOut} onChange={handleChange} placeholder=""/>
+              </div>
+            </div>
+            <div className={style.inputsContainer}>
+              <div className={style.labelInput}>
+                <label htmlFor="">Cantidad</label>
+                <input className={style.input} type="number" name="amount" value={input.amount} onChange={handleChange} placeholder=""/>
+              </div>
+              <div className={style.labelInput}>
+                <label htmlFor="">Objetivo</label>
+                <input className={style.input} type="text" name="objective" value={input.objective} onChange={handleChange} placeholder=""/>
+              </div>
+            </div>
+            <div className={style.inputsContainer}>
+              <div className={style.labelInput}>
+                <label htmlFor="">Sílabo</label>
+                <input className={style.input} type="text" name="syllabus" value={input.syllabus} onChange={handleChange} placeholder=""/>
+              </div>
+              <div className={style.labelInput}>
+                <label htmlFor="">Tipo</label>
+                <input className={style.input} type="text" name="type" value={input.type} onChange={handleChange} placeholder="Coachin, Talleres o Retiros"/>
+              </div>
+            </div>
+            <div className={style.inputsContainer}>
+              <div className={style.labelInput}>
+                <label htmlFor="">Estado</label>
+                <input className={style.input} type="text" name="state" value={input.state} onChange={handleChange} placeholder=""/>
+              </div>
+            </div>
+          </form>
+          <button onClick={(e) => handleSubmit(e)}>Crear Servicio</button>
         </div>
       </div>
-    );
+    </>
+  );
   };
   
   export default CreateServices;

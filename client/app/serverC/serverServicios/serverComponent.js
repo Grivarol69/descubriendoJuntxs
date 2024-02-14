@@ -4,8 +4,8 @@ import CardServicios from '../../../components/CardServicios/CardServicios';
 function formatService(service) {
   const formattedService = {
     id: service.id,
-    nombre: service.nombre,
-    descripcion: service.descripcion,
+    name: service.name,
+    description: service.description,
     comentarios: service.comentarios,
     imagen: service.imagen,
     ruta: service.ruta,
@@ -15,13 +15,11 @@ function formatService(service) {
 }
 
 function ServiciosServer({ servicios }) {
-    return (
-        <div>
-          {servicios.map(servicio => (
-            <CardServicios key={servicio.id} servicio={servicio} />
-          ))}
-        </div>
-      );
-    };
+  return (
+      <div>
+        <CardServicios servicios={servicios} />
+      </div>
+  );
+};
 
 export default ServiciosServer;
