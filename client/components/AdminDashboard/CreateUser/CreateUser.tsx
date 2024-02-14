@@ -10,12 +10,6 @@ interface CreateProjectProps {
 }
 
 const CreateUser: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
-    if (!modal) {
-        return null
-    }
-
-    const URL_BASE = "https://juntxs.vercel.app/"
-
     const [input, setInput] = useState({
         email: "",
         name: "",
@@ -30,6 +24,13 @@ const CreateUser: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
         role: "",
         password: ""
     })
+    if (!modal) {
+        return null
+    }
+
+    const URL_BASE = "https://juntxs.vercel.app/"
+
+    
 
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

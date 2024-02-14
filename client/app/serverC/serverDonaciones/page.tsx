@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Axios from 'axios';
 import { useAuthContext } from '@/app/contexto/AuthContext';
 
@@ -29,7 +29,7 @@ interface DonationResponse {
 }
 
 interface DonacionesServerProps {
-  children: (data: DonationResponse[]) => React.ReactNode;
+  children: (data: any[]) => React.ReactNode;
 }
 
 interface Donation {

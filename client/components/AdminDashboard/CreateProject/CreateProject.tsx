@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import style from './CreateProject.module.css'
-import { ProyectTypes } from '@/app/proyectos/page'
+
 import axios from 'axios'
 
 
@@ -10,12 +10,6 @@ interface CreateProjectProps {
 }
 
 const CreateProject: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
-    if (!modal) {
-        return null
-    }
-
-    const URL_BASE = "https://juntxs.vercel.app/"
-
     const [input, setInput] = useState({
         image: null as File | null,
         // id: "",
@@ -30,6 +24,13 @@ const CreateProject: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
         categoryId: 1,
         
     })
+    if (!modal) {
+        return null
+    }
+
+    const URL_BASE = "https://juntxs.vercel.app/"
+
+    
 const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
         setInput({ ...input, image: e.target.files[0] });
