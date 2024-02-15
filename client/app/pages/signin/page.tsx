@@ -82,7 +82,7 @@ const SignInPage = () => {
                 if (userInfoCreate.status) {
                     console.log(userInfoCreate);
                     persistirSesion(userInfoCreate.user)
-                    return router.push('/userIn')
+                    return router.push('/')
                 }
 
             }
@@ -111,7 +111,7 @@ const SignInPage = () => {
                 if (userInfoCreate.status) {
                     console.log(userInfoCreate);
                     persistirSesion(userInfoCreate.user)
-                    return router.push('/userIn')
+                    return router.push('/')
                 }
                 else {
                     logout()
