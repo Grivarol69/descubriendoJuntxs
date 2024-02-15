@@ -27,6 +27,7 @@ export interface ServicioTypes {
   syllabus: string;
   objective: string;
 }
+}
 
 
 
