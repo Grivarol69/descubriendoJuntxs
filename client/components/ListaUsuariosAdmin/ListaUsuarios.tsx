@@ -2,8 +2,6 @@
 import { useState } from 'react'
 import style from './listaUsers.module.css'
 import CreateUser from '@/components/AdminDashboard/CreateUser/CreateUser'
-
-
 interface useInfoType {
     users: {
         id: number,
@@ -22,12 +20,8 @@ interface useInfoType {
         role: string,
     }[]
 }
-
 const ListUsers: React.FC<useInfoType> = ({ users }) => {
-
     const [modal, setModal] = useState(false)
-
-
     return (
         <>
             <CreateUser
@@ -37,7 +31,7 @@ const ListUsers: React.FC<useInfoType> = ({ users }) => {
             <div className={style.container}>
                 <div className={style.cardContainer}>
                     <div className={style.usersList}>
-                        <h1>List Of Users</h1>
+                        <h1>Lista de Usuarios</h1>
                         <div className={style.containerUsers}>
                             {users.map((user) => {
                                 return (
@@ -56,11 +50,10 @@ const ListUsers: React.FC<useInfoType> = ({ users }) => {
                         </div>
                     </div>
                     <div className='w-full'>
-                        <button className={style.buttonFull} onClick={() => setModal(true)}>Create User +</button>
+                        <button className={style.buttonFull} onClick={() => setModal(true)}>Crear Usuario +</button>
                     </div>
                 </div>
             </div>
-
         </>
     )
 }
