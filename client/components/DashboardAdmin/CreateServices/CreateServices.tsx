@@ -26,9 +26,7 @@ interface CreateServicesProps {
 }
 
 const CreateServices: React.FC<CreateServicesProps> = ({ modal, closeModal }) => {
-  if (!modal) {
-    return null;
-  }
+  
 
   const [input, setInput] = useState({
     name: '',
@@ -116,7 +114,9 @@ const CreateServices: React.FC<CreateServicesProps> = ({ modal, closeModal }) =>
     console.error('Invalid type value:', input.type);
   }
 };
-
+if (!modal) {
+    return null;
+  }
 
   return (
     <>

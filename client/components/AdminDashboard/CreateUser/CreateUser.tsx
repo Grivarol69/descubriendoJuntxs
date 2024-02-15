@@ -28,10 +28,7 @@ const CreateUser: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
         role: "",
         password: ""
     })
-    if (!modal) {
-        return null
-    }
-
+    
     const URL_BASE = "https://juntxs.vercel.app/"
 
     
@@ -115,6 +112,11 @@ const CreateUser: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
         if (!modal) {
         return null
     }
+
+    if (!modal) {
+        return null
+    }
+
 
     return (
         <>

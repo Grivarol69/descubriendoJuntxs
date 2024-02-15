@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import style from './CreateProject.module.css'
-
+// import { ProyectTypes } from '@/app/proyectos/page'
 import axios from 'axios'
 
 
@@ -10,7 +10,10 @@ interface CreateProjectProps {
 }
 
 const CreateProject: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
-    const [file, setFile] = useState({});
+   
+
+    const URL_BASE = "https://juntxs.vercel.app/"
+
     const [input, setInput] = useState({
         image: null as File | null,
         // id: "",
@@ -23,7 +26,6 @@ const CreateProject: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
         objective: "",
         syllabus: "",
         categoryId: 1,
-
 
     })
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,7 +42,6 @@ const CreateProject: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
             [e.target.name]: e.target.value
         })
     }
-
 
     const handleSubmit = async () => {
         try {
@@ -70,11 +71,8 @@ const CreateProject: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
         } catch (error) {
             console.log(error);
         }
-    } catch (error) {
-        console.log(error);
-    }
-};
-  
+    };
+
      if (!modal) {
         return null
     }
@@ -127,4 +125,4 @@ const CreateProject: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
     )
 }
 
-export default CreateProject
+export default CreateProject

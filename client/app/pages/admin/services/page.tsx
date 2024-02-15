@@ -27,6 +27,9 @@ export interface ServicioTypes {
   syllabus: string;
   objective: string;
 }
+}
+
+
 
 const ServicesPage: React.FC = () => {
   const [servicios, setServicios] = useState<Servicio[]>([]);
