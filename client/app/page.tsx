@@ -13,7 +13,7 @@ const Home: React.FC = () => {
       <div className="px-[20px] lg:container lg:px-20">
         <Features />
         <Faq />
-        <Pricing />
+        {/* <Pricing /> */}
         <Cta />
       </div>
     </main>

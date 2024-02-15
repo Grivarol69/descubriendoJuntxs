@@ -2,19 +2,19 @@ import { useState } from "react"
 import style from './CreateUser.module.css'
 import axios from "axios"
 import signUp from "@/app/firebase/auth/signup";
-
+import { CldUploadWidget } from 'next-cloudinary';
 
 interface CreateProjectProps {
     modal: boolean,
     closeModal: () => void
 }
 
+const URL_BASE = "https://juntxs.vercel.app/"
+
 const CreateUser: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
     if (!modal) {
         return null
     }
-
-    const URL_BASE = "https://juntxs.vercel.app/"
 
     const [input, setInput] = useState({
         email: "",
@@ -31,13 +31,42 @@ const CreateUser: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
         password: ""
     })
 
+    const [errors, setErrors] = useState({
+        email: '',
+        password: ''
+    })
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
         e.preventDefault()
         setInput({
             ...input,
             [e.target.name]: e.target.value
         })
+        let error = '';
+
+        switch (name) {
+            case 'email':
+                if (!value) {
+                    error = 'El correo electrónico es obligatorio';
+                } else if (!/\S+@\S+\.\S+/.test(value)) {
+                    error = 'El correo electrónico no es válido';
+                }
+                break;
+            case 'password':
+                if (!value) {
+                    error = 'La contraseña es obligatoria';
+                } else {
+                    if (value.length < 7 || !/[A-Za-z]/.test(value) || !/\d/.test(value)) {
+                        error = 'La contraseña debe tener al menos 7 caracteres, un numero y una letra';
+                    }
+                }
+                break;
+        }
+        setErrors(prevState => ({
+            ...prevState,
+            [name]: error
+        }));
     }
 
     const handleSubmit = async () => {
@@ -77,6 +106,7 @@ const CreateUser: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
             console.log(error)
         }
     }
+    
 
     return (
         <>
@@ -132,10 +162,31 @@ const CreateUser: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
                                 <div className={style.labelInput}>
                                     <label htmlFor="" >Email</label>
                                     <input className={style.input} type="text" name="email" value={input.email} onChange={handleChange} />
+                                    {errors.email && <p style={{ color: 'red' }}>{errors.email}</p>}
                                 </div>
                                 <div className={style.labelInput}>
                                     <label htmlFor="" >Password</label>
-                                    <input className={style.input} type="text" name="password" value={input.password} onChange={handleChange} />
+                                    <input className={style.input} type="password" name="password" value={input.password} onChange={handleChange} />
+                                    {errors.password && <p style={{ color: 'red' }}>{errors.password}</p>}
+                                </div>
+                                <div>
+                                    <section>
+
+                                    <CldUploadWidget uploadPreset="project_ong">
+                                    {({ open }) => {
+                                    function handleOnClick(e: { preventDefault: () => void; }) {
+                                        e.preventDefault();
+                                        open();
+                                    }
+                                    return (
+                                        <button onClick={handleOnClick}>
+                                        Upload an Asset
+                                        </button>
+                                    )
+                                    }}
+                                            </CldUploadWidget>
+
+                                    </section>
                                 </div>
                             </div>
                         </form>
@@ -150,3 +201,4 @@ const CreateUser: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
 
 
 export default CreateUser;
+

@@ -16,6 +16,10 @@ export interface ProyectTypes {
         type: string,
         image: string,
         commentary: [],
+        favorite: {
+            userId: number,
+            programId: number
+        }
     }[]
 }
 
