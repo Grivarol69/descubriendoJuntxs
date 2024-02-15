@@ -23,6 +23,8 @@ export interface ServicioTypes {
   dateIn: string | number;
   dateOut: string | number;
   type: string;
+  syllabus: string;
+  objective: string;
 }
 
 const ServicesPage: React.FC = () => {

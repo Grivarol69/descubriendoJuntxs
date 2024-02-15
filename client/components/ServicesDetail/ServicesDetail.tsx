@@ -1,5 +1,4 @@
 import { ServicioTypes } from "@/app/pages/admin/services/page";
-import { useState } from "react";
 import style from './ServicesDetail.module.css'
 
 
@@ -64,6 +63,14 @@ interface ServiciosDetailProps {
       <div className={style.title}>Fecha de finalización del servicio</div>
       <div className={style.value}>{dateOutString}</div>
     </div>
+    <div className={style.titleAndValue}>
+              <div className={style.title}>Objetivo del servicio</div>
+              <div className={style.value}>{servicio.objective}</div>
+            </div>
+            <div className={style.titleAndValue}>
+              <div className={style.title}>Sílabo del servicio</div>
+              <div className={style.value}>{servicio.syllabus}</div>
+            </div>
             </div>
           </div>
         </div>

@@ -34,26 +34,33 @@ const CardServicios: React.FC<CardServiciosProps> = ({ servicios }) => {
     setShowCreateModal(false);
   };
 
+  
+
   return (
     <div className={style.gridContainer}>
       <div className={style.containerDonations}>
         <div className={style.titlePage}> Participacion de Servicios </div>
         <div className={style.allDonations}>
-        {servicios.map(servicio => (
-  <div key={servicio.name} className={style.cardDonation}>
-    <div className={style.projectAndProjectType}>
-      <div className={style.imageAndTitle}>
-        <div className={style.imageProject}></div>
-        <div className={style.titleAndButton}>
-          <div className={style.titleProyect}>{servicio.name}</div>
-          <button className={style.buttonProyect} onClick={() => openDetailModal(servicio)}>Ver Agenda</button>
+          <div className={style.cardHeader}>
+            <div className={style.subtitle}>Nombre de servicios</div>
+            <div className={style.subtitleRight}>Tipo de servicios</div>
+          </div>
+          {servicios.map(servicio => (
+            <div key={servicio.name} className={style.cardDonation}>
+              <div className={style.projectAndProjectType}>
+                <div className={style.imageAndTitle}>
+                  <div className={style.imageProject}></div>
+                  <div className={style.titleAndButton}>
+                    <div className={style.titleProyect}>{servicio.name}</div>
+                    <button className={style.buttonProyect} onClick={() => openDetailModal(servicio)}>Ver Agenda</button>
+                  </div>
+                </div>
+                <div className={style.type}>{servicio.type}</div>
+              </div>
+            </div>
+          ))}
         </div>
-      </div>
-    </div>
-  </div>
-))}
-        </div>
-          <button className={style.buttonProyect} onClick={openCreateModal}>Crear Servicios</button>
+        <button className={style.buttonCrear} onClick={openCreateModal}>Crear Servicios</button>
       </div>
       {showDetailModal && selectedServicio && (
         <ServiciosDetail
@@ -62,11 +69,11 @@ const CardServicios: React.FC<CardServiciosProps> = ({ servicios }) => {
         />
       )}
       {showCreateModal && (
-  <CreateServices
-    modal={showCreateModal}
-    closeModal={closeCreateModal}
-  />
-)}
+        <CreateServices
+          modal={showCreateModal}
+          closeModal={closeCreateModal}
+        />
+      )}
     </div>
   );
 };

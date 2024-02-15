@@ -114,3 +114,28 @@
   color: #7286FF;
 
 }
+
+.buttonCrear{
+  font-size: 0.8rem;
+  color: white; 
+  background-color: #7286FF; 
+  width: 100%;
+  border: none; 
+  padding: 10px; 
+  border-radius: 5px;
+  cursor: pointer; 
+}
+
+.subtitleRight {
+    text-align: right;
+    font-weight: bold;
+  }
+
+  .subtitle{
+    font-weight: bold;
+  }
+
+  .cardHeader {
+    display: flex;
+    justify-content: space-between;
+  }

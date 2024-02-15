@@ -84,7 +84,7 @@ const DonacionesPage: React.FC = () => {
   const handleDonationClick = async (donation: Donation) => {
     try {
       if (donation.projectId) {
-        const response = await fetch(`https://juntxs.vercel.app/projects/${donation.projectId}`);
+        const response = await fetch('https://juntxs.vercel.app/programs/1');
         const projectDetails = await response.json();
   
         setDonations(donations.map(d => d.id === donation.id ? { ...d, project: projectDetails } : d));
