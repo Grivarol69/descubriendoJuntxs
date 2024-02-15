@@ -6,13 +6,17 @@ import email from "../../public/assets/icon-mail.svg";
 import location from "../../public/assets/item-location.svg";
 import phone from "../../public/assets/item-phone.svg";
 import axios from "axios";
+import { useState } from "react";
 
 const Contacto: React.FC = () => {
   const {
     register,
     formState: { errors },
     handleSubmit,
+    reset,
   } = useForm();
+
+  const [successMessage, setSuccessMessage] = useState<string | null>(null)
 
   const onSubmit = async (data: any) => {
     try {
@@ -21,6 +25,11 @@ const Contacto: React.FC = () => {
         "https://juntxs.vercel.app/nodemailer",
         data
       );
+
+      if (response.data.message === "Email sent successfully!") {
+        setSuccessMessage('¡Recibimos tu mensaje! Pronto te daremos respuesta.')
+        reset()
+      }
 
       console.log("Respuesta del servidor:", response.data);
     } catch (error: any) {
@@ -196,6 +205,7 @@ const Contacto: React.FC = () => {
                   />
                 </div>
               </form>
+              {successMessage && <p>{successMessage}</p>}
             </div>
 
             {/* div 2 */}
@@ -311,8 +321,8 @@ const Contacto: React.FC = () => {
                                   Descubriendo Juntxs
                                 </div>
                                 <div className=" text-slate-200 flex w-4/6 ">
-                                Dirección: Av. Ferrocarril 1068, el Tambo,
-                                    Huancayo{" "}
+                                  Dirección: Av. Ferrocarril 1068, el Tambo,
+                                  Huancayo{" "}
                                 </div>
                               </div>
                             </a>
