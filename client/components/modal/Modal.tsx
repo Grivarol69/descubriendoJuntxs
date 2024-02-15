@@ -5,6 +5,9 @@ import React, { useContext, useEffect } from "react";
 import { useState } from "react"
 import { icons } from '../Icons/Icons';
 import { useAuthContext } from "@/app/contexto/AuthContext";
+// import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
+import { useSocketContext } from "@/app/contexto/SocketContext";
 
 
 interface ModalProjectProps {
@@ -23,13 +26,7 @@ interface ModalProjectProps {
         categoryId: number,
         type: string,
         image: string,
-        favorite:{
-            userId: number,
-            programId: number
-        }
-
-        donation: [],
-        commentary: Comment[],
+        commentary: Comment[]
     },
     socket: any
 }
@@ -49,6 +46,7 @@ const ModalProject: React.FC<ModalProjectProps> = ({ openModal, closeModal, proj
     //importación del usuario con el auth context
     const parseInfo = JSON.parse(infoUserGlobal ?? '')
     //importación del socket con SocketContext
+    const router = useRouter()
     socket.on('newCommentary', (newComment: Comment) => {
         setAllCommentaries([...allCommentaries, newComment])
     })
@@ -61,7 +59,6 @@ const ModalProject: React.FC<ModalProjectProps> = ({ openModal, closeModal, proj
             document.body.style.overflow = 'visible';
         };
     }, [])
-
     // tamaño de los comentarios
     let totalCommentaries = allCommentaries.length
     //Función para enviar comentarios con socket
@@ -79,12 +76,10 @@ const ModalProject: React.FC<ModalProjectProps> = ({ openModal, closeModal, proj
             alert(error);
         }
     }
-
     //Función que captura la info del text área del comentario
     const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setNewCommentary(event.target.value)
     }
-    
     if (!openModal) return null
     return (
         <>
@@ -99,8 +94,9 @@ const ModalProject: React.FC<ModalProjectProps> = ({ openModal, closeModal, proj
                                 className="closeModalTransition"
                                 onClick={() => {
                                     closeModal()
-                                    location.reload();
-                                    }}>
+                                    // location.reload()
+                                    router.refresh()
+                                }}>
                                 <img src={icons.close.src} alt="" />
                             </button>
                         </div>

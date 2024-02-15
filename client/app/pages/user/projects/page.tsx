@@ -28,6 +28,7 @@ const UserProjectsPage = () => {
     
 
     const [projects, setProjects] = useState<ProyectTypes[]>([...proyecto])
+
     return (
         <>
             <div className={style.gridContainer}>
@@ -35,21 +36,21 @@ const UserProjectsPage = () => {
                     <div className={style.container}>
                         <div className={style.topInfoContainer}>
                             <div className={style.titlePage}>Proyectos Favoritos</div>
-                            <SearchBar
+                            {/* <SearchBar
                                 seteador={setProjects}
                                 proyectos={proyecto}
-                                />
+                                /> */}
                         </div>
-                        {projects.map((proyecto) => {
+                        <FavoriteProject  />
+                        {/* {projects.map((proyecto) => {
                             return (
                                 <>
-                                <FavoriteProject  />
                                     <CardProyect
                                         project={proyecto}
                                         />
                                 </>
                             )
-                        })}
+                        })} */}
                     </div>
                 </div>
             </div>

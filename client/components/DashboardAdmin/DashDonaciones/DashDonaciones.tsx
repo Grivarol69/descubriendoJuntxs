@@ -1,85 +1,75 @@
-import React, { useState } from 'react';
-import './donaciones.css';
+import React, { useState, useEffect } from 'react';
+import Axios from 'axios';
+import CardDonaciones from '@/components/CardDonaciones/CardDonaciones';
+import { DonationResponse, FormattedDonation, UserData, ProjectData } from '@/app/pages/admin/donaciones/page';
+import './donaciones.css'
 
-interface UserData {
-  dateIn: string;
-  dateOut: string | null;
-  description: string | null;
-  email: string;
-  id: number;
-  identification: string | null;
-  language: string | null;
-  linkedin: string | null;
-  name: string;
-  phone: string | null;
-  position: string | null;
-  role: string;
-  state: string;
-  surName: string | null;
-}
 
-interface Donation {
-  id: number;
-  amount: number;
-  type: string;
-  userId: number;
-  user?: UserData;
-}
 
-interface DashDonacionesProps {
-  donations: Donation[];
-}
-
-interface DashDonacionesProps {
-  donations: Donation[];
-}
-
-const DashDonaciones: React.FC<DashDonacionesProps> = ({ donations }) => {
-  const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
-
-  const handleUserClick = (userId: number) => {
-    setSelectedUserId(userId);
+const formatDonation = (donation: DonationResponse): FormattedDonation => {
+  return {
+    id: donation.id,
+    amount: donation.amount,
+    type: donation.type,
+    userId: donation.userId,
+    user: Array.isArray(donation.user) ? donation.user[0] : donation.user,
   };
+};
+
+const DashDonaciones: React.FC = () => {
+  const [selectedUserId, setSelectedUserId] = useState<number | null>(1); 
+  const [modal, setModal] = useState(true);
+  const [usersWithProjects, setUsersWithProjects] = useState<{ [key: number]: UserData }>({});
+  const [donations, setDonations] = useState<DonationResponse[]>([]);
+  const [formattedDonations, setFormattedDonations] = useState<FormattedDonation[]>([]);
+
+  useEffect(() => {
+    Axios.get('https://juntxs.vercel.app/donations')
+      .then((response) => {
+        const donationData: DonationResponse[] = response.data;
+        setDonations(donationData);
+        setFormattedDonations(donationData.map(formatDonation));
+      })
+      .catch((error) => console.error('Error al obtener donaciones:', error));
+  }, []);
+
+  const handleUserClick = async (userId: number) => {
+    setSelectedUserId(userId);
+
+    try {
+      const userProjectsResponse = await Axios.get(`https://juntxs.vercel.app/users/donations/1`);
+      const userProjects: ProjectData[] = userProjectsResponse.data;
+
+      const selectedDonation = donations.find((donation) => donation.userId === userId);
+
+      if (selectedDonation) {
+        setModal(true);
+      }
+
+      setUsersWithProjects((prevUsers) => ({
+        ...prevUsers,
+        [userId]: { ...prevUsers[userId], projects: userProjects },
+      }));
+    } catch (error) {
+      console.error('Error al obtener información del proyecto:', error);
+    }
+  };
+
+  const selectedDonation = donations.find((donation) => donation.userId === selectedUserId);
 
   const handleCloseDetail = () => {
     setSelectedUserId(null);
   };
 
-  const selectedDonation = donations.find((donation) => donation.userId === selectedUserId);
-
   return (
-    <div className="dashboard-container rounded-lg overflow-hidden">
-      <div className="users-container flex flex-col">
-        {donations.map((donation) => (
-          <div
-            key={donation.id}
-            onClick={() => handleUserClick(donation.userId)}
-            className="mb-2 p-2 bg-gray-200 rounded cursor-pointer"
-          >
-            {donation.user?.name || "Usuario sin nombre"}
-          </div>
-        ))}
-      </div>
-
-      {selectedUserId && selectedDonation && (
-        <div className="cardContainer grid grid-cols-2 bg-white w-2/5 h-2/5 max-h-2/5 shadow-lg rounded transition-transform hover:scale-105">
-          <div className="infoContainer flex flex-col justify-center items-center p-8">
-            <h3 className="mb-2">Detalles de la Donación Seleccionada:</h3>
-            <p>Nombre: {selectedDonation.user?.name || "Usuario sin nombre"}</p>
-            <p>Monto: {selectedDonation.amount}</p>
-            <p>Tipo: {selectedDonation.type}</p>
-            <p>Fecha de la Donación: {selectedDonation.user?.dateIn}</p>
-            <div className="infoP-Card flex flex-col mt-4">
-              <button
-                className="buttonFull bg-blue-500 text-white min-w-min w-auto h-12 rounded transition border border-blue-500 hover:bg-white hover:text-blue-500"
-                onClick={handleCloseDetail}
-              >
-                Cerrar Detalle
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+    <div className="dashboard-container">
+      <CardDonaciones
+        donations={donations}
+        formattedDonations={formattedDonations}
+        onCloseDetail={handleCloseDetail}
+        onUserClick={handleUserClick}
+        selectedUserId={selectedUserId}
+      />
     </div>
   );
 };

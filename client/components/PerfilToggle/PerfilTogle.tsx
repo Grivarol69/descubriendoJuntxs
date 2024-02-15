@@ -48,6 +48,7 @@ const PerfilTogle: React.FC<ToggleTyps> = ({ toggle, logOut, closeToggle, userTy
                 <div onClick={() => {
                     logOut()
                     closeToggle()
+                    window.localStorage.setItem('user', '""')
                     return router.push('/')
                 }} className={style.logOut}> Logout </div>
             </div>

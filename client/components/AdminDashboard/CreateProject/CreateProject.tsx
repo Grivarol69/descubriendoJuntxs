@@ -1,8 +1,7 @@
-import {  useState } from 'react'
+import { useState } from 'react'
 import style from './CreateProject.module.css'
 
 import axios from 'axios'
-
 
 
 interface CreateProjectProps {
@@ -24,18 +23,16 @@ const CreateProject: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
         objective: "",
         syllabus: "",
         categoryId: 1,
-    })
-    
-    const URL_BASE = "https://juntxs.vercel.app/"
 
-    
-const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-        setInput({ ...input, image: e.target.files[0] });
-    } else {
-        setInput({ ...input, image: null });
-    }
-};
+
+    })
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files.length > 0) {
+            setInput({ ...input, image: e.target.files[0] });
+        } else {
+            setInput({ ...input, image: null });
+        }
+    };
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault()
         setInput({
@@ -43,32 +40,35 @@ const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             [e.target.name]: e.target.value
         })
     }
- 
 
-const handleSubmit = async () => {
-    try {
-        const formData = new FormData();
-        formData.append('name', input.name);
-        formData.append('description', input.description);
-        formData.append('objective', input.objective);
-        formData.append('dateIn', input.dateIn);
-        formData.append('dateOut', input.dateOut);
-        formData.append('state', input.state);
-        formData.append('syllabus', input.syllabus);
-        formData.append('urlYoutube', input.urlYoutube);
-        formData.append('categoryId', String(input.categoryId));
 
-        if (input.image) {
-            formData.append('', input.image);
-        }
-        const response = await axios.post('https://juntxs.vercel.app/programs', formData, {
-    headers: {
-        'Content-Type': 'multipart/form-data'
-    }
-});
-        if (response) {
-            location.reload();
-            closeModal();
+    const handleSubmit = async () => {
+        try {
+            const formData = new FormData();
+            formData.append('name', input.name);
+            formData.append('description', input.description);
+            formData.append('objective', input.objective);
+            formData.append('dateIn', input.dateIn);
+            formData.append('dateOut', input.dateOut);
+            formData.append('state', input.state);
+            formData.append('syllabus', input.syllabus);
+            formData.append('urlYoutube', input.urlYoutube);
+            formData.append('categoryId', String(input.categoryId));
+
+            if (input.image) {
+                formData.append('', input.image);
+            }
+            const response = await axios.post('https://juntxs.vercel.app/programs', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            if (response) {
+                location.reload();
+                closeModal();
+            }
+        } catch (error) {
+            console.log(error);
         }
     } catch (error) {
         console.log(error);
@@ -78,6 +78,7 @@ const handleSubmit = async () => {
      if (!modal) {
         return null
     }
+
     return (
         <div className={style.background}>
             <div className={style.container}>
@@ -113,25 +114,13 @@ const handleSubmit = async () => {
                                 <input className={style.input} type="text" name="urlYoutube" value={input.urlYoutube} onChange={handleChange} />
                             </div>
                             <div className={style.labelInput}>
-                            <div className={style.labelInput}>
-                            <label htmlFor="">Imagen</label>
-                            <input
-                                className={style.input}
-                                type="file"
-                                accept="image/*"
-                                onChange={handleFileChange}
-                            />
-                        </div>
-                        {input.image && (
-                            <img src={input.image} alt="Uploaded" />
-                        )}
-
+                                <label htmlFor="" >Imagen</label>
+                                <input type="file" onChange={handleFileChange} />
                             </div>
                         </div>
-                    
                     </form>
-                <button onClick={ handleSubmit}>Crear Proyecto</button>
 
+                    <button onClick={() => handleSubmit()}>Crear Proyecto</button>
                 </div>
             </div>
         </div>
@@ -139,4 +128,3 @@ const handleSubmit = async () => {
 }
 
 export default CreateProject
-

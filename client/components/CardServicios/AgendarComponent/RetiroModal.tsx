@@ -67,23 +67,11 @@ const RetiroModal: React.FC<AgendarTypes> = ({ modal, closeModal, retiros }) => 
                 userId: parseInfoGlobal.id,
                 role: parseInfoGlobal.role,
             }
-            const participantCreated = (await axios.post('https://juntxs.vercel.app/participants', infoCreate )).data
-            
-            if (participantCreated) {
-                console.log('Entró acá');
-                
-                const paymentInfo = {
-                    serviceId: serviceSelect?.categoryId ?? '',
-                    userId: parseInfoGlobal.id,
-                    role: parseInfoGlobal.role,
-                    name: 'Retiro',
-                    amount: serviceSelect?.amount
-                }
-                const data = (await axios.post('https://juntxs.vercel.app/payments/services', paymentInfo)).data
+            const data = (await axios.post('https://juntxs.vercel.app/payments/servicesPayments', infoCreate)).data
+            if (data) {
                 window.open(data.init_point, '_blank');
-                router.push('/pages/user/donations')
+                router.push('/pages/user/services')
             }
-
         } catch (error) {
             console.log(error);
         }
@@ -111,7 +99,7 @@ const RetiroModal: React.FC<AgendarTypes> = ({ modal, closeModal, retiros }) => 
 
     const retiroOptions = options()
     console.log(retiroOptions);
-    
+
     if (!modal) return null
 
     return (

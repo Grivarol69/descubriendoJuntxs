@@ -29,7 +29,6 @@ interface service {
     name: string,
     description: string,
     userId: number | null,
-    categoryId: number | null,
     amount: number | null,
     dateIn: Date | null,
     dateOut: Date | null,
@@ -38,6 +37,7 @@ interface service {
     objective: string,
     syllabus: string,
     type: string
+    participantUserId: number
 }
 
 const CoachingComponent: React.FC<AgendarTypes> = ({ modal, closeModal, coaches }) => {
@@ -46,47 +46,60 @@ const CoachingComponent: React.FC<AgendarTypes> = ({ modal, closeModal, coaches 
     const router = useRouter()
     const [service, setService] = useState<service>({
         name: 'Coach Personalizado',
-        description: '',
         userId: null,
-        categoryId: 1,
         amount: 200,
-        dateIn: new Date(),
-        dateOut: new Date(),
+        description: '',
         hourIn: '',
         hourOut: '',
         objective: 'coaching',
         syllabus: 'coaching',
-        type: 'coaching'
+        type: 'coaching',
+        dateIn: new Date(),
+        dateOut: new Date(),
+        participantUserId: parseInfoGlobal.id
     })
 
-    const createServiceCoaching = async () => {
-        try {
-            const createCoachService: any = (await axios.post('https://juntxs.vercel.app/services', service)).data
-            if (createCoachService) {
-                const infoService = {
-                    serviceId: createCoachService.id,
-                    name: 'Coach Personalizado',
-                    amount: service.amount,
-                    userId: parseInfoGlobal.id
-                }
-                console.log(parseInfoGlobal.role);
-                const userParticipant = {
-                    serviceId: createCoachService.id,
-                    userId: parseInfoGlobal.id,
-                    role: parseInfoGlobal.role
-                }
-                const participant = await axios.post('https://juntxs.vercel.app/participants', userParticipant)
-                if (participant) {
-                    const data = (await axios.post('https://juntxs.vercel.app/payments/services', infoService)).data
-                    window.open(data.init_point, '_blank');
-                    router.push('/pages/user/donations')
 
-                }
+    const createServiceCoaching = async() => {
+        try {
+            const createPayment = (await axios.post(`https://juntxs.vercel.app/payments/services`, service)).data
+            if(createPayment) {
+                    window.open(createPayment.init_point, '_blank');
+                    router.push('/pages/user/services')
             }
         } catch (error) {
             console.log(error);
         }
     }
+
+    // const createServiceCoaching = async () => {
+    //     try {
+    //         const createCoachService: any = (await axios.post('https://juntxs.vercel.app/services', service)).data
+    //         if (createCoachService) {
+    //             const infoService = {
+    //                 serviceId: createCoachService.id,
+    //                 name: 'Coach Personalizado',
+    //                 amount: service.amount,
+    //                 userId: parseInfoGlobal.id
+    //             }
+    //             console.log(parseInfoGlobal.role);
+    //             const userParticipant = {
+    //                 serviceId: createCoachService.id,
+    //                 userId: parseInfoGlobal.id,
+    //                 role: parseInfoGlobal.role
+    //             }
+    //             const participant = await axios.post('https://juntxs.vercel.app/participants', userParticipant)
+    //             if (participant) {
+    //                 const data = (await axios.post('https://juntxs.vercel.app/payments/services', infoService)).data
+    //                 window.open(data.init_point, '_blank');
+    //                 router.push('/pages/user/donations')
+
+    //             }
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         if (e.target.name === 'dateIn') {
@@ -178,7 +191,6 @@ const CoachingComponent: React.FC<AgendarTypes> = ({ modal, closeModal, coaches 
                         setService({
                             ...service,
                             description: '',
-                            categoryId: null,
                             dateIn: null,
                         })
                         closeModal()

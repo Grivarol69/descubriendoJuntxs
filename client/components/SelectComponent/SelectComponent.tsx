@@ -14,7 +14,6 @@ interface propsRecived {
     styles: any
 }
 
-
 const SelectComponent: React.FC<propsRecived> = ({ options, onChange, label, styles }) => {
 
     const [openSelect, setOpenSelect] = useState(false)
@@ -43,13 +42,10 @@ const SelectComponent: React.FC<propsRecived> = ({ options, onChange, label, sty
     const styleSelect = style()
 
     useEffect(() => {
-
         document.addEventListener('mousedown', handleClickOutside)
-
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         }
-
     }, [])
 
     return (

@@ -50,6 +50,15 @@ interface User {
     service: Service[];
 }
 
+interface Participant {
+    id: number;
+    serviceId: string;
+    userId: string;
+    role: string | null;
+    state: string | null;
+    service: Service
+}
+
 interface services {
     closeModal: () => void;
     openModal: boolean
@@ -61,10 +70,10 @@ const ServicesProfile = () => {
     const infoUserParsed = JSON.parse(infoUserGlobal ?? '')
     const userId = infoUserParsed.id
 
-    const [services, setServices] = useState<User | null>(null)
+    const [services, setServices] = useState<Participant[] | null>(null)
 
     const servicesByUser = async (userId: number) => {
-        const URL_BASE = 'https://juntxs.vercel.app/users/service/'
+        const URL_BASE = 'https://juntxs.vercel.app/participants/user/'
         const info = await axios.get(`${URL_BASE}${userId}`)
         console.log('Services by user:', info.data);
 
@@ -75,8 +84,8 @@ const ServicesProfile = () => {
         const fetchServices = async () => {
             const services = await servicesByUser(userId)
             setServices(services);
+            console.log(services);
         }
-
         fetchServices()
     }, [])
 
@@ -92,28 +101,27 @@ const ServicesProfile = () => {
                         <div className={style.titleService}>Tipo de Servicio</div>
                     </div>
                     <div className={style.overFlowContainer}>
-                        <div className={style.cardServices}>
-                            <div className={style.imageAndTitle}>
-                                <div className={style.image}></div>
-                                <div>
-                                    {services?.service.map((service: Service, index) => {
-                                        return (
-                                            <div className={style.cardDonation} key={index}>
-                                                <div className={style.imageAndTitle}>
-                                                    <div className={style.imageProject}></div>
-                                                    <div className={style.titleAndButton}>
-                                                        <div className={style.titleProyect}> {service.name} </div>
-                                                        <ServicesUser
-                                                            service={service}
-                                                        />
+                        {services && services.length > 0 &&
+                            services?.map((service, index) => {
+                                return (
+                                    <div className={style.cardServices}>
+                                        <div className={style.imageAndTitle}>
+                                                <div className={style.image}></div>
+                                                <div className={style.cardDonation} key={index}>
+                                                    <div className={style.imageAndTitle}>
+                                                        <div className={style.imageProject}></div>
+                                                        <div className={style.titleAndButton}>
+                                                            <div className={style.titleProyect}> {service.service.name} </div>
+                                                            <ServicesUser
+                                                                service={service.service}
+                                                            />
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        )
-                                    })}
-                                </div>
-                            </div>
-                        </div>
+                                        </div>
+                                    </div>
+                                )
+                            })}
                     </div>
                 </div>
             </div>
