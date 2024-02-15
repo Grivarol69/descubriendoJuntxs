@@ -47,7 +47,7 @@ const ServiciosPage: React.FC = () => {
       
       <Filter onFilter={handleFilter}></Filter>
       {serviciosFinales.map((servicio) => (
-        <CardServicios key={servicio.nombre} servicios={servicio} />
+        <CardServicios key={servicio.nombre} servicio={servicio} />
         ))}
     </div>
   );
