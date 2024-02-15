@@ -11,6 +11,7 @@ interface CreateProjectProps {
 }
 
 const CreateProject: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
+    const [file, setFile] = useState({});
     const [input, setInput] = useState({
         image: null as File | null,
         // id: "",
@@ -23,17 +24,8 @@ const CreateProject: React.FC<CreateProjectProps> = ({ modal, closeModal }) => {
         objective: "",
         syllabus: "",
         categoryId: 1,
-        image: null,
     })
     
-    
-
-        
-    })
-    if (!modal) {
-        return null
-    }
-
     const URL_BASE = "https://juntxs.vercel.app/"
 
     
@@ -51,8 +43,7 @@ const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             [e.target.name]: e.target.value
         })
     }
-   
-    const [file, setFile] = useState({});
+ 
 
 const handleSubmit = async () => {
     try {
@@ -83,6 +74,10 @@ const handleSubmit = async () => {
         console.log(error);
     }
 };
+  
+     if (!modal) {
+        return null
+    }
     return (
         <div className={style.background}>
             <div className={style.container}>

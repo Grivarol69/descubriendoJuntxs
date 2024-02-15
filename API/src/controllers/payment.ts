@@ -158,6 +158,107 @@ const getPaymentsByUser = async (req: Request, res: Response) => {
 };
 
 
+const postPaymentService = async (req: Request, res: Response) => {
+  const { serviceId, userId, role } = req.body;
+
+  try {
+    const newParticipant = await prisma.participant.create({
+      data: {
+        serviceId: Number(serviceId),
+        userId: Number(userId),
+        role: role,
+      },
+    });
+    if (newParticipant) {
+      const service = await prisma.service.findFirst({
+        where: {
+          id: Number(serviceId)
+        }
+      });
+      if (service) {
+        const preference = new Preference(client);
+        const response = await preference.create({
+          body: {
+            items: [
+              {
+                id: "1234",
+                title: service.name,
+                quantity: 1,
+                unit_price: service.amount
+              }
+            ],
+            purpose: "wallet_purchase",
+            back_urls: {
+              success: "https://client-gamma-three-32.vercel.app/",
+              failure: "https://client-gamma-three-32.vercel.app/",
+              pending: "https://client-gamma-three-32.vercel.app/"
+            },
+            auto_return: "approved",
+            notification_url: "https://juntxs.vercel.app/payments/reciveServiceMP",
+            metadata: {
+              serviceId: service.id,
+              userId: userId,
+              amount: service.amount,
+              newParticipantId: newParticipant.id
+            }
+
+          }
+        });
+        res.send(response);
+      }
+    }
+
+  } catch (error) {
+    return handleHttp(res, "ERROR_POST_PARTICIPANT");
+  }
+};
+
+
+const reciveServiceMP = async (req: Request, res: Response) => {
+  try {
+    if (req.query.topic === 'payment') {
+      const paymentId = req.query.id as string;
+
+      console.log(paymentId);
+      const paymentInfo = await (payment as any).get({ id: paymentId });
+      console.log(paymentInfo);
+
+      if (paymentInfo.status === 'approved') {
+        const payment = await prisma.payment.findFirst({
+          where: {
+            transactionId: paymentInfo.id.toString()
+          }
+        });
+        if (!payment) {
+          await prisma.payment.create({
+            data: {
+              serviceId: paymentInfo.metadata.service_id,
+              userId: Number(paymentInfo.metadata.user_id),
+              amount: paymentInfo.transaction_amount,
+              instrument: paymentInfo.payment_method_id,
+              transactionId: paymentInfo.id.toString(),
+              state: "Aceptado"
+            }
+          });
+
+        }
+        res.status(200).json("Pago Aceptado");
+      }
+      else if (paymentInfo.status === 'rejected') {
+        await prisma.participant.delete({
+          where: {
+            id: paymentInfo.metadata.new_participant_id
+          }
+        });
+        res.status(200).json("Pago Rechazado");
+      }
+
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 
 
 const updatePayment = async (req: Request, res: Response) => {
@@ -189,5 +290,8 @@ export {
   getPaymentsByUser,
   postPayment,
   updatePayment,
-  reciveMP
+  reciveMP,
+  postPaymentService,
+  reciveServiceMP
+
 };

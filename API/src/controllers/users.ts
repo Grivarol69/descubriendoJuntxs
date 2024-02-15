@@ -145,7 +145,11 @@ const getUserFavorites = async (_req: Request, _res: Response) => {
             include: {
                 favorite: {
                     include: {
-                        program: true
+                        program: {
+                            include: {
+                                commentary: true
+                            }
+                        }
                     }
                 }
             }
