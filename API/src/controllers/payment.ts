@@ -10,14 +10,14 @@ const client = new MercadoPagoConfig({ accessToken: 'APP_USR-2980126963536437-02
 const payment = new Payment(client);
 
 const postPayment = async (req: Request, res: Response) => {
-  const { serviceId, name, userId, amount, } = req.body;
+  const { name, userId, participantUserId, amount, description, hourIn, hourOut, objective, syllabus, type, dateIn, dateOut } = req.body;
   const preference = new Preference(client);
   try {
     const response = await preference.create({
       body: {
         items: [
           {
-            id: serviceId,
+            id: "1234",
             title: name,
             quantity: 1,
             unit_price: amount
@@ -32,10 +32,18 @@ const postPayment = async (req: Request, res: Response) => {
         auto_return: "approved",
         notification_url: "https://juntxs.vercel.app/payments/reciveMP",
         metadata: {
-          serviceId: serviceId,
           userId: userId,
+          description: description,
+          hourIn: hourIn,
+          hourOut: hourOut,
+          objective: objective,
+          syllabus: syllabus,
+          type: type,
+          dateIn: dateIn,
+          dateOut: dateOut,
+          participantUserId: participantUserId
         }
-        
+
       }
 
     });
@@ -48,23 +56,6 @@ const postPayment = async (req: Request, res: Response) => {
 
   }
 
-
-  // try {
-  //   const newPayment = await prisma.payment.create({
-  //     data: {
-  //       serviceId: serviceId && (serviceId as number),
-  //       userId: userId && (userId as number),
-  //       amount: amount && (amount as number),
-  //       instrument: instrument && (instrument as string),
-  //       transactionId: transactionId && (transactionId as string),
-  //       state: "Aceptado", // Add the missing property "state"
-  //     },
-  //   });
-
-  //   res.status(200).json(newPayment);
-  // } catch (error) {
-  //   handleHttp(res, "ERROR_POST_PAYMENT");
-  // }
 };
 
 const reciveMP = async (req: Request, res: Response) => {
@@ -73,7 +64,6 @@ const reciveMP = async (req: Request, res: Response) => {
       const paymentId = req.query.id as string;
 
       console.log(paymentId);
-      console.log('isamela')
       const paymentInfo = await (payment as any).get({ id: paymentId });
       console.log(paymentInfo);
 
@@ -84,9 +74,28 @@ const reciveMP = async (req: Request, res: Response) => {
           }
         });
         if (!payment) {
+
+          const newService = await prisma.service.create({
+            data: {
+              name: 'Coach Personalizado',
+              description: paymentInfo.metadata.description,
+              userId: paymentInfo.metadata.user_id,
+              categoryId: 1,
+              amount: paymentInfo.transaction_amount,
+              dateIn: paymentInfo.date_in,
+              dateOut: paymentInfo.date_out,
+              hourIn: paymentInfo.metadata.hour_in,
+              hourOut: paymentInfo.metadata.hour_out,
+              objective: paymentInfo.metadata.objective,
+              syllabus: paymentInfo.metadata.syllabus,
+              type: paymentInfo.metadata.type
+            }
+
+          })
+
           const newPayment = await prisma.payment.create({
             data: {
-              serviceId: (paymentInfo.metadata.service_id as number),
+              serviceId: newService.id,
               userId: paymentInfo.metadata.user_id,
               amount: paymentInfo.transaction_amount,
               instrument: paymentInfo.payment_method_id,
@@ -94,29 +103,20 @@ const reciveMP = async (req: Request, res: Response) => {
               state: "Aceptado"
             }
           });
-          res.status(200).json(newPayment);
+          if (newPayment) {
+            await prisma.participant.create({
+              data: {
+                serviceId: newService.id,
+                userId: paymentInfo.metadata.participant_user_id,
+                role: "Participante",
+              }
+            })
+
+          }
         }
+        res.status(200).json("Pago Aceptado");
       }
-      // if (paymentInfo.status === 'approved') {
-      //   const payment = await prisma.payment.findUnique({
-      //     where: {
-      //       transactionId: paymentInfo.id
-      //     }
-      //   });
-      // if (!payment) {
-      //   const newPayment = await prisma.payment.create({
-      //     data: {
-      //       amount: paymentInfo.transaction_amount,
-      //       instrument: paymentInfo.payment_method_id,
-      //       transactionId: paymentInfo.id,
-      //       state: "Aceptado"
-      //     }
-      //   });
-      //   res.status(200).json(newPayment);
-      // }
     }
-
-
   } catch (error) {
     console.log(error);
   }

@@ -110,7 +110,7 @@ model Donation {
 
   amount Float?
   date DateTime
-  type DonationType @default(Recurrente)
+  type DonationType @default(Unica)
   frequency Frequency? @default(Unico)
   message String
   contact_phone String
@@ -156,7 +156,7 @@ enum ProgramType {
 }
 
 enum DonationType {
-  Recurrente
+  Unica 
   Especies
   Corporativo
 }
