@@ -26,12 +26,10 @@ interface ModalProjectProps {
         categoryId: number,
         type: string,
         image: string,
-        favorite:{
+        favorite: {
             userId: number,
             programId: number
         }
-
-        donation: [],
         commentary: Comment[],
     },
     socket: any
