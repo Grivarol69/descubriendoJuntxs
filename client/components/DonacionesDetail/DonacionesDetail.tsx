@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import style from './dDetail.module.css';
 import { DonationResponse, ProjectData } from '@/app/pages/admin/donaciones/page';
+import axios from 'axios';
+
 
 interface DonacionesDetailProps {
   donation: DonationResponse;
@@ -10,9 +12,19 @@ interface DonacionesDetailProps {
 
 const DonacionesDetail: React.FC<DonacionesDetailProps> = ({ donation, onClose }) => {
   const userName = Array.isArray(donation.user) ? donation.user[0]?.name : donation.user.name;
-  const projectName = donation.project ? donation.project.name : 'Sin proyecto';
-
+  const [project, setProject] = useState<ProjectData | null>(null);
   
+  useEffect(() => {
+      axios.get('https://juntxs.vercel.app/programs/1')
+        .then(response => {
+          setProject(response.data);
+        })
+        .catch(error => {
+          console.error('There was an error!', error);
+        });
+  }, [donation.project]);
+
+  const projectName = project ? project.name : 'Sin proyecto';
 
  
   let donationDateString = 'Fecha desconocida';

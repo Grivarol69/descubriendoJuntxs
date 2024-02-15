@@ -1,6 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
+
 import ServiciosServer from '@/app/serverC/serverServicios/server.component';
 
 export interface Servicio {
@@ -23,7 +24,9 @@ export interface ServicioTypes {
   dateIn: string | number;
   dateOut: string | number;
   type: string;
-}
+  syllabus: string;
+  objective: string;
+
 
 const ServicesPage: React.FC = () => {
   const [servicios, setServicios] = useState<Servicio[]>([]);
@@ -58,6 +61,23 @@ const ServicesPage: React.FC = () => {
     syllabus: "Sílabo del servicio",
     type: "coaching",
     state: "Estado del servicio",
+  };
+
+  const createService = () => {
+    Axios.post('https://juntxs.vercel.app/services', newService)
+      .then(response => {
+        console.log('Nuevo servicio creado:', response.data);
+      })
+      .catch(error => {
+        console.error('Error creating service:', error);
+        if (error.response) {
+          console.error('Server responded with:', error.response.data);
+        } else if (error.request) {
+          console.error('No response received from server');
+        } else {
+          console.error('Error setting up the request:', error.message);
+        }
+      });
   };
 
   return (

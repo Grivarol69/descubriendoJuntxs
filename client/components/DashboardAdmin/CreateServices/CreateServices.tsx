@@ -75,6 +75,13 @@ const CreateServices: React.FC<CreateServicesProps> = ({ modal, closeModal }) =>
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    for (let key in input) {
+      if (input[key as keyof FormData] === '' || input[key as keyof FormData] === 0) {
+        alert('Debes completar todos los espacios para poder crear un servicio');
+        return;
+      }
+    }
+
     if (['coaching', 'taller', 'retiro'].includes(input.type)) {
       try {
         const response = await axios.post('https://juntxs.vercel.app/services', {
@@ -93,22 +100,22 @@ const CreateServices: React.FC<CreateServicesProps> = ({ modal, closeModal }) =>
           state: input.state,
         });
         console.log('Nuevo servicio creado:', response.data);
-      } catch (error: any) {
-        console.error('Error creating service:', error);
-        if (error.response) {
-          console.error('Server responded with:', error.response.data);
-        } else if (error.request) {
-          console.error('No response received from server');
-        } else {
-          console.error('Error setting up the request:', error.message);
-        }
+      alert('Servicio creado con éxito'); 
+      window.location.reload();
+    } catch (error: any) {
+      console.error('Error creating service:', error);
+      if (error.response) {
+        console.error('Server responded with:', error.response.data);
+      } else if (error.request) {
+        console.error('No response received from server');
+      } else {
+        console.error('Error setting up the request:', error.message);
       }
-    } else {
-      console.error('Invalid type value:', input.type);
     }
-  };
-
-
+  } else {
+    console.error('Invalid type value:', input.type);
+  }
+};
 
 
   return (
