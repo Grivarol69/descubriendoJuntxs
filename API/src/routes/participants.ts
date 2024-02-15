@@ -13,5 +13,4 @@ router.get('/:userId', getParticipantByUser)
 router.post('/', postParticipant)
 router.put('/:id', updateParticipant)
 
-
 export default router;
