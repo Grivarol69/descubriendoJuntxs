@@ -69,18 +69,8 @@ const TallerModal: React.FC<AgendarTypes> = ({ modal, closeModal, talleres }) =>
                 userId: parseInfoGlobal.id,
                 role: parseInfoGlobal.role
             }
-            const participantCreated = await axios.post('https://juntxs.vercel.app/participants', infoCreate)
-            if (participantCreated) {
-                console.log('Entró acá');
-
-                const paymentInfo = {
-                    serviceId: service?.categoryId ?? '',
-                    userId: parseInfoGlobal.id,
-                    role: parseInfoGlobal.role,
-                    name: 'Retiro',
-                    amount: service?.amount
-                }
-                const data = (await axios.post('https://juntxs.vercel.app/payments/services', paymentInfo)).data
+            const data = (await axios.post('https://juntxs.vercel.app/payments/servicesPayments', infoCreate)).data
+            if (data) {
                 window.open(data.init_point, '_blank');
                 router.push('/pages/user/services')
             }
