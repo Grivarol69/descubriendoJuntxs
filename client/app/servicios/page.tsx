@@ -45,7 +45,7 @@ const ServiciosPage: React.FC = () => {
   return (
     <div className={style.backgroundServicios}>
       
-      <Filter onFilter={handleFilter}></Filter>
+      
       {serviciosFinales.map((servicio) => (
         <CardServicios key={servicio.nombre} servicio={servicio} />
         ))}

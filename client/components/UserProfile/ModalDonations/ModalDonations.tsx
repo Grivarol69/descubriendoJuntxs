@@ -17,7 +17,7 @@ interface donation {
 }
 
 
-const DonationsUser: React.FC<donation> = ({ donation }) => {
+const DonationsUser: React.FC<any> = ({ donation }) => {
 
     const [modal, setModal] = useState(false)
 

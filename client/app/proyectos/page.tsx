@@ -151,7 +151,7 @@ const Proyectos = () => {
                       Ordenar A-Z
                     </option>
                     <option value={null} className="">
-                      --
+                      
                     </option>
                     <option value="AZ">AZ↑</option>
                     <option value="ZA">ZA↓</option>
@@ -168,7 +168,7 @@ const Proyectos = () => {
                       Orden Fecha
                     </option>
                     <option value={null} className="">
-                      --
+                      
                     </option>
                     <option value="Nuevas">Nuevas</option>
                     <option value="Antiguas">Antiguas</option>
