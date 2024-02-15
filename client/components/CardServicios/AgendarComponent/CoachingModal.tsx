@@ -79,7 +79,7 @@ const CoachingComponent: React.FC<AgendarTypes> = ({ modal, closeModal, coaches 
                 if (participant) {
                     const data = (await axios.post('https://juntxs.vercel.app/payments/services', infoService)).data
                     window.open(data.init_point, '_blank');
-                    router.push('/pages/user/donations')
+                    router.push('/pages/user/services')
 
                 }
             }

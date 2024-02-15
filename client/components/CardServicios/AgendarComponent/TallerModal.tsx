@@ -82,7 +82,7 @@ const TallerModal: React.FC<AgendarTypes> = ({ modal, closeModal, talleres }) =>
                 }
                 const data = (await axios.post('https://juntxs.vercel.app/payments/services', paymentInfo)).data
                 window.open(data.init_point, '_blank');
-                router.push('/pages/user/donations')
+                router.push('/pages/user/services')
             }
         } catch (error) {
             console.log(error);
