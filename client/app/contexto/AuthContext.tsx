@@ -78,8 +78,8 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       if (!authUser?.emailVerified && authUser) {
         sendEmailVerification(authUser)
       }
+      setLoading(false);
     });
-    setLoading(false);
     return () => unsubscribe();
   }, [auth]);
 

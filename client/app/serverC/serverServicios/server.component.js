@@ -1,5 +1,5 @@
 import React from 'react';
-import CardServicios from '../../../components/CardServicios/CardServicios';
+import CardSer from '@/components/AdminDashboard/CardsProyects/CardsProyects';
 
 function formatService(service) {
   const formattedService = {
@@ -17,7 +17,7 @@ function formatService(service) {
 function ServiciosServer({ servicios }) {
   return (
       <div>
-        <CardServicios servicios={servicios} />
+        <CardSer servicios={servicios} />
       </div>
   );
 };
