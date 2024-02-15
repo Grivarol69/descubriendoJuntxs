@@ -6,17 +6,29 @@ import style from './projects.module.css'
 import FavoriteProject from "@/components/Favorite/Favorite"
 
 
-export interface ProyectTypes {
-    nombre: string,
-    descripcion: string,
-    meta: string,
-    comentarios: string[]
-    imagen: string,
-    rating: string
+interface ProyectTypes {
+  id: number;
+  name: string;
+  description: string;
+  dateIn: string;
+  dateOut: string;
+  urlYoutube: string;
+  objective: string;
+  syllabus: string;
+  state: string;
+  categoryId: number;
+  type: string;
+  image: string;
+  commentary: [];
+
 }
 
 const UserProjectsPage = () => {
+
     
+
+    const [projects, setProjects] = useState<ProyectTypes[]>([...proyecto])
+
     return (
         <>
             <div className={style.gridContainer}>

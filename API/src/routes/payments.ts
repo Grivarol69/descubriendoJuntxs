@@ -4,7 +4,9 @@ import {
     getPaymentsByService,
     getPaymentsByUser,
     postPayment,
+    postPaymentService,
     reciveMP,
+    reciveServiceMP,
     updatePayment,
 } from "../controllers/payment"
 
@@ -13,6 +15,7 @@ const router = Router()
 router.get('/:serviceId', getPaymentsByService)
 router.get('/:userId', getPaymentsByUser)
 router.put('/:id', updatePayment)
+router.post('/servicesPayments', postPaymentService)
 
 import { postCreatePayment, reciveWebhook } from "../controllers/payments";
 
@@ -37,6 +40,7 @@ router.get('/pending', (_req, res) => {
 
 router.post('/webhook', reciveWebhook)
 router.post('/reciveMP', reciveMP)
+router.post('/reciveServiceMP', reciveServiceMP)
 
 
 

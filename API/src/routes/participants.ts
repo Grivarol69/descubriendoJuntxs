@@ -9,7 +9,7 @@ import {
 const router = Router()
 
 router.get('/:serviceId', getParticipantsByService)
-router.get('/:userId', getParticipantByUser)
+router.get('/user/:userId', getParticipantByUser)
 router.post('/', postParticipant)
 router.put('/:id', updateParticipant)
 

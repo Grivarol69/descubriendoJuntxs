@@ -8,7 +8,7 @@ CREATE TYPE "State" AS ENUM ('Activo', 'Inactivo');
 CREATE TYPE "ProgramType" AS ENUM ('Proyecto', 'Servicio');
 
 -- CreateEnum
-CREATE TYPE "DonationType" AS ENUM ('Recurrente', 'Especies', 'Corporativo');
+CREATE TYPE "DonationType" AS ENUM ('Unica', 'Especies', 'Corporativo');
 
 -- CreateEnum
 CREATE TYPE "ServiceType" AS ENUM ('coaching', 'taller', 'retiro');
@@ -123,7 +123,7 @@ CREATE TABLE "Donation" (
     "userId" INTEGER NOT NULL,
     "amount" DOUBLE PRECISION,
     "date" TIMESTAMP(3) NOT NULL,
-    "type" "DonationType" NOT NULL DEFAULT 'Recurrente',
+    "type" "DonationType" NOT NULL DEFAULT 'Unica',
     "frequency" "Frequency" DEFAULT 'Unico',
     "message" TEXT NOT NULL,
     "contact_phone" TEXT NOT NULL,

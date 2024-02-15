@@ -32,9 +32,13 @@ const getParticipantByUser = async (req: Request, res: Response) => {
   try {
     const participants = await prisma.participant.findMany({
       where: {
-        id: Number(userId),
+        userId: Number(userId),
         state: "Activo",
       },
+      include:{
+        service: true,
+        user: true
+      }
     });
 
     res.status(200).json(participants);
