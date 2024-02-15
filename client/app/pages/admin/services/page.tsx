@@ -1,7 +1,8 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
-import ServiciosServer from '@/app/serverC/serverServicios/serverComponent';
+
+import ServiciosServer from '@/app/serverC/serverServicios/server.component';
 
 export interface Servicio {
   name: string;
@@ -25,7 +26,7 @@ export interface ServicioTypes {
   type: string;
   syllabus: string;
   objective: string;
-}
+
 
 const ServicesPage: React.FC = () => {
   const [servicios, setServicios] = useState<Servicio[]>([]);
@@ -78,6 +79,7 @@ const ServicesPage: React.FC = () => {
         }
       });
   };
+
   return (
     <>
       <ServiciosServer servicios={servicios} />

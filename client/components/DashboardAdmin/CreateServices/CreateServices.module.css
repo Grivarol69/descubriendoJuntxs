@@ -1,3 +1,4 @@
+
 .background {
     background-color: rgb(0, 0, 0, 0.3);
     display: flex;
@@ -22,6 +23,7 @@
     gap: 2rem;
     overflow: auto;
     max-height: 30rem;
+
 }
 
 .labelInput {
@@ -71,4 +73,5 @@
     cursor: pointer;
     margin: auto; 
 }
+
 

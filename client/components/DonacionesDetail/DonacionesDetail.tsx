@@ -3,6 +3,7 @@ import style from './dDetail.module.css';
 import { DonationResponse, ProjectData } from '@/app/pages/admin/donaciones/page';
 import axios from 'axios';
 
+
 interface DonacionesDetailProps {
   donation: DonationResponse;
   project?: ProjectData;
@@ -24,6 +25,7 @@ const DonacionesDetail: React.FC<DonacionesDetailProps> = ({ donation, onClose }
   }, [donation.project]);
 
   const projectName = project ? project.name : 'Sin proyecto';
+
  
   let donationDateString = 'Fecha desconocida';
   if (typeof donation.date === 'string' || typeof donation.date === 'number') {

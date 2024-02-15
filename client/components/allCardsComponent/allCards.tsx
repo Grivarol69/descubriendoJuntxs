@@ -1,26 +1,30 @@
 import CardProyect from "../CardProyecto/cardProyecto"
 
 
-interface Project {
-    name: string,
-    description: string,
-    amount: number,
-    objective: string,
-    syllabus: string,
-    state: string,
-    categoryId: number,
-    type: string,
-    image: string,
-    donation: [],
-    commentary: [],
-    favorite: []
+export interface ProyectTypes {
+    projects: {
+        id: number,
+        name: string,
+        description: string,
+        dateIn: string,
+        dateOut: string,
+        urlYoutube: string,
+        objective: string,
+        syllabus: string,
+        state: string,
+        categoryId: number,
+        type: string,
+        image: string,
+        commentary: [],
+        favorite: {
+            userId: number,
+            programId: number
+        }
+    }[]
 }
 
-interface allCardsTypes {
 
-    projects: Project[]
-}
-const AllCards: React.FC<allCardsTypes> = ({ projects }) => {
+const AllCards: React.FC<ProyectTypes> = ({ projects }) => {
     console.log(projects);
 
     return (

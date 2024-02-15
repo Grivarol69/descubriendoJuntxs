@@ -1,5 +1,7 @@
 .backgroundModal{
     display: flex;
+    top: 0;
+    left: 0;
     position: fixed;
     z-index: 100000;
     justify-content: center;

@@ -30,16 +30,22 @@ const postPayment = async (req: Request, res: Response) => {
           pending: "https://client-gamma-three-32.vercel.app/"
         },
         auto_return: "approved",
-        notification_url: "https://e8e7-181-167-76-221.ngrok-free.app/payments/reciveMP",
+        notification_url: "https://juntxs.vercel.app/payments/reciveMP",
         metadata: {
           serviceId: serviceId,
           userId: userId,
         }
+        
       }
+
     });
+
     res.send(response)
+
   } catch (error) {
+
     console.log(error);
+
   }
 
 
@@ -80,7 +86,7 @@ const reciveMP = async (req: Request, res: Response) => {
         if (!payment) {
           const newPayment = await prisma.payment.create({
             data: {
-              serviceId: paymentInfo.metadata.service_id,
+              serviceId: (paymentInfo.metadata.service_id as number),
               userId: paymentInfo.metadata.user_id,
               amount: paymentInfo.transaction_amount,
               instrument: paymentInfo.payment_method_id,

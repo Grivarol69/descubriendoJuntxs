@@ -8,7 +8,7 @@ const Pricing = () => {
         Planes de Apoyo Social Flexibles
       </h1>
       <p className="pt-[16px] pb-[40px] text-center text-[#36485C] lg:text-[18px]">
-        No hidden fees!
+        El mejor acompañamiento para tu crecimiento personal y profesional!
       </p>
 
       <div className="flex flex-col gap-y-6 gap-x-[24px] lg:flex-row">
@@ -18,7 +18,7 @@ const Pricing = () => {
               Donaciones
             </h3>
             <p className="pt-[12px] text-[#36485C] lg:text-[18px]">
-              Perfect for testing the waters
+              Dona y colabora con el proyecto
             </p>
 
             <h2 className="pt-4 text-2xl font-medium lg:text-[32px]">
@@ -30,34 +30,34 @@ const Pricing = () => {
                 <span>
                   <Image src={Check} alt="included" />
                 </span>
-                Lorem ipsum dolor sit amet
+                Donación periódica
               </li>
               <li className="flex items-center gap-x-2">
                 <span>
                   <Image src={Check} alt="included" />
                 </span>
-                Lorem ipsum dolor sit amet
+                Donación puntual.
               </li>
               <li className="flex items-center gap-x-2">
                 <span>
                   <Image src={Check} alt="included" />
                 </span>
-                Lorem ipsum dolor sit amet
+                Donación en Especies
               </li>
             </ul>
           </div>
           <button className="mt-[16px] rounded-[4px] bg-white py-[14px] text-[#4328EB] font-medium">
-            Start Trial
+            Dona!
           </button>
         </div>
 
         <div className="w-full rounded-[8px] bg-[#4328EB] p-6 flex flex-col">
           <div>
             <h3 className="font-medium text-white text-[18px] lg:text-xl">
-              Proyectos
+              Servicios
             </h3>
             <p className="pt-[12px] text-[#F4F8FA] lg:text-[18px]">
-              Perfect for small businesses
+              Busca tu experiencia ideal
             </p>
 
             <h2 className="pt-4 text-2xl font-medium text-white lg:text-[32px]">
@@ -69,36 +69,36 @@ const Pricing = () => {
                 <span>
                   <Image src={Check} alt="included" />
                 </span>
-                Lorem ipsum dolor sit amet
+                Encuentra tu coaching personalizado
               </li>
               <li className="flex items-center gap-x-2">
                 <span>
                   <Image src={Check} alt="included" />
                 </span>
-                Lorem ipsum dolor sit amet
+                Puedes integrar un coaching grupal
               </li>
               <li className="flex items-center gap-x-2">
                 <span>
                   <Image src={Check} alt="included" />
                 </span>
-                Lorem ipsum dolor sit amet
+                Tu taller de crecimiento personal y profesional
               </li>
               <li className="flex items-center gap-x-2">
                 <span>
                   <Image src={Check} alt="included" />
                 </span>
-                Lorem ipsum dolor sit amet
+                Tu retiro espiritual y de bienestar
               </li>
-              <li className="flex items-center gap-x-2">
+              {/* <li className="flex items-center gap-x-2">
                 <span>
                   <Image src={Check} alt="included" />
                 </span>
                 Lorem ipsum dolor sit amet
-              </li>
+              </li> */}
             </ul>
           </div>
           <button className="mt-[16px] rounded-[4px] bg-white py-[14px] text-[#4328EB] font-medium">
-            Get Started
+            Consulta aqui!
           </button>
         </div>
 
@@ -108,23 +108,20 @@ const Pricing = () => {
               Empresa
             </h3>
             <p className="pt-[12px] text-[#36485C] lg:text-[18px]">
-              Perfect for big companies
+              Tu servicio empresarial ideal
             </p>
 
             <h2 className="pt-4 text-2xl font-medium lg:text-[32px]">Custom</h2>
 
             <p className="pt-4 text-[16px] text-[#36485C]">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore.
+              Consulta por asesoramiento gratuito
             </p>
             <p className="pt-2 text-[16px] text-[#36485C]">
-              Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit
-              aut fugit. Lorem ipsum dolor sit amet, consectetur adipiscing
-              elit.
+              Armamos tu plan de asesoramiento y coaching para tratar temas puntuales en tu empresa
             </p>
           </div>
           <button className="mt-[16px] rounded-[4px] bg-white py-[14px] text-[#4328EB] font-medium">
-            Contact Us
+            Contactanos
           </button>
         </div>
       </div>

@@ -1,8 +1,11 @@
+'use client'
 import React, { useState } from 'react';
 import style from './CardServicios.module.css';
 import { ServicioTypes } from '@/app/pages/admin/services/page';
 import ServiciosDetail from '../ServicesDetail/ServicesDetail';
 import CreateServices from '../DashboardAdmin/CreateServices/CreateServices';
+
+
 
 interface CardServiciosProps {
   servicios: ServicioTypes[];
@@ -44,6 +47,7 @@ const CardServicios: React.FC<CardServiciosProps> = ({ servicios }) => {
           <div className={style.cardHeader}>
             <div className={style.subtitle}>Nombre de servicios</div>
             <div className={style.subtitleRight}>Tipo de servicios</div>
+
           </div>
           {servicios.map(servicio => (
             <div key={servicio.name} className={style.cardDonation}>
@@ -74,6 +78,7 @@ const CardServicios: React.FC<CardServiciosProps> = ({ servicios }) => {
           closeModal={closeCreateModal}
         />
       )}
+
     </div>
   );
 };

@@ -81,6 +81,7 @@ const CreateServices: React.FC<CreateServicesProps> = ({ modal, closeModal }) =>
         return;
       }
     }
+
     if (['coaching', 'taller', 'retiro'].includes(input.type)) {
       try {
         const response = await axios.post('https://juntxs.vercel.app/services', {

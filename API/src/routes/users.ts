@@ -4,7 +4,10 @@ import {
     updateUserById,
     getUsersByRole,
     getAllUsers,
-    getUserByEmail
+    getUserByEmail,
+    getUserByDonations,
+    getUserFavorites,
+    getUserService
 } from '../controllers/users';
 
 
@@ -16,6 +19,9 @@ router.put('/:userId', updateUserById); // Actualizar un usuario por ID
 router.post('/authToken', getUserByEmail); // Obtener todos los usuarios
 router.get('/:role', getUsersByRole); // Obtener usuarios por rol y estado
 router.get('/', getAllUsers); // Obtener todos los usuarios
+router.get('/donations/:id', getUserByDonations);
+router.get('/favorites/:id', getUserFavorites);
+router.get('/service/:id', getUserService);
 
 
 export default router;

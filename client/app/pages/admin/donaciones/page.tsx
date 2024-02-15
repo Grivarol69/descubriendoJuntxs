@@ -81,20 +81,6 @@ const DonacionesPage: React.FC = () => {
       .catch((error) => console.error('Error al obtener donaciones:', error));
   }, []);
 
-  const handleDonationClick = async (donation: Donation) => {
-    try {
-      if (donation.projectId) {
-        const response = await fetch('https://juntxs.vercel.app/programs/1');
-        const projectDetails = await response.json();
-  
-        setDonations(donations.map(d => d.id === donation.id ? { ...d, project: projectDetails } : d));
-      } else {
-        console.warn('donation.projectId no está presente en los datos de donación.');
-      }
-    } catch (error) {
-      console.error('Error al obtener detalles del proyecto:', error);
-    }
-  };
 
   const handleCloseDetail = () => {
     console.log('Closing detail');

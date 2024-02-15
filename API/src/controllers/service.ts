@@ -9,26 +9,26 @@ const prisma = new PrismaClient();
 const getServices = async (req: Request, res: Response) => {
   const { name } = req.query;
 
-    try {
-      const services = await prisma.service.findMany({
-        where: {
-          state: "Activo",
-        },
-      });
+  try {
+    const services = await prisma.service.findMany({
+      where: {
+        state: "Activo",
+      },
+    });
 
 
-      const names = name
-            ? services.filter((service) => {
-                return service.name.toLowerCase().includes(name.toString().toLowerCase());
-            })
-            : services
-  
-      res.status(200).json(names);
+    const names = name
+      ? services.filter((service) => {
+        return service.name.toLowerCase().includes(name.toString().toLowerCase());
+      })
+      : services
 
-    } catch (error) {
-      handleHttp(res, "ERROR_GET_SERVICES");
-    }
-  };
+    res.status(200).json(names);
+
+  } catch (error) {
+    handleHttp(res, "ERROR_GET_SERVICES");
+  }
+};
 
 const getServiceById = async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -48,11 +48,11 @@ const getServiceById = async (req: Request, res: Response) => {
 
 const getServicesByType = async (req: Request, res: Response) => {
   const { type } = req.params;
-  
+
   try {
     const service = await prisma.service.findMany({
       where: {
-        type: type as ServiceType,
+        type: (type as string).toLowerCase() as ServiceType,
         state: "Activo",
       },
     });
@@ -64,7 +64,7 @@ const getServicesByType = async (req: Request, res: Response) => {
 
 const getServicesByUser = async (req: Request, res: Response) => {
   const { userId } = req.params;
-  
+
   try {
     const service = await prisma.service.findMany({
       where: {
@@ -79,7 +79,7 @@ const getServicesByUser = async (req: Request, res: Response) => {
 };
 
 const postService = async (req: Request, res: Response) => {
-  
+
   try {
     const { type } = req.body;
     const result = serviceSchema.parse(req.body);
@@ -97,7 +97,7 @@ const postService = async (req: Request, res: Response) => {
       amount,
       objective,
       syllabus,
-      
+
     } = result;
     const newService = await prisma.service.create({
       data: {
@@ -105,8 +105,8 @@ const postService = async (req: Request, res: Response) => {
         description: description && (description as string),
         dateIn: dateIn && (dateIn as Date),
         dateOut: dateOut && (dateOut as Date),
-        hourIn: hourIn && (hourIn as Date),
-        hourOut: hourOut && (hourOut as Date),
+        hourIn: hourIn && (hourIn as string),
+        hourOut: hourOut && (hourOut as string),
         amount: amount && (amount as number),
         objective: objective && (objective as string),
         syllabus: syllabus && (syllabus as string),
@@ -119,6 +119,7 @@ const postService = async (req: Request, res: Response) => {
 
     return res.status(200).json(newService);
   } catch (error) {
+    console.log(error);
     if (error instanceof ZodError) {
       return res
         .status(400)
@@ -150,7 +151,7 @@ const updateService = async (req: Request, res: Response) => {
       amount,
       objective,
       syllabus,
-      
+
     } = result;
 
     const updatedService = await prisma.service.update({
@@ -161,8 +162,8 @@ const updateService = async (req: Request, res: Response) => {
         description: description && (description as string),
         dateIn: dateIn && (dateIn as Date),
         dateOut: dateOut && (dateOut as Date),
-        hourIn: hourIn && (hourIn as Date),
-        hourOut: hourOut && (hourOut as Date),
+        hourIn: hourIn && (hourIn as string),
+        hourOut: hourOut && (hourOut as string),
         amount: amount && (amount as number),
         objective: objective && (objective as string),
         syllabus: syllabus && (syllabus as string),
@@ -204,12 +205,14 @@ const paginationService = async (req: Request, res: Response) => {
   }
 };
 
+
+
 export {
-    getServices,
-    getServiceById,
-    getServicesByType,
-    getServicesByUser,
-    postService,
-    updateService,
-    paginationService,
+  getServices,
+  getServiceById,
+  getServicesByType,
+  getServicesByUser,
+  postService,
+  updateService,
+  paginationService,
 };

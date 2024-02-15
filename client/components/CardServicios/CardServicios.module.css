@@ -3,6 +3,8 @@
 .gridContainer{
   box-sizing: border-box;
   margin: 0;
+}
+.cardContainer {
   display: grid;
   position: relative;
   top: 0;
@@ -113,6 +115,10 @@
   font-size: 0.8rem;
   color: #7286FF;
 
+
+.image {
+  width: 11rem;
+  object-fit: cover;
 }
 
 .buttonCrear{
