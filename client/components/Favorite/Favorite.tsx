@@ -86,8 +86,8 @@ const UserFavorite: React.FC = () => {
 
     return (
         <div>
-            {favoriteProjects && favoriteProjects?.length > 0 && favoriteProjects.map(user => (
-                <div>
+            {favoriteProjects && favoriteProjects?.length > 0 && favoriteProjects.map((user, index) => (
+                <div  key={index}>
                     <div className={style.cardContainer} key={user.program.id}>
                         <div className={style.infoContainer}>
                             <h2 className={style.meta}>{user.program.objective}</h2>

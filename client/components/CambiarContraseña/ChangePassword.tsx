@@ -19,7 +19,7 @@ const PasswordChange = () => {
 
         if (user) {
             try {
-                await sendPasswordResetEmail(auth, user.email);
+                await sendPasswordResetEmail(auth, user.email??'');
                 alert('Email enviado para cambiar contraseña');
             } catch (error) {
                 alert('Error al enviar email para cambiar contraseña');

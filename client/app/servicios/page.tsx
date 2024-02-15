@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react';
-import CardServicios, { ServicioTypes } from '@/components/CardServicios/CardServicios';
+import CardServicios from '@/components/CardServicios/CardServicios';
 import style from './servicios.module.css';
 import Filter from '@/components/filters/Filter';
 import coachingImage from '../../components/Icons/images/Coaching.png'
@@ -9,7 +9,7 @@ import TallerImage from '../../components/Icons/images/Taller.png'
 import retirosImage from '../../components/Icons/images/Retiro.png'
 
 const ServiciosPage: React.FC = () => {
-  const serviciosData: ServicioTypes[] = [
+  const serviciosData: any[] = [
     {
       id: 1,
       nombre: 'Coaching',
@@ -36,7 +36,7 @@ const ServiciosPage: React.FC = () => {
     }
   ];
 
-  const [serviciosFinales, setServiciosFinales] = useState<ServicioTypes[]>(serviciosData);
+  const [serviciosFinales, setServiciosFinales] = useState<any[]>(serviciosData);
 
   const handleFilter = (filtro: string) => {
     setServiciosFinales(serviciosData.filter(servicio => servicio.nombre.includes(filtro)));
@@ -47,7 +47,7 @@ const ServiciosPage: React.FC = () => {
       
       <Filter onFilter={handleFilter}></Filter>
       {serviciosFinales.map((servicio) => (
-        <CardServicios key={servicio.nombre} servicio={servicio} />
+        <CardServicios key={servicio.nombre} servicios={servicio} />
         ))}
     </div>
   );

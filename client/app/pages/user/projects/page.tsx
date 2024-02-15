@@ -27,7 +27,7 @@ const UserProjectsPage = () => {
 
     
 
-    const [projects, setProjects] = useState<ProyectTypes[]>([...proyecto])
+   
 
     return (
         <>

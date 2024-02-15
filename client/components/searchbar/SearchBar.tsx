@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Proyect } from '../CardProyecto/cardProyecto';
-import { ProyectTypes } from "@/app/proyectos/page";
+
 
 
 interface SearchBarProps {
-  proyectos: ProyectTypes[];
-  seteador: React.Dispatch<React.SetStateAction<ProyectTypes[]>>;
+  proyectos: any[];
+  seteador: React.Dispatch<React.SetStateAction<any[]>>;
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ proyectos, seteador }) => {

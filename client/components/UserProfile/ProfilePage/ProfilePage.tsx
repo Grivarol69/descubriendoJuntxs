@@ -30,7 +30,7 @@ const ProfilePage = (): React.ReactNode => {
     })
 
     const router = useRouter()
-    if (infoUserGlobalParse?.role === 'Admin') return router.push('/pages/admin')
+    if (infoUserGlobalParse?.role === 'Admin')  router.push('/pages/admin')
 
     console.log('me gusta comer' + infoUserGlobalParse);
     console.log(infoUserGlobalParse);
@@ -39,12 +39,7 @@ const ProfilePage = (): React.ReactNode => {
         setIsEditing(true);
     };
 
-    const handleInputChange = (event) => {
-        setUserInfo({
-            ...userInfo,
-            [event.target.name]: event.target.value,
-        });
-    };
+  
 
     const handleDoneClick = async (e: any) => {
         setIsEditing(false);

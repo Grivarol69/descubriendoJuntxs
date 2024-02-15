@@ -104,7 +104,7 @@ const ServicesProfile = () => {
                         {services && services.length > 0 &&
                             services?.map((service, index) => {
                                 return (
-                                    <div className={style.cardServices}>
+                                    <div key={index} className={style.cardServices}>
                                         <div className={style.imageAndTitle}>
                                                 <div className={style.image}></div>
                                                 <div className={style.cardDonation} key={index}>

@@ -12,10 +12,7 @@ interface CardServiciosProps {
 }
 
 const CardServicios: React.FC<CardServiciosProps> = ({ servicios }) => {
-  if (!servicios) {
-    return null; 
-  }
-
+  
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false); 
   const [selectedServicio, setSelectedServicio] = useState<ServicioTypes | null>(null);
@@ -37,7 +34,10 @@ const CardServicios: React.FC<CardServiciosProps> = ({ servicios }) => {
     setShowCreateModal(false);
   };
 
-  
+  if (!servicios) {
+    return null; 
+  }
+
 
   return (
     <div className={style.gridContainer}>
