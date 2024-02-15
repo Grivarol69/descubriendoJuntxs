@@ -5,6 +5,7 @@ import ModalProject from "../modal/Modal"
 import { useSocketContext } from "@/app/contexto/SocketContext";
 import { useAuthContext } from "@/app/contexto/AuthContext"
 import axios from 'axios'
+import { useRouter } from "next/navigation";
 
 export interface Proyect {
     project: {
@@ -63,7 +64,7 @@ const CardProyect: React.FC<Proyect> = ({ project }) => {
             console.error("Error al añadir a favoritos:", error);
         }
     };
-   
+    const router = useRouter() 
 
     return (
         <>
@@ -90,7 +91,9 @@ const CardProyect: React.FC<Proyect> = ({ project }) => {
                         } className={style.buttonText}>
                             Ver Proyecto
                         </button>
-                        <button className={style.buttonFull}>
+                        <button onClick={() => {
+                            router.push('/donaciones')
+                        }} className={style.buttonFull}>
                             Donar Proyecto
                         </button>
                         <button onClick={favoriteHandler}>
