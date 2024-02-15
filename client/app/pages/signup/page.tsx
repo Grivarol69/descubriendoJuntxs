@@ -99,9 +99,9 @@ const SignUpPage = () => {
                     const userInfoCreate = (await axios.post(`${urlGlobal}auth`, { token, name: infoUser.name })).data
                     if (userInfoCreate.status) {
                         console.log(userInfoCreate);
-                        alert('Todo bien')
+                        // alert('Todo bien')
                         persistirSesion(userInfoCreate.createUserFinal)
-                        return router.push('/userIn')
+                        return router.push('/')
                     }
                     return console.log(
                         'error al logearse'
@@ -131,7 +131,7 @@ const SignUpPage = () => {
                     if (userInfoCreate.status) {
                         alert('Todo bien')
                         persistirSesion(userInfoCreate.createUserFinal)
-                        return router.push('/userIn')
+                        return router.push('/')
                     }
                     return console.log(
                         'error amigo'
@@ -195,7 +195,6 @@ const SignUpPage = () => {
                         </form>
                     </div>
                     <div className={style.illu}></div>
-
                 </div>
             </div>
         </div>

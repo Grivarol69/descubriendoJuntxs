@@ -26,8 +26,8 @@ const SignInPage = () => {
         password: ''
     });
     const { persistirSesion } = useAuthContext()
-    const urlGlobal = 'https://juntxs.vercel.app/' 
 
+    const urlGlobal = 'https://juntxs.vercel.app/'
     const [errorMessage, setErrorMessage] = useState('');
 
     const router = useRouter()
@@ -82,7 +82,7 @@ const SignInPage = () => {
                 if (userInfoCreate.status) {
                     console.log(userInfoCreate);
                     persistirSesion(userInfoCreate.user)
-                    return router.push('/userIn')
+                    return router.push('/')
                 }
 
             }
@@ -106,12 +106,12 @@ const SignInPage = () => {
 
             const token = await result?.user.getIdToken();
             if (token) {
-                const userInfoCreate = (await axios.post(`${urlGlobal}users/authToken`, { token })).data
+                const userInfoCreate = (await axios.post(`${urlGlobal}users/authToken, { token }`)).data
 
                 if (userInfoCreate.status) {
                     console.log(userInfoCreate);
                     persistirSesion(userInfoCreate.user)
-                    return router.push('/userIn')
+                    return router.push('/')
                 }
                 else {
                     logout()
